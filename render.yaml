@@ -3,12 +3,12 @@ services:
   - type: web
     name: ai-auto-qa-api
     runtime: node
-    plan: free
+    plan: starter
     buildCommand: npm install && npm install --prefix ai-auto-qa/server
     startCommand: npm --prefix ai-auto-qa/server start
     envVars:
       - key: PORT
-        value: "3001"
+        value: 3001
       - key: NODE_ENV
         value: production
       - key: LITELLM_API_KEY
@@ -18,8 +18,8 @@ services:
 
   # AI-Auto-QA Frontend (Vite Static)
   - type: web
-    name: ai-auto-qa-ui
     runtime: static
+    name: ai-auto-qa-ui
     plan: free
     buildCommand: npm install --prefix ai-auto-qa && npm run build --prefix ai-auto-qa
     staticPublishPath: ai-auto-qa/dist
@@ -35,24 +35,28 @@ services:
   - type: web
     name: agentic-hiring-api
     runtime: python
-    plan: free
-    buildCommand: pip install -r agentic-hiring/requirements.txt
-    startCommand: uvicorn agentic-hiring.backend.api.app --host 0.0.0.0 --port $PORT
+    plan: starter
+    buildCommand: pip install -r agentic-hiring/backend/requirements.txt
+    startCommand: uvicorn agentic-hiring.backend.api:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: PORT
+        value: 8000
       - key: LITELLM_API_KEY
         sync: false
+      - key: LITELLM_MODEL
+        value: gemini-pro
 
   # Agentic Hiring Frontend (Vite Static)
   - type: web
-    name: agentic-hiring-ui
     runtime: static
+    name: agentic-hiring-ui
     plan: free
     buildCommand: npm install --prefix agentic-hiring/frontend && npm run build --prefix agentic-hiring/frontend
     staticPublishPath: agentic-hiring/frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://agentic-hiring-api.onrender.com
     routes:
-      - type: rewrite
-        source: /api/*
-        destination: https://agentic-hiring-api.onrender.com/api/*
       - type: rewrite
         source: /*
         destination: /index.html
