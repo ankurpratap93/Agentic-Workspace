@@ -11,7 +11,8 @@ services:
         value: 10000
 
   # AI-Auto-QA Frontend (Vite Static)
-  - type: static_site
+  - type: web
+    runtime: static
     name: ai-auto-qa-ui
     buildCommand: npm install --prefix ai-auto-qa && npm run build --prefix ai-auto-qa
     staticPublishPath: ai-auto-qa/dist
@@ -39,7 +40,8 @@ services:
         value: gemini-pro
 
   # Agentic Hiring Frontend (Vite Static)
-  - type: static_site
+  - type: web
+    runtime: static
     name: agentic-hiring-ui
     buildCommand: npm install --prefix agentic-hiring/frontend && npm run build --prefix agentic-hiring/frontend
     staticPublishPath: agentic-hiring/frontend/dist
