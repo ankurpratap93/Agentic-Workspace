@@ -7,6 +7,8 @@ import ScreeningView from "./components/ScreeningView"
 import InterviewsView from "./components/InterviewsView"
 import OfferView from "./components/OfferView"
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
+
 function App() {
   const [jobs, setJobs] = useState([])
   const [selectedJob, setSelectedJob] = useState(null)
@@ -29,7 +31,7 @@ function App() {
 
   useEffect(() => {
     // Fetch Jobs
-    const url = showArchived ? "http://127.0.0.1:8000/jobs?include_archived=true" : "http://127.0.0.1:8000/jobs"
+    const url = showArchived ? `${API_URL}/jobs?include_archived=true` : `${API_URL}/jobs`
     fetch(url)
       .then(res => res.json())
       .then(data => {
@@ -51,7 +53,7 @@ function App() {
   }, [showArchived])
 
   const refreshJobs = async (preferJobId) => {
-    const url = showArchived ? "http://127.0.0.1:8000/jobs?include_archived=true" : "http://127.0.0.1:8000/jobs"
+    const url = showArchived ? `${API_URL}/jobs?include_archived=true` : `${API_URL}/jobs`
     const data = await fetch(url).then(r => r.json())
     setJobs(data)
     if (data.length === 0) {
@@ -65,14 +67,14 @@ function App() {
 
   const archiveSelectedJob = async () => {
     if (!selectedJob?.id) return
-    await fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/archive`, { method: "POST" })
+    await fetch(`${API_URL}/jobs/${selectedJob.id}/archive`, { method: "POST" })
     setManageOpen(false)
     await refreshJobs()
   }
 
   const restoreSelectedJob = async () => {
     if (!selectedJob?.id) return
-    await fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/restore`, { method: "POST" })
+    await fetch(`${API_URL}/jobs/${selectedJob.id}/restore`, { method: "POST" })
     setManageOpen(false)
     await refreshJobs(selectedJob.id)
   }
@@ -81,7 +83,7 @@ function App() {
     if (!selectedJob?.id) return
     const ok = window.confirm(`Delete requisition "${selectedJob.title}" permanently? This cannot be undone.`)
     if (!ok) return
-    await fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}`, { method: "DELETE" })
+    await fetch(`${API_URL}/jobs/${selectedJob.id}`, { method: "DELETE" })
     setManageOpen(false)
     // Reset local state since the job is gone
     setSelectedJob(null)
@@ -93,13 +95,13 @@ function App() {
 
   useEffect(() => {
     if (selectedJob) {
-      fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/metrics`)
+      fetch(`${API_URL}/jobs/${selectedJob.id}/metrics`)
         .then(res => res.json())
         .then(data => setMetrics(data))
         .catch(console.error)
 
       // Fetch Funnel
-      fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/funnel`)
+      fetch(`${API_URL}/jobs/${selectedJob.id}/funnel`)
         .then(res => res.json())
         .then(data => setFunnelData(data))
         .catch(console.error)
@@ -107,7 +109,7 @@ function App() {
       // Fetch JD
       setJdLoading(true)
       setJdError("")
-      fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/jd`)
+      fetch(`${API_URL}/jobs/${selectedJob.id}/jd`)
         .then(res => res.json())
         .then(data => setJdText(data?.jd_text || ""))
         .catch((e) => {
@@ -127,7 +129,7 @@ function App() {
     if (!newJobTitle.trim()) return
 
     setIsCreating(true)
-    fetch("http://127.0.0.1:8000/jobs", {
+    fetch(`${API_URL}/jobs`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: newJobTitle, jd_text: newJobJD })
@@ -153,7 +155,7 @@ function App() {
     setJdSaving(true)
     setJdError("")
     try {
-      const res = await fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/jd`, {
+      const res = await fetch(`${API_URL}/jobs/${selectedJob.id}/jd`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ jd_text: jdText }),
@@ -170,11 +172,11 @@ function App() {
   const rescore = async () => {
     if (!selectedJob?.id) return
     try {
-      await fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/rescore`, { method: "POST" })
+      await fetch(`${API_URL}/jobs/${selectedJob.id}/rescore`, { method: "POST" })
       // refresh metrics/funnel
       const [m, f] = await Promise.all([
-        fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/metrics`).then(r => r.json()),
-        fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/funnel`).then(r => r.json()),
+        fetch(`${API_URL}/jobs/${selectedJob.id}/metrics`).then(r => r.json()),
+        fetch(`${API_URL}/jobs/${selectedJob.id}/funnel`).then(r => r.json()),
       ])
       setMetrics(m)
       setFunnelData(f)
@@ -189,7 +191,7 @@ function App() {
     setJdLoading(true)
     setJdError("")
     try {
-      const res = await fetch(`http://127.0.0.1:8000/jd/improve`, {
+      const res = await fetch(`${API_URL}/jd/improve`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ job_id: selectedJob.id }),
@@ -210,10 +212,10 @@ function App() {
     setJdLoading(true)
     setJdError("")
     try {
-      await fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/rescore_llm`, { method: "POST" })
+      await fetch(`${API_URL}/jobs/${selectedJob.id}/rescore_llm`, { method: "POST" })
       const [m, f] = await Promise.all([
-        fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/metrics`).then(r => r.json()),
-        fetch(`http://127.0.0.1:8000/jobs/${selectedJob.id}/funnel`).then(r => r.json()),
+        fetch(`${API_URL}/jobs/${selectedJob.id}/metrics`).then(r => r.json()),
+        fetch(`${API_URL}/jobs/${selectedJob.id}/funnel`).then(r => r.json()),
       ])
       setMetrics(m)
       setFunnelData(f)

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { FileText, Phone, Play, CheckCircle2, XCircle, Sparkles, Loader2 } from "lucide-react"
 import { Button } from "./ui/button"
 
-const API_BASE = "http://127.0.0.1:8000"
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
 export default function ScreeningView({ job }) {
   const [candidates, setCandidates] = useState([])
@@ -23,7 +23,7 @@ export default function ScreeningView({ job }) {
       const res = await fetch(`${API_BASE}/jobs/${job.id}/candidates`)
       const data = await res.json()
       // Filter for those ready for screening or already screened
-      const relevant = data.filter(c => 
+      const relevant = data.filter(c =>
         ["Shortlisted", "Screening", "AI Screened", "Interview Ready"].includes(c.status)
       )
       setCandidates(relevant)
@@ -115,23 +115,21 @@ export default function ScreeningView({ job }) {
         ) : (
           <div className="space-y-3">
             {candidates.map(c => (
-              <div 
-                key={c.name} 
+              <div
+                key={c.name}
                 onClick={() => {
                   setActiveCandidate(c.name)
                   // keep per-candidate transcript/assessment; no global reset
                 }}
-                className={`p-4 rounded-xl border cursor-pointer transition-all ${
-                  activeCandidate === c.name 
-                    ? "bg-purple-500/10 border-purple-500/50" 
+                className={`p-4 rounded-xl border cursor-pointer transition-all ${activeCandidate === c.name
+                    ? "bg-purple-500/10 border-purple-500/50"
                     : "bg-slate-900/40 border-slate-800 hover:bg-slate-800"
-                }`}
+                  }`}
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold text-slate-200">{c.name}</span>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    c.status === "AI Screened" ? "bg-emerald-500/20 text-emerald-300" : "bg-blue-500/20 text-blue-300"
-                  }`}>
+                  <span className={`text-xs px-2 py-1 rounded-full ${c.status === "AI Screened" ? "bg-emerald-500/20 text-emerald-300" : "bg-blue-500/20 text-blue-300"
+                    }`}>
                     {c.status}
                   </span>
                 </div>

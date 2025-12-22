@@ -27,7 +27,38 @@ services:
       rules:
         - type: rewrite
           source: /api/*
-          destination: https://ai-auto-qa-api.onrender.com/api/* # Update after deployment
+          destination: https://ai-auto-qa-api.onrender.com/api/*
+        - type: rewrite
+          source: /*
+          destination: /index.html
+
+  # Hiring System Backend (FastAPI)
+  - type: web
+    name: hiring-api
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: LITELLM_API_KEY
+        sync: false
+      - key: LITELLM_MODEL
+        value: gemini-pro
+
+  # Hiring System Frontend (Vite Static)
+  - type: web
+    name: hiring-ui
+    runtime: static
+    plan: free
+    buildCommand: npm install --prefix frontend && npm run build --prefix frontend
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://hiring-api.onrender.com
+    routing:
+      rules:
         - type: rewrite
           source: /*
           destination: /index.html

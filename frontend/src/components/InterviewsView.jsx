@@ -2,14 +2,14 @@ import { useState, useEffect } from "react"
 import { Calendar, Clock, User, Check, Repeat, XCircle, Mail, Sparkles, Loader2, ClipboardList } from "lucide-react"
 import { Button } from "./ui/button"
 
-const API_BASE = "http://127.0.0.1:8000"
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
 export default function InterviewsView({ job }) {
   const [candidates, setCandidates] = useState([])
   const [loading, setLoading] = useState(false)
   const [scheduling, setScheduling] = useState(null) // name of candidate being scheduled
   const [selected, setSelected] = useState(null) // candidate selected to view details
-  
+
   // Form State
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
@@ -36,7 +36,7 @@ export default function InterviewsView({ job }) {
       const res = await fetch(`${API_BASE}/jobs/${job.id}/candidates`)
       const data = await res.json()
       // Filter for Screened or already scheduled
-      const relevant = data.filter(c => 
+      const relevant = data.filter(c =>
         ["AI Screened", "Interview Scheduled", "Interview Ready"].includes(c.status)
       )
       setCandidates(relevant)
@@ -240,11 +240,10 @@ export default function InterviewsView({ job }) {
                 const isSelected = selected === c.name
                 const contactLine = c.email || c.phone ? `${c.email || ""}${c.email && c.phone ? " · " : ""}${c.phone || ""}` : ""
                 return (
-                  <div 
-                    key={c.name} 
-                    className={`p-4 rounded-xl border transition-all cursor-pointer bg-slate-900/40 ${
-                      isSelected ? "border-amber-400/70 shadow-[0_8px_30px_rgba(255,193,7,0.18)]" : "border-slate-800 hover:border-amber-400/50"
-                    }`}
+                  <div
+                    key={c.name}
+                    className={`p-4 rounded-xl border transition-all cursor-pointer bg-slate-900/40 ${isSelected ? "border-amber-400/70 shadow-[0_8px_30px_rgba(255,193,7,0.18)]" : "border-slate-800 hover:border-amber-400/50"
+                      }`}
                     onClick={() => setSelected(c.name)}
                   >
                     <div className="flex items-center justify-between">
@@ -364,11 +363,11 @@ export default function InterviewsView({ job }) {
         {scheduling ? (
           <form onSubmit={handleSchedule} className="space-y-4">
             <p className="text-sm text-amber-400 mb-2">Scheduling for: <strong>{scheduling}</strong></p>
-            
+
             <div>
               <label className="text-xs text-slate-400 uppercase font-bold">Date</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 required
                 value={date}
                 onChange={e => setDate(e.target.value)}
@@ -378,8 +377,8 @@ export default function InterviewsView({ job }) {
 
             <div>
               <label className="text-xs text-slate-400 uppercase font-bold">Time</label>
-              <input 
-                type="time" 
+              <input
+                type="time"
                 required
                 value={time}
                 onChange={e => setTime(e.target.value)}
@@ -389,8 +388,8 @@ export default function InterviewsView({ job }) {
 
             <div>
               <label className="text-xs text-slate-400 uppercase font-bold">Interviewer</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 required
                 placeholder="e.g. Jane Doe"
                 value={interviewer}
@@ -426,9 +425,8 @@ export default function InterviewsView({ job }) {
             {roundOptions.map((r) => (
               <button
                 key={r.value}
-                className={`px-3 py-1.5 rounded-full text-sm border ${
-                  roundType === r.value ? "bg-blue-600/30 border-blue-400 text-slate-50" : "bg-slate-900 border-slate-700 text-slate-300 hover:border-blue-400"
-                }`}
+                className={`px-3 py-1.5 rounded-full text-sm border ${roundType === r.value ? "bg-blue-600/30 border-blue-400 text-slate-50" : "bg-slate-900 border-slate-700 text-slate-300 hover:border-blue-400"
+                  }`}
                 onClick={() => setRoundType(r.value)}
               >
                 {r.label}

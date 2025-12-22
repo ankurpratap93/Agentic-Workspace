@@ -58,6 +58,7 @@ logs
 *.log
 
 # Project-specific
+jobs/
 ai-auto-qa/server/data/traces/
 ai-auto-qa/server/src/data/traces/
 ai-auto-qa/server/data/*.json

@@ -3,7 +3,7 @@ import { motion } from "framer-motion"
 import { FileText, ArrowUpDown, RefreshCcw, Upload, Sparkles } from "lucide-react"
 import { Button } from "./ui/button"
 
-const API_BASE = "http://127.0.0.1:8000"
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
 function statusBadgeClass(status) {
   const s = String(status || "").toLowerCase()
@@ -171,7 +171,7 @@ export default function CandidatesView({ job }) {
         try {
           const j = await res.json()
           detail = j?.detail ? ` (${j.detail})` : ""
-        } catch {/**/}
+        } catch {/**/ }
         throw new Error(`HTTP ${res.status}${detail}`)
       }
       await fetchCandidates()
@@ -231,9 +231,9 @@ export default function CandidatesView({ job }) {
             className="hidden md:block bg-slate-900 border border-slate-700 rounded-md px-3 py-2 text-slate-100 text-sm focus:ring-2 focus:ring-blue-500 outline-none w-[240px]"
             disabled={!job?.id || loading || uploading}
           />
-          
+
           {/* UPLOAD: Modern Icon Button (Native Label) */}
-          <label 
+          <label
             title="Upload Resumes"
             className={`
               flex items-center justify-center w-9 h-9 rounded-md border border-slate-700 bg-slate-900 text-slate-100 hover:bg-slate-800 transition-colors cursor-pointer
@@ -241,10 +241,10 @@ export default function CandidatesView({ job }) {
             `}
           >
             <Upload className="w-4 h-4" />
-            <input 
-              type="file" 
-              accept=".pdf,.doc,.docx,.txt" 
-              multiple 
+            <input
+              type="file"
+              accept=".pdf,.doc,.docx,.txt"
+              multiple
               className="sr-only"
               onChange={(e) => {
                 if (e.target.files?.length) uploadResumes(e.target.files);

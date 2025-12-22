@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { CheckCircle2, DollarSign, Send, Sparkles, Loader2 } from "lucide-react"
 import { Button } from "./ui/button"
 
-const API_BASE = "http://127.0.0.1:8000"
+const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
 export default function OfferView({ job }) {
   const [candidates, setCandidates] = useState([])
@@ -20,7 +20,7 @@ export default function OfferView({ job }) {
       const res = await fetch(`${API_BASE}/jobs/${job.id}/candidates`)
       const data = await res.json()
       // Filter for Offer candidates
-      const relevant = data.filter(c => 
+      const relevant = data.filter(c =>
         ["Interview Scheduled", "Offer Pending", "Offer Accepted", "Rejected"].includes(c.status)
       )
       setCandidates(relevant)
@@ -95,7 +95,7 @@ export default function OfferView({ job }) {
           <CheckCircle2 className="w-5 h-5 text-emerald-400" />
           Final Selection
         </h3>
-        
+
         {loading ? <p>Loading...</p> : (
           <div className="space-y-4">
             {candidates.map(c => (
@@ -131,13 +131,13 @@ export default function OfferView({ job }) {
             <div className="p-4 bg-blue-900/20 rounded-lg border border-blue-500/30">
               <p className="text-blue-200 text-sm">Generating offer for <strong>{offering}</strong></p>
             </div>
-            
+
             <div>
               <label className="block text-sm text-slate-400 mb-2">Annual Compensation</label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                <input 
-                  type="number" 
+                <input
+                  type="number"
                   value={salary}
                   onChange={e => setSalary(e.target.value)}
                   placeholder="120000"
