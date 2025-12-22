@@ -3,7 +3,7 @@ services:
   - type: web
     name: ai-auto-qa-api
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm install && npm install --prefix ai-auto-qa/server
     startCommand: npm --prefix ai-auto-qa/server start
     envVars:
@@ -35,7 +35,7 @@ services:
   - type: web
     name: agentic-hiring-api
     runtime: python
-    plan: starter
+    plan: free
     buildCommand: pip install -r agentic-hiring/requirements.txt
     startCommand: uvicorn agentic-hiring.backend.api.app --host 0.0.0.0 --port $PORT
     envVars:
