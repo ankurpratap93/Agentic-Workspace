@@ -37,7 +37,7 @@ services:
       - key: LITELLM_API_KEY
         sync: false
       - key: LITELLM_MODEL
-        value: gemini-pro
+        value: hackathon-gemini-2.5-flash
 
   # Agentic Hiring Frontend (Vite Static)
   - type: web
