@@ -32,6 +32,23 @@ services:
           source: /*
           destination: /index.html
 
+  # Agentic Hiring Backend (FastAPI)
+  - type: web
+    name: agentic-hiring-api
+    runtime: python
+    buildCommand: pip install -r agentic-hiring/requirements.txt
+    startCommand: uvicorn agentic-hiring.backend.api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: LITELLM_API_KEY
+        sync: false
+
+  # Agentic Hiring Frontend (Vite Static)
+  - type: web
+    name: agentic-hiring-ui
+    runtime: static
+    buildCommand: npm install --prefix agentic-hiring/frontend && npm run build --prefix agentic-hiring/frontend
+    staticPublishPath: agentic-hiring/frontend/dist
+
   # Hiring System Backend (FastAPI)
   - type: web
     name: hiring-api

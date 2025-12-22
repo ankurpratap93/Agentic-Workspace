@@ -9,15 +9,11 @@ An agentic testing framework that uses Playwright and LLMs to perform automated,
 - **Frontend**: Vite + React + Tailwind (in `/ai-auto-qa/`)
 - **Backend/Agents**: Node.js Express server (in `/ai-auto-qa/server/`)
 
-### 2. HR Portal Backend (`/backend`)
-FastAPI-based backend for the HR and recruitment workflows.
-- Core logic: `api.py`, `llm.py`.
-
-### 3. HR Portal Frontend (`/frontend`)
-React-based frontend for the HR Portal.
-
-### 4. Dashboards
-- `dashboard.py`: Streamlit-based dashboard for data visualization.
+### 2. Agentic Hiring (`/agentic-hiring`)
+Complete hiring toolchain including resume analysis and job matching.
+- **Backend**: FastAPI (in `/agentic-hiring/backend/`)
+- **Frontend**: React (in `/agentic-hiring/frontend/`)
+- **Dashboards**: Streamlit (`/agentic-hiring/dashboard.py`)
 
 ---
 
@@ -25,26 +21,17 @@ React-based frontend for the HR Portal.
 
 ### AI-Auto-QA Tool
 1. **Server Setup**:
-   - `cd ai-auto-qa/server`
-   - `npm install`
-   - Create `.env` from `.env.example` (add your LiteLLM/OpenAI keys).
-   - `npm start` (Runs on port 3001).
+   - `cd ai-auto-qa/server` && `npm install` && `npm start`
 2. **Frontend Setup**:
-   - `cd ai-auto-qa`
-   - `npm install`
-   - `npm run dev` (Access at localhost:8080).
+   - `cd ai-auto-qa` && `npm install` && `npm run dev`
 
-### HR Portal
+### Agentic Hiring
 1. **Backend**:
-   - `cd backend`
-   - Create a virtual environment: `python -m venv venv`
-   - `source venv/bin/activate`
-   - `pip install -r requirements.txt`
+   - `cd agentic-hiring/backend`
+   - Setup venv and `pip install -r ../requirements.txt`
    - Run: `uvicorn api:app --reload`
 2. **Frontend**:
-   - `cd frontend`
-   - `npm install`
-   - `npm run dev`
+   - `cd agentic-hiring/frontend` && `npm install` && `npm run dev`
 
 ### Streamlit Dashboard
 - `pip install streamlit`
