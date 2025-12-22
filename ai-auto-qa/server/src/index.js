@@ -27,7 +27,7 @@ app.post("/api/start-test", async (req, res) => {
     url, username, password, otp,
     framework = "playwright", browser = "chromium",
     depth = "standard", testType = "functional",
-    headless = true, aiModel = "gpt-4o-mini"
+    headless = true, aiModel = "hackathon-gemini-2.5-flash"
   } = req.body || {};
 
   if (!url || typeof url !== "string") {

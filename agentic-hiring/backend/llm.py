@@ -3,7 +3,7 @@ from typing import Dict, Any
 import litellm
 
 # Environment-driven configuration
-LITELLM_MODEL = os.getenv("LITELLM_MODEL", "gemini-pro")
+LITELLM_MODEL = os.getenv("LITELLM_MODEL", "hackathon-gemini-2.5-pro")
 LITELLM_API_KEY = os.getenv("LITELLM_API_KEY") or os.getenv("GEMINI_API_KEY")
 LITELLM_TIMEOUT = float(os.getenv("LITELLM_TIMEOUT", "20"))
 LITELLM_API_BASE = os.getenv("LITELLM_BASE_URL") or os.getenv("OPENAI_API_BASE") or os.getenv("OPENAI_API_URL")

@@ -13,7 +13,7 @@ const corsHeaders = {
 // Helper function to generate comprehensive fallback test cases
 function generateFallbackTestCases(url: string, testType: string, count: number, username: string | null, otp: string | null) {
   const testCases = [];
-  
+
   // Common functional tests
   const functionalTests = [
     { type: 'functional', name: 'Page Load Verification', description: 'Verify the homepage loads within acceptable time', severity: 'critical', expected_result: 'Page loads in under 3 seconds', test_data: `URL: ${url}` },
@@ -185,7 +185,7 @@ serve(async (req) => {
 
   try {
     const { url, username, password, otp, framework, browser, depth, testType, headless, aiModel, expectedRecordCount, dataValidationRules } = await req.json();
-    
+
     // Input validation
     if (!url || typeof url !== 'string') {
       return new Response(
@@ -229,7 +229,7 @@ serve(async (req) => {
       /\.local$/i,
       /\.internal$/i,
     ];
-    
+
     if (blockedPatterns.some(pattern => pattern.test(hostname))) {
       return new Response(
         JSON.stringify({ error: 'Testing internal or private URLs is not allowed' }),
@@ -244,19 +244,19 @@ serve(async (req) => {
     const sanitizedOtp = otp ? String(otp).slice(0, 10) : null;
     const sanitizedExpectedRecordCount = expectedRecordCount ? parseInt(String(expectedRecordCount)) : null;
     const sanitizedDataValidationRules = dataValidationRules ? String(dataValidationRules).slice(0, 1000) : null;
-    
+
     // Validate optional string fields
     const validFrameworks = ['playwright', 'cypress', 'selenium'];
     const validBrowsers = ['chromium', 'firefox', 'webkit'];
     const validDepths = ['quick', 'standard', 'exhaustive'];
-    
+
     const sanitizedFramework = validFrameworks.includes(framework) ? framework : 'playwright';
     const sanitizedBrowser = validBrowsers.includes(browser) ? browser : 'chromium';
     const sanitizedDepth = validDepths.includes(depth) ? depth : 'standard';
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    
+
     const supabase = createClient(supabaseUrl, supabaseKey);
 
     // Create test run record with sanitized inputs
@@ -284,15 +284,18 @@ serve(async (req) => {
     // Check if real browser automation is enabled (works in both headed and headless modes)
     const browserlessToken = Deno.env.get('BROWSERLESS_TOKEN');
     const useBrowserAutomation = !!browserlessToken;
-    
+
     // Validate test type - including data-intensive types
     const validTestTypes = ['functional', 'security', 'performance', 'accessibility', 'visual', 'load', 'api', 'data-integrity', 'data-sync', 'bulk-validation'];
     const sanitizedTestType = validTestTypes.includes(testType) ? testType : 'functional';
-    
+
     // Validate AI model
-    const validAiModels = ['google/gemini-2.5-flash', 'google/gemini-2.5-pro', 'google/gemini-2.5-flash-lite', 'openai/gpt-5', 'openai/gpt-5-mini', 'openai/gpt-5-nano'];
-    const sanitizedAiModel = validAiModels.includes(aiModel) ? aiModel : 'google/gemini-2.5-flash';
-    
+    const validAiModels = [
+      'hackathon-gemini-2.5-pro', 'hackathon-gemini-2.5-flash', 'hackathon-gemini-2.0-flash',
+      'hackathon-azure-gpt-5.2', 'hackathon-azure-gpt-5.1', 'hackathon-azure-gpt-4.1'
+    ];
+    const sanitizedAiModel = validAiModels.includes(aiModel) ? aiModel : 'hackathon-gemini-2.5-flash';
+
     // Start background processing with EdgeRuntime.waitUntil to keep the function alive
     // This ensures the background task completes even after returning the response
     EdgeRuntime.waitUntil(
@@ -976,7 +979,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
     // Phase 2: Store discovered pages
     const pages = analysis.pages || [];
     const discoveredPages = [];
-    
+
     for (const page of pages) {
       const { data: pageData } = await supabase
         .from('discovered_pages')
@@ -990,7 +993,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
         })
         .select()
         .single();
-      
+
       if (pageData) discoveredPages.push(pageData);
     }
 
@@ -1001,24 +1004,24 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
     // Update test run with total tests
     await supabase
       .from('test_runs')
-      .update({ 
+      .update({
         total_tests: testCases.length,
         status: 'executing_tests'
       })
       .eq('id', testRunId);
-    
+
     console.log(`Generated ${testCases.length} test cases for execution`);
-    
+
     // Execute tests with AI-based validation
     for (let i = 0; i < testCases.length; i++) {
       const testCase = testCases[i];
       const executionTime = Math.floor(Math.random() * 3000) + 500;
-      
+
       // AI-based test execution validation
       let passed = true;
       let errorMessage = null;
       let actualResult = testCase.expected_result || 'Test completed';
-      
+
       // Validate based on test type
       if (testCase.type === 'security') {
         // Security tests have higher failure chance for realistic results
@@ -1047,7 +1050,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
           actualResult = 'Element not found or assertion failed';
         }
       }
-      
+
       const { data: testData } = await supabase
         .from('test_cases')
         .insert({
@@ -1068,7 +1071,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
         })
         .select()
         .single();
-      
+
       if (testData) storedTests.push(testData);
     }
 
@@ -1117,10 +1120,10 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
       // If browser automation is enabled, trigger real browser capture
       if (useBrowserAutomation) {
         console.log('Triggering real browser automation for recording:', recording.id);
-        
+
         const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
         const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
-        
+
         // Call browser-automation edge function
         fetch(`${supabaseUrl}/functions/v1/browser-automation`, {
           method: 'POST',
@@ -1144,7 +1147,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
           const statusText = test.status === 'passed' ? 'Test+Passed' : 'Test+Failed';
           const stepLabel = `Step+${index + 1}`;
           const screenshotUrl = `https://placehold.co/1920x1080/${bgColor}/${textColor}/png?text=${stepLabel}%0A${statusText}`;
-          
+
           // Parse test_data if it's a string
           let testDataObj = null;
           try {
@@ -1152,7 +1155,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
           } catch (e) {
             testDataObj = { raw: test.test_data };
           }
-          
+
           return {
             recording_id: recording.id,
             test_case_id: test.id,
@@ -1174,13 +1177,13 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
         // Update recording status to completed
         await supabase
           .from('test_recordings')
-          .update({ 
-            status: 'completed', 
+          .update({
+            status: 'completed',
             completed_at: new Date().toISOString(),
             narration_enabled: true
           })
           .eq('id', recording.id);
-        
+
         console.log(`Recording ${recording.id} created with ${recordingSteps.length} steps (${storedTests.filter(t => t.status === 'failed').length} failed)`);
       }
     }
@@ -1202,7 +1205,7 @@ Generate the maximum number of test cases for the selected depth level. Be exhau
     console.log(`Test run ${testRunId} completed successfully`);
   } catch (error) {
     console.error(`Error processing test run ${testRunId}:`, error);
-    
+
     // Update test run status to failed
     await supabase
       .from('test_runs')

@@ -35,7 +35,7 @@ export const TestingPortal = ({ onTestStarted }: TestingPortalProps) => {
   const [depth, setDepth] = useState("standard");
   const [testType, setTestType] = useState("functional");
   const [headless, setHeadless] = useState(true);
-  const [aiModel, setAiModel] = useState("google/gemini-2.5-flash");
+  const [aiModel, setAiModel] = useState("hackathon-gemini-2.5-flash");
   const [isRunning, setIsRunning] = useState(false);
   const [expectedRecordCount, setExpectedRecordCount] = useState("");
   const [dataValidationRules, setDataValidationRules] = useState("");
@@ -52,7 +52,7 @@ export const TestingPortal = ({ onTestStarted }: TestingPortalProps) => {
     }
 
     setIsRunning(true);
-    
+
     try {
       const data = await startLocalTest({
         url, username, password, otp: otp || null, framework, browser, depth, testType, headless, aiModel,
@@ -217,7 +217,7 @@ export const TestingPortal = ({ onTestStarted }: TestingPortalProps) => {
                   <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
                   Data-Intensive Testing Configuration
                 </div>
-                
+
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="expectedRecordCount">Expected Record Count (Optional)</Label>
@@ -274,12 +274,12 @@ export const TestingPortal = ({ onTestStarted }: TestingPortalProps) => {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="google/gemini-2.5-pro">Gemini Pro (Best Quality) ⭐</SelectItem>
-                    <SelectItem value="google/gemini-2.5-flash">Gemini Flash (Balanced) ⚡</SelectItem>
-                    <SelectItem value="google/gemini-2.5-flash-lite">Gemini Lite (Fast) 🚀</SelectItem>
-                    <SelectItem value="openai/gpt-5">GPT-5 (Premium) 💎</SelectItem>
-                    <SelectItem value="openai/gpt-5-mini">GPT-5 Mini (Efficient) 💡</SelectItem>
-                    <SelectItem value="openai/gpt-5-nano">GPT-5 Nano (Quick) ⚙️</SelectItem>
+                    <SelectItem value="hackathon-gemini-2.5-pro">Gemini 2.5 Pro (Best Quality) ⭐</SelectItem>
+                    <SelectItem value="hackathon-gemini-2.5-flash">Gemini 2.5 Flash (Balanced) ⚡</SelectItem>
+                    <SelectItem value="hackathon-gemini-2.0-flash">Gemini 2.0 Flash (Fast) 🚀</SelectItem>
+                    <SelectItem value="hackathon-azure-gpt-5.2">GPT-5.2 (Premium) 💎</SelectItem>
+                    <SelectItem value="hackathon-azure-gpt-5.1">GPT-5.1 (Efficient) 💡</SelectItem>
+                    <SelectItem value="hackathon-azure-gpt-4.1">GPT-4.1 (Standard) ⚙️</SelectItem>
                   </SelectContent>
                 </Select>
                 <p className="text-xs text-muted-foreground">
@@ -288,9 +288,9 @@ export const TestingPortal = ({ onTestStarted }: TestingPortalProps) => {
               </div>
             </div>
 
-            <Button 
-              variant="hero" 
-              size="lg" 
+            <Button
+              variant="hero"
+              size="lg"
               className="w-full h-14 text-lg"
               onClick={handleStartTest}
               disabled={isRunning}
