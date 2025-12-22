@@ -8,7 +8,7 @@ services:
     startCommand: npm --prefix ai-auto-qa/server start
     envVars:
       - key: PORT
-        value: 3001
+        value: "3001"
       - key: NODE_ENV
         value: production
       - key: LITELLM_API_KEY
@@ -23,21 +23,21 @@ services:
     plan: free
     buildCommand: npm install --prefix ai-auto-qa && npm run build --prefix ai-auto-qa
     staticPublishPath: ai-auto-qa/dist
-    routing:
-      rules:
-        - type: rewrite
-          source: /api/*
-          destination: https://ai-auto-qa-api.onrender.com/api/*
-        - type: rewrite
-          source: /*
-          destination: /index.html
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://ai-auto-qa-api.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
 
   # Agentic Hiring Backend (FastAPI)
   - type: web
     name: agentic-hiring-api
     runtime: python
+    plan: starter
     buildCommand: pip install -r agentic-hiring/requirements.txt
-    startCommand: uvicorn agentic-hiring.backend.api:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn agentic-hiring.backend.api.app --host 0.0.0.0 --port $PORT
     envVars:
       - key: LITELLM_API_KEY
         sync: false
@@ -46,36 +46,13 @@ services:
   - type: web
     name: agentic-hiring-ui
     runtime: static
+    plan: free
     buildCommand: npm install --prefix agentic-hiring/frontend && npm run build --prefix agentic-hiring/frontend
     staticPublishPath: agentic-hiring/frontend/dist
-
-  # Hiring System Backend (FastAPI)
-  - type: web
-    name: hiring-api
-    runtime: python
-    plan: starter
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: uvicorn backend.api:app --host 0.0.0.0 --port $PORT
-    envVars:
-      - key: PORT
-        value: 8000
-      - key: LITELLM_API_KEY
-        sync: false
-      - key: LITELLM_MODEL
-        value: gemini-pro
-
-  # Hiring System Frontend (Vite Static)
-  - type: web
-    name: hiring-ui
-    runtime: static
-    plan: free
-    buildCommand: npm install --prefix frontend && npm run build --prefix frontend
-    staticPublishPath: frontend/dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://hiring-api.onrender.com
-    routing:
-      rules:
-        - type: rewrite
-          source: /*
-          destination: /index.html
+    routes:
+      - type: rewrite
+        source: /api/*
+        destination: https://agentic-hiring-api.onrender.com/api/*
+      - type: rewrite
+        source: /*
+        destination: /index.html
