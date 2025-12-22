@@ -1,0 +1,14 @@
+{
+    "name": "agentic-workspace",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "install:all": "npm install --prefix ai-auto-qa && npm install --prefix ai-auto-qa/server",
+        "dev:qa": "concurrently \"npm --prefix ai-auto-qa/server run dev\" \"npm --prefix ai-auto-qa run dev\"",
+        "start:qa": "concurrently \"npm --prefix ai-auto-qa/server start\" \"npm --prefix ai-auto-qa run dev\"",
+        "build:qa": "npm run build --prefix ai-auto-qa"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}

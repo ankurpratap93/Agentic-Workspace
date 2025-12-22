@@ -1,0 +1,146 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* DEFAULT DARK THEME (Lovable/Midnight) */
+    --background: 222.2 84% 4.9%;
+    /* Deep Slate 950 */
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    /* Electric Blue */
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom Utilities - Using Standard CSS to avoid @apply parsing issues with arbitrary values */
+.app-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.app-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -20;
+  background:
+    radial-gradient(900px 500px at 20% 15%, rgba(56, 189, 248, 0.22), transparent 55%),
+    radial-gradient(800px 500px at 80% 10%, rgba(168, 85, 247, 0.20), transparent 55%),
+    radial-gradient(900px 600px at 50% 90%, rgba(59, 130, 246, 0.12), transparent 60%),
+    linear-gradient(180deg, rgba(10, 16, 35, 1) 0%, rgba(8, 12, 28, 1) 100%);
+}
+
+.app-shell::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at 50% 10%, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.05) 65%, transparent 75%);
+  pointer-events: none;
+}
+
+.nav-glass {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.7) 0%, rgba(2, 6, 23, 0.55) 100%);
+  border: 1px solid rgba(30, 41, 59, 0.65);
+  backdrop-filter: blur(10px);
+}
+
+.stepper-band {
+  background: radial-gradient(circle at 20% 20%, rgba(59,130,246,0.16), transparent 38%),
+              radial-gradient(circle at 80% 10%, rgba(236,72,153,0.16), transparent 40%),
+              linear-gradient(135deg, rgba(15,23,42,0.92) 0%, rgba(15,23,42,0.78) 60%, rgba(8,47,73,0.82) 100%);
+  border: 1px solid rgba(59,130,246,0.25);
+  box-shadow:
+    0 15px 45px rgba(0,0,0,0.4),
+    0 0 0 1px rgba(255,255,255,0.03),
+    0 0 25px rgba(59,130,246,0.18);
+  backdrop-filter: blur(12px);
+}
+
+.tab-pill {
+  background: rgba(15, 23, 42, 0.55);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+}
+
+.tab-pill-active {
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.18) 0%, rgba(168, 85, 247, 0.16) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.55);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.18);
+}
+
+.kicker-pill {
+  background: rgba(2, 6, 23, 0.4);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  color: rgb(125, 211, 252);
+  box-shadow: inset 0 0 0 1px rgba(168, 85, 247, 0.12);
+}
+
+.feature-card {
+  background: radial-gradient(circle at 15% 20%, rgba(59,130,246,0.10), transparent 40%),
+              radial-gradient(circle at 85% 15%, rgba(236,72,153,0.10), transparent 42%),
+              linear-gradient(140deg, rgba(15,23,42,0.82) 0%, rgba(15,23,42,0.74) 55%, rgba(8,47,73,0.78) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.28);
+  box-shadow:
+    0 14px 40px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 26px rgba(59, 130, 246, 0.18);
+  backdrop-filter: blur(12px);
+  border-radius: 0.9rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(94, 234, 212, 0.45);
+  box-shadow:
+    0 18px 48px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 32px rgba(94, 234, 212, 0.22);
+  transform: translateY(-0.22rem);
+}
+
+.gradient-h1 {
+  @apply font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500;
+}

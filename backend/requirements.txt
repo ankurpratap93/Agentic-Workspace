@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+pandas
+plotly
+pypdf
+python-multipart
+litellm

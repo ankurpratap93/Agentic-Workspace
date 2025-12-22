@@ -1,0 +1,3500 @@
+[
+    {
+        "timestamp": "2025-12-21T22:02:18.357107",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_Shiv_3 years: 5.0/10 (File: QA_Shiv_3 years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.387949",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishesh_Tiwari_Resume_Testing: 3.3/10 (File: Vishesh_Tiwari_Resume_Testing.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.431684",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_SnehalWarghade_4yrs: 6.7/10 (File: QA_SnehalWarghade_4yrs.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.488468",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rahul Khurana SDET: 5.0/10 (File: Rahul Khurana SDET.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.491619",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ravi Automation: 3.3/10 (File: Ravi Automation.resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.523618",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored RESUME_ADITI: 3.3/10 (File: RESUME_ADITI.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.635104",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_ArunM_9Y_backend_cloud: 6.7/10 (File: Resume_ArunM_9Y_backend_cloud.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.667772",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Karan jaiswal[1]: 3.3/10 (File: Resume_Karan jaiswal[1].pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.708572",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Minni (N1): 3.3/10 (File: Resume_Minni (N1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.754272",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Sarvesh Singh_8+Years: 3.3/10 (File: Resume_Sarvesh Singh_8+Years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.792128",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_SomiaSharma_7: 5.0/10 (File: Resume_SomiaSharma_7.11Yr_A.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.804717",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored resume: 3.3/10 (File: resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.862286",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resumeskm: 3.3/10 (File: Resumeskm.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.866622",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rishabh Gupta Resume (2) (2): 3.3/10 (File: Rishabh Gupta Resume (2) (2).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:18.926988",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil mehra: 5.0/10 (File: Sahil mehra.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.016713",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil Singh Parmar CV: 6.7/10 (File: Sahil Singh Parmar CV. (1) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.021800",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahitya(QA_resume): 0.0/10 (File: Sahitya(QA_resume).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.099893",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sandeep_Qa_4YOE: 6.7/10 (File: sandeep_Qa_4YOE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.133199",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sanjeetbhushan7automation: 3.3/10 (File: sanjeetbhushan7automation.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.186880",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SANKET CHAUDHARI QA 2+ YOE (1): 3.3/10 (File: SANKET CHAUDHARI QA 2+ YOE (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.212196",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sanu_Resume2025: 3.3/10 (File: Sanu_Resume2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.218975",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA_7: 6.7/10 (File: Satish_QA_7.6.doc)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.283600",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA: 1.7/10 (File: Satish_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.334712",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh Suman QA: 1.7/10 (File: Saurabh Suman QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.407544",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh_Damdoo_QA_2yr_Delhi: 3.3/10 (File: Saurabh_Damdoo_QA_2yr_Delhi.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.468268",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_CV_Utkarsh Sharma: 5.0/10 (File: SDET_CV_Utkarsh Sharma.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.471437",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_NAVEEN_RATHORE_6_Year (1) (1): 5.0/10 (File: SDET_NAVEEN_RATHORE_6_Year (1) (1).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.546415",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Seema_Resume_QA: 5.0/10 (File: Seema_Resume_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.597418",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ShagunSaxena4years: 1.7/10 (File: ShagunSaxena4years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.638840",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored shailesh Manual AQ: 1.7/10 (File: shailesh Manual AQ.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.676486",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivam kamboj56: 1.7/10 (File: Shivam kamboj56.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.690996",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivank Goyal Resume: 0.0/10 (File: Shivank Goyal Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.710260",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shrateek jaiswal_QA_resume: 5.0/10 (File: Shrateek jaiswal_QA_resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.789297",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1): 3.3/10 (File: Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.792869",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sirisha_QA_Engineer_Resume: 3.3/10 (File: Sirisha_QA_Engineer_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.932190",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SonalRajputResume22: 5.0/10 (File: SonalRajputResume22.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:19.974396",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sparsh_Resume_ind: 5.0/10 (File: Sparsh_Resume_ind.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.036367",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Srishti_4Yr_QA: 1.7/10 (File: Srishti_4Yr_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.062823",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SUMANTH_B_RESUME: 1.7/10 (File: SUMANTH_B_RESUME.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.117920",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Surbhi Resume: 5.0/10 (File: Surbhi Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.161191",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored surbhijain_resume_1: 3.3/10 (File: surbhijain_resume_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.255511",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sushil Yadav QA Resume Gurgaon: 5.0/10 (File: Sushil Yadav QA Resume Gurgaon.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.316842",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TijilGupta_Resume: 3.3/10 (File: TijilGupta_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.383906",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TRUPTI_VARMA_Resume_260225: 3.3/10 (File: TRUPTI_VARMA_Resume_260225.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.437821",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Varun_Agarwal_QA_2025_Latest-2: 5.0/10 (File: Varun_Agarwal_QA_2025_Latest-2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.440533",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishakha Saini: 5.0/10 (File: Vishakha Saini.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.480167",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishesh_Tiwari_Resume_Testing: 3.3/10 (File: Vishesh_Tiwari_Resume_Testing.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:02:20.482358",
+        "level": "INFO",
+        "event": "CV_SCORING",
+        "details": "Executed Real-time Scoring Analysis (Forced Refresh)."
+    },
+    {
+        "timestamp": "2025-12-21T22:42:35.552441",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Adarsh_cv_: 3.3/10 (File: Adarsh_cv_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:35.599538",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored 7x-ShubhaamKumar 10-10: 3.3/10 (File: 7x-ShubhaamKumar 10-10.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:35.663154",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aditya Jain QA CV FEB 2025: 3.3/10 (File: Aditya Jain QA CV FEB 2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:35.835174",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ajay_murari_Qa_7years: 1.7/10 (File: ajay_murari_Qa_7years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:35.862945",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Akansha_Resume_2025: 5.0/10 (File: Akansha_Resume_2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:35.937194",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AKSHAY_RAJPUT-NOIDA: 5.0/10 (File: AKSHAY_RAJPUT-NOIDA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.029118",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Amit QA (2_25): 5.0/10 (File: Amit QA (2_25).docx.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.136562",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anchal-Choudhary-Resume: 5.0/10 (File: Anchal-Choudhary-Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.191947",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anshu_TestEngineer_Resume: 3.3/10 (File: Anshu_TestEngineer_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.273265",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anurag  Resume (3): 3.3/10 (File: Anurag  Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.296933",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anusha_Resume: 5.0/10 (File: Anusha_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.342039",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushika_Singh_Off_Resume: 5.0/10 (File: Anushika_Singh_Off_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.376767",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushka Pandey: 1.7/10 (File: Anushka Pandey.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.435941",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apoorva Bhatt (1): 8.3/10 (File: Apoorva Bhatt (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.456433",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apurva_Singh_Resume: 5.0/10 (File: Apurva_Singh_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.560410",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aritra_Dey_AutomationTest: 3.3/10 (File: Aritra_Dey_AutomationTest.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.604407",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashish_Bole_Resume_2: 3.3/10 (File: Ashish_Bole_Resume_2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.654859",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashu CV (1): 1.7/10 (File: Ashu CV (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.724880",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Atul-QA-3+: 3.3/10 (File: Atul-QA-3+.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.792495",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AtulKumarMaurya_Resume: 6.7/10 (File: AtulKumarMaurya_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.823128",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Avanish_Resume: 1.7/10 (File: Avanish_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:36.878554",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CHANCHAL N MAURYA: 1.7/10 (File: CHANCHAL N MAURYA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.292314",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored cid02A8642B-AF8D-47E3-8B13-E9B997E60E93: 3.3/10 (File: cid02A8642B-AF8D-47E3-8B13-E9B997E60E93.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.319429",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CV_Software Test Engineer: 5.0/10 (File: CV_Software Test Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.410700",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored DarshanAutomation (3): 5.0/10 (File: DarshanAutomation (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.466028",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Durga Prasad Gupta_QA_12 Years_Resume - v7_1: 5.0/10 (File: Durga Prasad Gupta_QA_12 Years_Resume - v7_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.633365",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ETLtesterMayuriRajput3: 1.7/10 (File: ETLtesterMayuriRajput3.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.724101",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final Resume AK: 3.3/10 (File: Final Resume AK.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.749565",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final resume: 3.3/10 (File: Final resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.873687",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Garvit_sharma Resume: 0.0/10 (File: Garvit_sharma Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:37.968618",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Gaurav-resume-2years: 3.3/10 (File: Gaurav-resume-2years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:38.032289",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Geetika_Gupta_Resume_9Yrs_QA_Serving_NP: 3.3/10 (File: Geetika_Gupta_Resume_9Yrs_QA_Serving_NP.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.051697",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Jogendra resume: 0.0/10 (File: Jogendra resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.114786",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kanchan Jain _QA: 5.0/10 (File: Kanchan Jain _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.190039",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kashish Goyal: 6.7/10 (File: Kashish Goyal.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.220679",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KEERTHANAPRIYA R_Resume: 3.3/10 (File: KEERTHANAPRIYA R_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.228065",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Keshav_Sharma_Resume: 3.3/10 (File: Keshav_Sharma_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.273168",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KishorD QA Resume: 3.3/10 (File: KishorD QA Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.306952",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KRITIKA SHARMA (QA) PROFILE: 3.3/10 (File: KRITIKA SHARMA (QA) PROFILE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.432247",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored kushank_Resume_4: 3.3/10 (File: kushank_Resume_4.5+Testing QA Profile.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.435538",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Mondal2042: 0.0/10 (File: Manish_Mondal2042.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.513941",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Ranjan Resume (3): 5.0/10 (File: Manish_Ranjan Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:40.551281",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ManpreetSingh_Resume_pdf: 5.0/10 (File: ManpreetSingh_Resume_pdf.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.061036",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mithun_kumar_8Y: 3.3/10 (File: Mithun_kumar_8Y.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.098985",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mohit qa: 0.0/10 (File: Mohit qa.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.102381",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nagendra: 3.3/10 (File: Nagendra.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.178565",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NewResume_PDF: 1.7/10 (File: NewResume_PDF.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.217225",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nishant Gupta QA Engineer: 3.3/10 (File: Nishant Gupta QA Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.279948",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NISHANT KUMAR Resumes (1): 3.3/10 (File: NISHANT KUMAR Resumes (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.321040",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nupur_Goel _QA: 3.3/10 (File: Nupur_Goel _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.351830",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pallavi_Bansal_Resume: 5.0/10 (File: Pallavi_Bansal_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.355251",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Paras_QA_6: 3.3/10 (File: Paras_QA_6.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.445633",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payal Shishodia: 0.0/10 (File: Payal Shishodia.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.768396",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payel Resume: 3.3/10 (File: Payel Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.858067",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pooja_Python_8_years: 5.0/10 (File: Pooja_Python_8_years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:41.966659",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PRASHANT_KUMAR_CV: 1.7/10 (File: PRASHANT_KUMAR_CV.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.005656",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pratibha_Saurav_Resume_QA_Analyst_: 3.3/10 (File: Pratibha_Saurav_Resume_QA_Analyst_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.023691",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Prerna_Automation_Tester: 3.3/10 (File: Prerna_Automation_Tester.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.037960",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PrinceGhosh_QA_Engineer - Resume: 3.3/10 (File: PrinceGhosh_QA_Engineer - Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.060025",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_Shiv_3 years: 5.0/10 (File: QA_Shiv_3 years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.108492",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_SnehalWarghade_4yrs: 6.7/10 (File: QA_SnehalWarghade_4yrs.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.211043",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rahul Khurana SDET: 5.0/10 (File: Rahul Khurana SDET.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.216262",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ravi Automation: 3.3/10 (File: Ravi Automation.resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.250499",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored RESUME_ADITI: 3.3/10 (File: RESUME_ADITI.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.335160",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_ArunM_9Y_backend_cloud: 6.7/10 (File: Resume_ArunM_9Y_backend_cloud.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.366661",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Karan jaiswal[1]: 3.3/10 (File: Resume_Karan jaiswal[1].pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.406837",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Minni (N1): 3.3/10 (File: Resume_Minni (N1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.454180",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Sarvesh Singh_8+Years: 3.3/10 (File: Resume_Sarvesh Singh_8+Years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.492785",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_SomiaSharma_7: 5.0/10 (File: Resume_SomiaSharma_7.11Yr_A.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.506205",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored resume: 3.3/10 (File: resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.568643",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resumeskm: 3.3/10 (File: Resumeskm.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.574478",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rishabh Gupta Resume (2) (2): 3.3/10 (File: Rishabh Gupta Resume (2) (2).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.668382",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil mehra: 5.0/10 (File: Sahil mehra.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.749605",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil Singh Parmar CV: 5.0/10 (File: Sahil Singh Parmar CV. (1) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.752515",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahitya(QA_resume): 0.0/10 (File: Sahitya(QA_resume).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.835562",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sandeep_Qa_4YOE: 6.7/10 (File: sandeep_Qa_4YOE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.865092",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sanjeetbhushan7automation: 3.3/10 (File: sanjeetbhushan7automation.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.916799",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SANKET CHAUDHARI QA 2+ YOE (1): 3.3/10 (File: SANKET CHAUDHARI QA 2+ YOE (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.945965",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sanu_Resume2025: 3.3/10 (File: Sanu_Resume2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:42.951350",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA_7: 6.7/10 (File: Satish_QA_7.6.doc)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.030281",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA: 1.7/10 (File: Satish_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.082337",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh Suman QA: 1.7/10 (File: Saurabh Suman QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.158570",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh_Damdoo_QA_2yr_Delhi: 3.3/10 (File: Saurabh_Damdoo_QA_2yr_Delhi.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.221589",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_CV_Utkarsh Sharma: 5.0/10 (File: SDET_CV_Utkarsh Sharma.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.230725",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_NAVEEN_RATHORE_6_Year (1) (1): 3.3/10 (File: SDET_NAVEEN_RATHORE_6_Year (1) (1).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.321046",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Seema_Resume_QA: 5.0/10 (File: Seema_Resume_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.359432",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ShagunSaxena4years: 1.7/10 (File: ShagunSaxena4years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.402478",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored shailesh Manual AQ: 1.7/10 (File: shailesh Manual AQ.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.440875",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivam kamboj56: 1.7/10 (File: Shivam kamboj56.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.456693",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivank Goyal Resume: 0.0/10 (File: Shivank Goyal Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.476550",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shrateek jaiswal_QA_resume: 5.0/10 (File: Shrateek jaiswal_QA_resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.557364",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1): 3.3/10 (File: Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.561446",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sirisha_QA_Engineer_Resume: 3.3/10 (File: Sirisha_QA_Engineer_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.684152",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SonalRajputResume22: 5.0/10 (File: SonalRajputResume22.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.724424",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sparsh_Resume_ind: 5.0/10 (File: Sparsh_Resume_ind.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.785076",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Srishti_4Yr_QA: 1.7/10 (File: Srishti_4Yr_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.811518",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SUMANTH_B_RESUME: 1.7/10 (File: SUMANTH_B_RESUME.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.869615",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Surbhi Resume: 5.0/10 (File: Surbhi Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:43.919353",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored surbhijain_resume_1: 3.3/10 (File: surbhijain_resume_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.011316",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sushil Yadav QA Resume Gurgaon: 5.0/10 (File: Sushil Yadav QA Resume Gurgaon.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.075751",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TijilGupta_Resume: 3.3/10 (File: TijilGupta_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.142618",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TRUPTI_VARMA_Resume_260225: 3.3/10 (File: TRUPTI_VARMA_Resume_260225.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.200178",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Varun_Agarwal_QA_2025_Latest-2: 5.0/10 (File: Varun_Agarwal_QA_2025_Latest-2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.203170",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishakha Saini: 5.0/10 (File: Vishakha Saini.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.246928",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishesh_Tiwari_Resume_Testing: 3.3/10 (File: Vishesh_Tiwari_Resume_Testing.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T22:42:44.249541",
+        "level": "INFO",
+        "event": "CV_SCORING",
+        "details": "Executed Real-time Scoring Analysis (Forced Refresh)."
+    },
+    {
+        "timestamp": "2025-12-21T23:06:06.791582",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Adarsh_cv_: 3.3/10 (File: Adarsh_cv_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:06.839242",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored 7x-ShubhaamKumar 10-10: 3.3/10 (File: 7x-ShubhaamKumar 10-10.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:06.904007",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aditya Jain QA CV FEB 2025: 3.3/10 (File: Aditya Jain QA CV FEB 2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.060896",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ajay_murari_Qa_7years: 1.7/10 (File: ajay_murari_Qa_7years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.097392",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Akansha_Resume_2025: 5.0/10 (File: Akansha_Resume_2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.174495",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AKSHAY_RAJPUT-NOIDA: 5.0/10 (File: AKSHAY_RAJPUT-NOIDA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.269704",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Amit QA (2_25): 5.0/10 (File: Amit QA (2_25).docx.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.360373",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anchal-Choudhary-Resume: 5.0/10 (File: Anchal-Choudhary-Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.439220",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anshu_TestEngineer_Resume: 3.3/10 (File: Anshu_TestEngineer_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.526282",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anurag  Resume (3): 3.3/10 (File: Anurag  Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.552031",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anusha_Resume: 5.0/10 (File: Anusha_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.600892",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushika_Singh_Off_Resume: 5.0/10 (File: Anushika_Singh_Off_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.638922",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushka Pandey: 1.7/10 (File: Anushka Pandey.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.699186",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apoorva Bhatt (1): 8.3/10 (File: Apoorva Bhatt (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.724552",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apurva_Singh_Resume: 5.0/10 (File: Apurva_Singh_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.795102",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aritra_Dey_AutomationTest: 3.3/10 (File: Aritra_Dey_AutomationTest.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.869714",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashish_Bole_Resume_2: 3.3/10 (File: Ashish_Bole_Resume_2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:07.929764",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashu CV (1): 1.7/10 (File: Ashu CV (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.008118",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Atul-QA-3+: 3.3/10 (File: Atul-QA-3+.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.082059",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AtulKumarMaurya_Resume: 6.7/10 (File: AtulKumarMaurya_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.112050",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Avanish_Resume: 1.7/10 (File: Avanish_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.172307",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CHANCHAL N MAURYA: 1.7/10 (File: CHANCHAL N MAURYA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.554791",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored cid02A8642B-AF8D-47E3-8B13-E9B997E60E93: 3.3/10 (File: cid02A8642B-AF8D-47E3-8B13-E9B997E60E93.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.582940",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CV_Software Test Engineer: 5.0/10 (File: CV_Software Test Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.669303",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored DarshanAutomation (3): 5.0/10 (File: DarshanAutomation (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.730197",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Durga Prasad Gupta_QA_12 Years_Resume - v7_1: 5.0/10 (File: Durga Prasad Gupta_QA_12 Years_Resume - v7_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:08.884884",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ETLtesterMayuriRajput3: 1.7/10 (File: ETLtesterMayuriRajput3.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:09.000103",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final Resume AK: 3.3/10 (File: Final Resume AK.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:09.028274",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final resume: 3.3/10 (File: Final resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:09.153956",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Garvit_sharma Resume: 0.0/10 (File: Garvit_sharma Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:09.230087",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Gaurav-resume-2years: 3.3/10 (File: Gaurav-resume-2years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:09.302657",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Geetika_Gupta_Resume_9Yrs_QA_Serving_NP: 3.3/10 (File: Geetika_Gupta_Resume_9Yrs_QA_Serving_NP.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.519848",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Jogendra resume: 0.0/10 (File: Jogendra resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.599683",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kanchan Jain _QA: 5.0/10 (File: Kanchan Jain _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.683923",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kashish Goyal: 6.7/10 (File: Kashish Goyal.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.715169",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KEERTHANAPRIYA R_Resume: 3.3/10 (File: KEERTHANAPRIYA R_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.723509",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Keshav_Sharma_Resume: 3.3/10 (File: Keshav_Sharma_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.796159",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KishorD QA Resume: 3.3/10 (File: KishorD QA Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.836585",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KRITIKA SHARMA (QA) PROFILE: 3.3/10 (File: KRITIKA SHARMA (QA) PROFILE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.951460",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored kushank_Resume_4: 3.3/10 (File: kushank_Resume_4.5+Testing QA Profile.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:11.960485",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Mondal2042: 0.0/10 (File: Manish_Mondal2042.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.041516",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Ranjan Resume (3): 5.0/10 (File: Manish_Ranjan Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.080744",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ManpreetSingh_Resume_pdf: 5.0/10 (File: ManpreetSingh_Resume_pdf.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.589435",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mithun_kumar_8Y: 3.3/10 (File: Mithun_kumar_8Y.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.631511",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mohit qa: 0.0/10 (File: Mohit qa.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.636439",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nagendra: 3.3/10 (File: Nagendra.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.719295",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NewResume_PDF: 1.7/10 (File: NewResume_PDF.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.761587",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nishant Gupta QA Engineer: 3.3/10 (File: Nishant Gupta QA Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.866718",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NISHANT KUMAR Resumes (1): 3.3/10 (File: NISHANT KUMAR Resumes (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.916926",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nupur_Goel _QA: 3.3/10 (File: Nupur_Goel _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.953798",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pallavi_Bansal_Resume: 5.0/10 (File: Pallavi_Bansal_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:12.959406",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Paras_QA_6: 3.3/10 (File: Paras_QA_6.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.041850",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payal Shishodia: 0.0/10 (File: Payal Shishodia.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.425320",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payel Resume: 3.3/10 (File: Payel Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.519718",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pooja_Python_8_years: 5.0/10 (File: Pooja_Python_8_years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.653505",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PRASHANT_KUMAR_CV: 1.7/10 (File: PRASHANT_KUMAR_CV.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.694039",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pratibha_Saurav_Resume_QA_Analyst_: 3.3/10 (File: Pratibha_Saurav_Resume_QA_Analyst_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.716338",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Prerna_Automation_Tester: 3.3/10 (File: Prerna_Automation_Tester.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.734381",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PrinceGhosh_QA_Engineer - Resume: 3.3/10 (File: PrinceGhosh_QA_Engineer - Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.761057",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_Shiv_3 years: 5.0/10 (File: QA_Shiv_3 years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.808073",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_SnehalWarghade_4yrs: 6.7/10 (File: QA_SnehalWarghade_4yrs.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.884911",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rahul Khurana SDET: 5.0/10 (File: Rahul Khurana SDET.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.893831",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ravi Automation: 3.3/10 (File: Ravi Automation.resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:13.931725",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored RESUME_ADITI: 3.3/10 (File: RESUME_ADITI.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.022421",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_ArunM_9Y_backend_cloud: 6.7/10 (File: Resume_ArunM_9Y_backend_cloud.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.058315",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Karan jaiswal[1]: 3.3/10 (File: Resume_Karan jaiswal[1].pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.104381",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Minni (N1): 3.3/10 (File: Resume_Minni (N1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.155114",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Sarvesh Singh_8+Years: 3.3/10 (File: Resume_Sarvesh Singh_8+Years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.197877",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_SomiaSharma_7: 5.0/10 (File: Resume_SomiaSharma_7.11Yr_A.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.214417",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored resume: 3.3/10 (File: resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.283015",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resumeskm: 3.3/10 (File: Resumeskm.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.290999",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rishabh Gupta Resume (2) (2): 3.3/10 (File: Rishabh Gupta Resume (2) (2).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.403353",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil mehra: 5.0/10 (File: Sahil mehra.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.491083",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil Singh Parmar CV: 5.0/10 (File: Sahil Singh Parmar CV. (1) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.496148",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahitya(QA_resume): 0.0/10 (File: Sahitya(QA_resume).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.588733",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sandeep_Qa_4YOE: 6.7/10 (File: sandeep_Qa_4YOE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.622891",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sanjeetbhushan7automation: 3.3/10 (File: sanjeetbhushan7automation.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.681803",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SANKET CHAUDHARI QA 2+ YOE (1): 3.3/10 (File: SANKET CHAUDHARI QA 2+ YOE (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.714965",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sanu_Resume2025: 3.3/10 (File: Sanu_Resume2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.722427",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA_7: 6.7/10 (File: Satish_QA_7.6.doc)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.806628",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA: 1.7/10 (File: Satish_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.863745",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh Suman QA: 1.7/10 (File: Saurabh Suman QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:14.945501",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh_Damdoo_QA_2yr_Delhi: 3.3/10 (File: Saurabh_Damdoo_QA_2yr_Delhi.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.014313",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_CV_Utkarsh Sharma: 5.0/10 (File: SDET_CV_Utkarsh Sharma.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.019769",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_NAVEEN_RATHORE_6_Year (1) (1): 3.3/10 (File: SDET_NAVEEN_RATHORE_6_Year (1) (1).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.124752",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Seema_Resume_QA: 5.0/10 (File: Seema_Resume_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.158941",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ShagunSaxena4years: 1.7/10 (File: ShagunSaxena4years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.201538",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored shailesh Manual AQ: 1.7/10 (File: shailesh Manual AQ.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.242516",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivam kamboj56: 1.7/10 (File: Shivam kamboj56.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.261315",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivank Goyal Resume: 0.0/10 (File: Shivank Goyal Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.285313",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shrateek jaiswal_QA_resume: 5.0/10 (File: Shrateek jaiswal_QA_resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.377282",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1): 3.3/10 (File: Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.387375",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sirisha_QA_Engineer_Resume: 3.3/10 (File: Sirisha_QA_Engineer_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.526925",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SonalRajputResume22: 5.0/10 (File: SonalRajputResume22.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.572593",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sparsh_Resume_ind: 5.0/10 (File: Sparsh_Resume_ind.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.636694",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Srishti_4Yr_QA: 1.7/10 (File: Srishti_4Yr_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.665956",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SUMANTH_B_RESUME: 1.7/10 (File: SUMANTH_B_RESUME.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.727771",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Surbhi Resume: 5.0/10 (File: Surbhi Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.781823",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored surbhijain_resume_1: 3.3/10 (File: surbhijain_resume_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.887195",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sushil Yadav QA Resume Gurgaon: 5.0/10 (File: Sushil Yadav QA Resume Gurgaon.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:15.956504",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TijilGupta_Resume: 3.3/10 (File: TijilGupta_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:16.029570",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TRUPTI_VARMA_Resume_260225: 3.3/10 (File: TRUPTI_VARMA_Resume_260225.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:16.091981",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Varun_Agarwal_QA_2025_Latest-2: 5.0/10 (File: Varun_Agarwal_QA_2025_Latest-2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:16.097219",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishakha Saini: 5.0/10 (File: Vishakha Saini.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:16.144872",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishesh_Tiwari_Resume_Testing: 3.3/10 (File: Vishesh_Tiwari_Resume_Testing.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:06:16.148575",
+        "level": "INFO",
+        "event": "CV_SCORING",
+        "details": "Executed Real-time Scoring Analysis (Forced Refresh)."
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.176048",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Adarsh_cv_: 3.3/10 (File: Adarsh_cv_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.221209",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored 7x-ShubhaamKumar 10-10: 3.3/10 (File: 7x-ShubhaamKumar 10-10.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.281003",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aditya Jain QA CV FEB 2025: 3.3/10 (File: Aditya Jain QA CV FEB 2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.435606",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ajay_murari_Qa_7years: 1.7/10 (File: ajay_murari_Qa_7years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.461666",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Akansha_Resume_2025: 5.0/10 (File: Akansha_Resume_2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.533091",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AKSHAY_RAJPUT-NOIDA: 5.0/10 (File: AKSHAY_RAJPUT-NOIDA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.613298",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Amit QA (2_25): 5.0/10 (File: Amit QA (2_25).docx.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.714003",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anchal-Choudhary-Resume: 5.0/10 (File: Anchal-Choudhary-Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.765876",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anshu_TestEngineer_Resume: 3.3/10 (File: Anshu_TestEngineer_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.847816",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anurag  Resume (3): 3.3/10 (File: Anurag  Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.871674",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anusha_Resume: 5.0/10 (File: Anusha_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.917285",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushika_Singh_Off_Resume: 5.0/10 (File: Anushika_Singh_Off_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:57.953680",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushka Pandey: 1.7/10 (File: Anushka Pandey.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.012963",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apoorva Bhatt (1): 8.3/10 (File: Apoorva Bhatt (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.037047",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apurva_Singh_Resume: 5.0/10 (File: Apurva_Singh_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.121011",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aritra_Dey_AutomationTest: 3.3/10 (File: Aritra_Dey_AutomationTest.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.171193",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashish_Bole_Resume_2: 3.3/10 (File: Ashish_Bole_Resume_2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.226220",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashu CV (1): 1.7/10 (File: Ashu CV (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.299415",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Atul-QA-3+: 3.3/10 (File: Atul-QA-3+.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.375136",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AtulKumarMaurya_Resume: 6.7/10 (File: AtulKumarMaurya_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.419874",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Avanish_Resume: 1.7/10 (File: Avanish_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.457447",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CHANCHAL N MAURYA: 1.7/10 (File: CHANCHAL N MAURYA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.849665",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored cid02A8642B-AF8D-47E3-8B13-E9B997E60E93: 3.3/10 (File: cid02A8642B-AF8D-47E3-8B13-E9B997E60E93.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.879827",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CV_Software Test Engineer: 5.0/10 (File: CV_Software Test Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:58.968136",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored DarshanAutomation (3): 5.0/10 (File: DarshanAutomation (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.023746",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Durga Prasad Gupta_QA_12 Years_Resume - v7_1: 5.0/10 (File: Durga Prasad Gupta_QA_12 Years_Resume - v7_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.172635",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ETLtesterMayuriRajput3: 1.7/10 (File: ETLtesterMayuriRajput3.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.262027",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final Resume AK: 3.3/10 (File: Final Resume AK.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.289047",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final resume: 3.3/10 (File: Final resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.414276",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Garvit_sharma Resume: 0.0/10 (File: Garvit_sharma Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.514519",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Gaurav-resume-2years: 3.3/10 (File: Gaurav-resume-2years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:20:59.580765",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Geetika_Gupta_Resume_9Yrs_QA_Serving_NP: 3.3/10 (File: Geetika_Gupta_Resume_9Yrs_QA_Serving_NP.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.555387",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Jogendra resume: 0.0/10 (File: Jogendra resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.618658",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kanchan Jain _QA: 5.0/10 (File: Kanchan Jain _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.696895",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kashish Goyal: 6.7/10 (File: Kashish Goyal.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.726241",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KEERTHANAPRIYA R_Resume: 3.3/10 (File: KEERTHANAPRIYA R_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.729595",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Keshav_Sharma_Resume: 3.3/10 (File: Keshav_Sharma_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.770950",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KishorD QA Resume: 3.3/10 (File: KishorD QA Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.801817",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KRITIKA SHARMA (QA) PROFILE: 3.3/10 (File: KRITIKA SHARMA (QA) PROFILE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.894323",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored kushank_Resume_4: 3.3/10 (File: kushank_Resume_4.5+Testing QA Profile.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.897751",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Mondal2042: 0.0/10 (File: Manish_Mondal2042.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:01.973036",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Ranjan Resume (3): 5.0/10 (File: Manish_Ranjan Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.011861",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ManpreetSingh_Resume_pdf: 5.0/10 (File: ManpreetSingh_Resume_pdf.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.473241",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mithun_kumar_8Y: 3.3/10 (File: Mithun_kumar_8Y.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.514314",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mohit qa: 0.0/10 (File: Mohit qa.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.518783",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nagendra: 3.3/10 (File: Nagendra.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.598672",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NewResume_PDF: 1.7/10 (File: NewResume_PDF.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.639382",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nishant Gupta QA Engineer: 3.3/10 (File: Nishant Gupta QA Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.728693",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NISHANT KUMAR Resumes (1): 3.3/10 (File: NISHANT KUMAR Resumes (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.775871",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nupur_Goel _QA: 3.3/10 (File: Nupur_Goel _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.811637",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pallavi_Bansal_Resume: 5.0/10 (File: Pallavi_Bansal_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.816088",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Paras_QA_6: 3.3/10 (File: Paras_QA_6.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:02.891342",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payal Shishodia: 0.0/10 (File: Payal Shishodia.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.252568",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payel Resume: 3.3/10 (File: Payel Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.363527",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pooja_Python_8_years: 5.0/10 (File: Pooja_Python_8_years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.457940",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PRASHANT_KUMAR_CV: 1.7/10 (File: PRASHANT_KUMAR_CV.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.494407",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pratibha_Saurav_Resume_QA_Analyst_: 3.3/10 (File: Pratibha_Saurav_Resume_QA_Analyst_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.513701",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Prerna_Automation_Tester: 3.3/10 (File: Prerna_Automation_Tester.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.532967",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PrinceGhosh_QA_Engineer - Resume: 3.3/10 (File: PrinceGhosh_QA_Engineer - Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.558367",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_Shiv_3 years: 5.0/10 (File: QA_Shiv_3 years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.626980",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_SnehalWarghade_4yrs: 6.7/10 (File: QA_SnehalWarghade_4yrs.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.683061",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rahul Khurana SDET: 5.0/10 (File: Rahul Khurana SDET.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.692098",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ravi Automation: 3.3/10 (File: Ravi Automation.resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.726562",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored RESUME_ADITI: 3.3/10 (File: RESUME_ADITI.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.804350",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_ArunM_9Y_backend_cloud: 6.7/10 (File: Resume_ArunM_9Y_backend_cloud.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.837631",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Karan jaiswal[1]: 3.3/10 (File: Resume_Karan jaiswal[1].pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.878703",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Minni (N1): 3.3/10 (File: Resume_Minni (N1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.925514",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Sarvesh Singh_8+Years: 3.3/10 (File: Resume_Sarvesh Singh_8+Years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.965757",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_SomiaSharma_7: 5.0/10 (File: Resume_SomiaSharma_7.11Yr_A.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:03.981242",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored resume: 3.3/10 (File: resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.065375",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resumeskm: 3.3/10 (File: Resumeskm.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.071814",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rishabh Gupta Resume (2) (2): 3.3/10 (File: Rishabh Gupta Resume (2) (2).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.142728",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil mehra: 5.0/10 (File: Sahil mehra.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.224581",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil Singh Parmar CV: 5.0/10 (File: Sahil Singh Parmar CV. (1) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.228539",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahitya(QA_resume): 0.0/10 (File: Sahitya(QA_resume).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.314867",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sandeep_Qa_4YOE: 6.7/10 (File: sandeep_Qa_4YOE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.368050",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sanjeetbhushan7automation: 3.3/10 (File: sanjeetbhushan7automation.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.421358",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SANKET CHAUDHARI QA 2+ YOE (1): 3.3/10 (File: SANKET CHAUDHARI QA 2+ YOE (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.449954",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sanu_Resume2025: 3.3/10 (File: Sanu_Resume2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.455519",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA_7: 6.7/10 (File: Satish_QA_7.6.doc)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.501451",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA: 1.7/10 (File: Satish_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.552024",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh Suman QA: 1.7/10 (File: Saurabh Suman QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.629108",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh_Damdoo_QA_2yr_Delhi: 3.3/10 (File: Saurabh_Damdoo_QA_2yr_Delhi.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.728451",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_CV_Utkarsh Sharma: 5.0/10 (File: SDET_CV_Utkarsh Sharma.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.733676",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_NAVEEN_RATHORE_6_Year (1) (1): 3.3/10 (File: SDET_NAVEEN_RATHORE_6_Year (1) (1).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.811901",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Seema_Resume_QA: 5.0/10 (File: Seema_Resume_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.848053",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ShagunSaxena4years: 1.7/10 (File: ShagunSaxena4years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.892112",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored shailesh Manual AQ: 1.7/10 (File: shailesh Manual AQ.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.928567",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivam kamboj56: 1.7/10 (File: Shivam kamboj56.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.945349",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivank Goyal Resume: 0.0/10 (File: Shivank Goyal Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:04.966836",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shrateek jaiswal_QA_resume: 5.0/10 (File: Shrateek jaiswal_QA_resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.073880",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1): 3.3/10 (File: Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.080915",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sirisha_QA_Engineer_Resume: 3.3/10 (File: Sirisha_QA_Engineer_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.196405",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SonalRajputResume22: 5.0/10 (File: SonalRajputResume22.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.250832",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sparsh_Resume_ind: 5.0/10 (File: Sparsh_Resume_ind.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.312538",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Srishti_4Yr_QA: 1.7/10 (File: Srishti_4Yr_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.363898",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SUMANTH_B_RESUME: 1.7/10 (File: SUMANTH_B_RESUME.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.423627",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Surbhi Resume: 5.0/10 (File: Surbhi Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.470192",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored surbhijain_resume_1: 3.3/10 (File: surbhijain_resume_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.539802",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sushil Yadav QA Resume Gurgaon: 5.0/10 (File: Sushil Yadav QA Resume Gurgaon.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.604291",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TijilGupta_Resume: 3.3/10 (File: TijilGupta_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.674113",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TRUPTI_VARMA_Resume_260225: 3.3/10 (File: TRUPTI_VARMA_Resume_260225.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.753372",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Varun_Agarwal_QA_2025_Latest-2: 5.0/10 (File: Varun_Agarwal_QA_2025_Latest-2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.757296",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishakha Saini: 5.0/10 (File: Vishakha Saini.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.799482",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishesh_Tiwari_Resume_Testing: 3.3/10 (File: Vishesh_Tiwari_Resume_Testing.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:05.802813",
+        "level": "INFO",
+        "event": "CV_SCORING",
+        "details": "Executed Real-time Scoring Analysis (Forced Refresh)."
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.211716",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Adarsh_cv_: 3.3/10 (File: Adarsh_cv_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.255832",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored 7x-ShubhaamKumar 10-10: 3.3/10 (File: 7x-ShubhaamKumar 10-10.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.315825",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aditya Jain QA CV FEB 2025: 3.3/10 (File: Aditya Jain QA CV FEB 2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.481486",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ajay_murari_Qa_7years: 1.7/10 (File: ajay_murari_Qa_7years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.503521",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Akansha_Resume_2025: 5.0/10 (File: Akansha_Resume_2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.577183",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AKSHAY_RAJPUT-NOIDA: 5.0/10 (File: AKSHAY_RAJPUT-NOIDA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.662907",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Amit QA (2_25): 5.0/10 (File: Amit QA (2_25).docx.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.732375",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anchal-Choudhary-Resume: 5.0/10 (File: Anchal-Choudhary-Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.800484",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anshu_TestEngineer_Resume: 3.3/10 (File: Anshu_TestEngineer_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.878701",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anurag  Resume (3): 3.3/10 (File: Anurag  Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.905283",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anusha_Resume: 5.0/10 (File: Anusha_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.950970",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushika_Singh_Off_Resume: 5.0/10 (File: Anushika_Singh_Off_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:14.988330",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Anushka Pandey: 1.7/10 (File: Anushka Pandey.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.047166",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apoorva Bhatt (1): 8.3/10 (File: Apoorva Bhatt (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.071389",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Apurva_Singh_Resume: 5.0/10 (File: Apurva_Singh_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.134404",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Aritra_Dey_AutomationTest: 3.3/10 (File: Aritra_Dey_AutomationTest.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.203197",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashish_Bole_Resume_2: 3.3/10 (File: Ashish_Bole_Resume_2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.257635",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ashu CV (1): 1.7/10 (File: Ashu CV (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.336527",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Atul-QA-3+: 3.3/10 (File: Atul-QA-3+.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.407321",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored AtulKumarMaurya_Resume: 6.7/10 (File: AtulKumarMaurya_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.433855",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Avanish_Resume: 1.7/10 (File: Avanish_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.470896",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CHANCHAL N MAURYA: 1.7/10 (File: CHANCHAL N MAURYA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.913159",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored cid02A8642B-AF8D-47E3-8B13-E9B997E60E93: 3.3/10 (File: cid02A8642B-AF8D-47E3-8B13-E9B997E60E93.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:15.940768",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored CV_Software Test Engineer: 5.0/10 (File: CV_Software Test Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.033679",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored DarshanAutomation (3): 5.0/10 (File: DarshanAutomation (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.087580",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Durga Prasad Gupta_QA_12 Years_Resume - v7_1: 5.0/10 (File: Durga Prasad Gupta_QA_12 Years_Resume - v7_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.229023",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ETLtesterMayuriRajput3: 1.7/10 (File: ETLtesterMayuriRajput3.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.310540",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final Resume AK: 3.3/10 (File: Final Resume AK.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.336271",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Final resume: 3.3/10 (File: Final resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.478735",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Garvit_sharma Resume: 0.0/10 (File: Garvit_sharma Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.548825",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Gaurav-resume-2years: 3.3/10 (File: Gaurav-resume-2years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:16.609812",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Geetika_Gupta_Resume_9Yrs_QA_Serving_NP: 3.3/10 (File: Geetika_Gupta_Resume_9Yrs_QA_Serving_NP.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.527091",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Jogendra resume: 0.0/10 (File: Jogendra resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.591916",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kanchan Jain _QA: 5.0/10 (File: Kanchan Jain _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.696314",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Kashish Goyal: 6.7/10 (File: Kashish Goyal.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.726148",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KEERTHANAPRIYA R_Resume: 3.3/10 (File: KEERTHANAPRIYA R_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.730159",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Keshav_Sharma_Resume: 3.3/10 (File: Keshav_Sharma_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.780916",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KishorD QA Resume: 3.3/10 (File: KishorD QA Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.818112",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored KRITIKA SHARMA (QA) PROFILE: 3.3/10 (File: KRITIKA SHARMA (QA) PROFILE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.925907",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored kushank_Resume_4: 3.3/10 (File: kushank_Resume_4.5+Testing QA Profile.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:18.929982",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Mondal2042: 0.0/10 (File: Manish_Mondal2042.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.031315",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Manish_Ranjan Resume (3): 5.0/10 (File: Manish_Ranjan Resume (3).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.070202",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ManpreetSingh_Resume_pdf: 5.0/10 (File: ManpreetSingh_Resume_pdf.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.573229",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mithun_kumar_8Y: 3.3/10 (File: Mithun_kumar_8Y.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.614155",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Mohit qa: 0.0/10 (File: Mohit qa.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.623247",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nagendra: 3.3/10 (File: Nagendra.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.699147",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NewResume_PDF: 1.7/10 (File: NewResume_PDF.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.740543",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nishant Gupta QA Engineer: 3.3/10 (File: Nishant Gupta QA Engineer.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.808531",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored NISHANT KUMAR Resumes (1): 3.3/10 (File: NISHANT KUMAR Resumes (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.855637",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Nupur_Goel _QA: 3.3/10 (File: Nupur_Goel _QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.893891",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pallavi_Bansal_Resume: 5.0/10 (File: Pallavi_Bansal_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.903788",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Paras_QA_6: 3.3/10 (File: Paras_QA_6.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:19.974272",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payal Shishodia: 0.0/10 (File: Payal Shishodia.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.332489",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Payel Resume: 3.3/10 (File: Payel Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.429254",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pooja_Python_8_years: 5.0/10 (File: Pooja_Python_8_years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.537032",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PRASHANT_KUMAR_CV: 1.7/10 (File: PRASHANT_KUMAR_CV.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.576756",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Pratibha_Saurav_Resume_QA_Analyst_: 3.3/10 (File: Pratibha_Saurav_Resume_QA_Analyst_.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.595449",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Prerna_Automation_Tester: 3.3/10 (File: Prerna_Automation_Tester.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.610395",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored PrinceGhosh_QA_Engineer - Resume: 3.3/10 (File: PrinceGhosh_QA_Engineer - Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.632843",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_Shiv_3 years: 5.0/10 (File: QA_Shiv_3 years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.680454",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored QA_SnehalWarghade_4yrs: 6.7/10 (File: QA_SnehalWarghade_4yrs.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.737535",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rahul Khurana SDET: 5.0/10 (File: Rahul Khurana SDET.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.741679",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Ravi Automation: 3.3/10 (File: Ravi Automation.resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.791669",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored RESUME_ADITI: 3.3/10 (File: RESUME_ADITI.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.871631",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_ArunM_9Y_backend_cloud: 6.7/10 (File: Resume_ArunM_9Y_backend_cloud.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.902154",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Karan jaiswal[1]: 3.3/10 (File: Resume_Karan jaiswal[1].pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.943016",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Minni (N1): 3.3/10 (File: Resume_Minni (N1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:20.984534",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_Sarvesh Singh_8+Years: 3.3/10 (File: Resume_Sarvesh Singh_8+Years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.019339",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resume_SomiaSharma_7: 5.0/10 (File: Resume_SomiaSharma_7.11Yr_A.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.032441",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored resume: 3.3/10 (File: resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.088388",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Resumeskm: 3.3/10 (File: Resumeskm.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.093797",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Rishabh Gupta Resume (2) (2): 3.3/10 (File: Rishabh Gupta Resume (2) (2).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.181558",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil mehra: 5.0/10 (File: Sahil mehra.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.257436",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahil Singh Parmar CV: 5.0/10 (File: Sahil Singh Parmar CV. (1) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.264762",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sahitya(QA_resume): 0.0/10 (File: Sahitya(QA_resume).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.347146",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sandeep_Qa_4YOE: 6.7/10 (File: sandeep_Qa_4YOE.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.383581",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored sanjeetbhushan7automation: 3.3/10 (File: sanjeetbhushan7automation.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.436794",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SANKET CHAUDHARI QA 2+ YOE (1): 3.3/10 (File: SANKET CHAUDHARI QA 2+ YOE (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.470498",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sanu_Resume2025: 3.3/10 (File: Sanu_Resume2025.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.480393",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA_7: 6.7/10 (File: Satish_QA_7.6.doc)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.539738",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Satish_QA: 1.7/10 (File: Satish_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.589859",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh Suman QA: 1.7/10 (File: Saurabh Suman QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.666797",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Saurabh_Damdoo_QA_2yr_Delhi: 3.3/10 (File: Saurabh_Damdoo_QA_2yr_Delhi.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.731460",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_CV_Utkarsh Sharma: 5.0/10 (File: SDET_CV_Utkarsh Sharma.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.736095",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SDET_NAVEEN_RATHORE_6_Year (1) (1): 3.3/10 (File: SDET_NAVEEN_RATHORE_6_Year (1) (1).docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.829867",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Seema_Resume_QA: 5.0/10 (File: Seema_Resume_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.863926",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored ShagunSaxena4years: 1.7/10 (File: ShagunSaxena4years.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.906430",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored shailesh Manual AQ: 1.7/10 (File: shailesh Manual AQ.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.946000",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivam kamboj56: 1.7/10 (File: Shivam kamboj56.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.961952",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shivank Goyal Resume: 0.0/10 (File: Shivank Goyal Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:21.982323",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shrateek jaiswal_QA_resume: 5.0/10 (File: Shrateek jaiswal_QA_resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.063253",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1): 3.3/10 (File: Shubham_CV_SDET_4YOE_Immediate_Joiner (2) (1) (1).pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.067799",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sirisha_QA_Engineer_Resume: 3.3/10 (File: Sirisha_QA_Engineer_Resume.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.191482",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SonalRajputResume22: 5.0/10 (File: SonalRajputResume22.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.232932",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sparsh_Resume_ind: 5.0/10 (File: Sparsh_Resume_ind.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.294086",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Srishti_4Yr_QA: 1.7/10 (File: Srishti_4Yr_QA.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.320409",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored SUMANTH_B_RESUME: 1.7/10 (File: SUMANTH_B_RESUME.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.378020",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Surbhi Resume: 5.0/10 (File: Surbhi Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.444673",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored surbhijain_resume_1: 3.3/10 (File: surbhijain_resume_1.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.517475",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Sushil Yadav QA Resume Gurgaon: 5.0/10 (File: Sushil Yadav QA Resume Gurgaon.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.573578",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TijilGupta_Resume: 3.3/10 (File: TijilGupta_Resume.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.633416",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored TRUPTI_VARMA_Resume_260225: 3.3/10 (File: TRUPTI_VARMA_Resume_260225.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.687801",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Varun_Agarwal_QA_2025_Latest-2: 5.0/10 (File: Varun_Agarwal_QA_2025_Latest-2.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.694021",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishakha Saini: 5.0/10 (File: Vishakha Saini.docx)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.759703",
+        "level": "INFO",
+        "event": "DEBUG",
+        "details": "Scored Vishesh_Tiwari_Resume_Testing: 3.3/10 (File: Vishesh_Tiwari_Resume_Testing.pdf)"
+    },
+    {
+        "timestamp": "2025-12-21T23:21:22.768073",
+        "level": "INFO",
+        "event": "CV_SCORING",
+        "details": "Executed Real-time Scoring Analysis (Forced Refresh)."
+    },
+    {
+        "timestamp": "2025-12-21T23:23:12.121279",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Apoorva Bhatt (1) moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:14.756215",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:17.178645",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:19.018941",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:21.316012",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "QA_SnehalWarghade_4yrs moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:22.923891",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Resume_ArunM_9Y_backend_cloud moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:24.503993",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "sandeep_Qa_4YOE moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:25.673996",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Satish_QA_7 moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:27.636964",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Akansha_Resume_2025 moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:29.381980",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AKSHAY_RAJPUT-NOIDA moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:31.189132",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Amit QA (2_25) moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:32.315664",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Anchal-Choudhary-Resume moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:33.844991",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Anusha_Resume moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:34.859831",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Anushika_Singh_Off_Resume moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:35.695635",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Apurva_Singh_Resume moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:36.820074",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "CV_Software Test Engineer moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:23:38.953502",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "DarshanAutomation (3) moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:26:32.652059",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called Akansha_Resume_2025. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:26:35.221917",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called AKSHAY_RAJPUT-NOIDA. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:26:37.401322",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called Apoorva Bhatt (1). Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:26:52.927311",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called AtulKumarMaurya_Resume. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:12.521036",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Rejected"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:12.529619",
+        "level": "INFO",
+        "event": "FEEDBACK",
+        "details": "Kashish Goyal: hfghgjh,khgjyhgkjghfdgh"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:17.576752",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "QA_SnehalWarghade_4yrs moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:19.500293",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "QA_SnehalWarghade_4yrs moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:20.669785",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called QA_SnehalWarghade_4yrs. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:24.120251",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called Resume_ArunM_9Y_backend_cloud. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:25.690572",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called sandeep_Qa_4YOE. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:27:28.826896",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called Satish_QA_7. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:28:36.113222",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Akansha_Resume_2025 moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:28:37.825054",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called Akansha_Resume_2025. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:47:51.191627",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Apoorva Bhatt (1) moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:47:52.620068",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:47:56.436900",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:47:57.789023",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "QA_SnehalWarghade_4yrs moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:01.501358",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Amit QA (2_25) moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:02.886642",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AKSHAY_RAJPUT-NOIDA moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:20.055043",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called Kashish Goyal. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:34.527314",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called AtulKumarMaurya_Resume. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:48.603855",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called AKSHAY_RAJPUT-NOIDA. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:49.802596",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AKSHAY_RAJPUT-NOIDA moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:48:52.243118",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called AKSHAY_RAJPUT-NOIDA. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:49:18.351373",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called QA_SnehalWarghade_4yrs. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:49:19.896738",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "QA_SnehalWarghade_4yrs moved to Shortlisted"
+    },
+    {
+        "timestamp": "2025-12-21T23:49:22.647234",
+        "level": "INFO",
+        "event": "AI_CALL_COMPLETED",
+        "details": "Agent called QA_SnehalWarghade_4yrs. Score: 7.5"
+    },
+    {
+        "timestamp": "2025-12-21T23:52:32.852951",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Akansha_Resume_2025 moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-21T23:52:32.859040",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to akansha_resume_2025@example.com and ghdfhhkgb nbv@company.com"
+    },
+    {
+        "timestamp": "2025-12-21T23:52:32.861910",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Akansha_Resume_2025 with ghdfhhkgb nbv"
+    },
+    {
+        "timestamp": "2025-12-22T00:06:40.556676",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AKSHAY_RAJPUT-NOIDA moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:06:40.659610",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to 26@gmail.com (+919673343159) and jhkgjfhc@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:06:40.665797",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AKSHAY_RAJPUT-NOIDA with jhkgjfhc"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:24.823671",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:24.830710",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:24.834546",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:26.978523",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:26.983969",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:26.987314",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:28.779406",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:28.784930",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:28.788355",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.087567",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.092857",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.096194",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.306162",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.315171",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.320054",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.520869",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.534712",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.542843",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.887783",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.893452",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:29.896859",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:30.137741",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "AtulKumarMaurya_Resume moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:30.143268",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:30.146724",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled AtulKumarMaurya_Resume with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:54.013812",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:54.019152",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:54.022457",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:55.762571",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:55.767758",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:55.770673",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:57.414104",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:57.423350",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:57.428545",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:57.826875",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:57.840156",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:07:57.845480",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.170958",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.176432",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.179822",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.504264",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.509833",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.513052",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.738877",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.751448",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.757397",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.960682",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.978690",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:00.987252",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.148222",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.155101",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.158380",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.346044",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.351565",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.354959",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.529327",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "Kashish Goyal moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.534603",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to nan (nan) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:08:01.538013",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled Kashish Goyal with ankur"
+    },
+    {
+        "timestamp": "2025-12-22T00:13:16.518923",
+        "level": "INFO",
+        "event": "STATUS_UPDATE",
+        "details": "QA_SnehalWarghade_4yrs moved to Interview Scheduled"
+    },
+    {
+        "timestamp": "2025-12-22T00:13:16.591278",
+        "level": "INFO",
+        "event": "NOTIFICATION_SENT",
+        "details": "Invites sent to snwarghade22@gmail.com (+919503302339) and ankur@company.com"
+    },
+    {
+        "timestamp": "2025-12-22T00:13:16.602884",
+        "level": "INFO",
+        "event": "INTERVIEW_SCHEDULED",
+        "details": "Scheduled QA_SnehalWarghade_4yrs with ankur"
+    }
+]

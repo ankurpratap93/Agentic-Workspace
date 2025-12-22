@@ -1,0 +1,249 @@
+/* Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+/* --- GLOBAL THEME: MIDNIGHT SAAS --- */
+.stApp {
+    background-color: #020617;
+    /* Deep Slate 950 */
+    background-image:
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+        /* Blue Glow Top Left */
+        radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    /* Purple Glow Bottom Right */
+    color: #e2e8f0;
+    /* Slate 200 */
+    font-family: 'Inter', sans-serif;
+}
+
+/* --- TYPOGRAPHY --- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem !important;
+}
+
+/* Gradient Header for H1 Only (Page Titles) */
+h1 {
+    background: linear-gradient(to right, #60a5fa, #c084fc);
+    /* Blue -> Purple */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
+    /* Subtle colored shadow */
+    font-size: 3rem !important;
+}
+
+h2,
+h3 {
+    color: #f8fafc !important;
+    /* Solid White */
+    text-shadow: none;
+}
+
+p,
+div,
+span,
+label,
+li {
+    font-family: 'Inter', sans-serif;
+    color: #cbd5e1;
+    /* Slate 300 */
+}
+
+/* --- FEATURE CARDS (MATTE, NO GLOSS) --- */
+/* Replacing .glass-card with generic card style that is solid */
+.feature-card {
+    background: #0f172a;
+    /* Slate 900 - Solid Matte */
+    border: 1px solid #1e293b;
+    /* Slate 800 */
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+/* Interactive Hover State */
+.feature-card:hover {
+    border-color: #3b82f6;
+    /* Electric Blue Border */
+    box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+    /* Colored Glow on Hover */
+    transform: translateY(-2px);
+}
+
+/* COMPATIBILITY: Map old glass-card to new style if class persists */
+.glass-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2);
+    transform: translateY(-2px);
+}
+
+/* --- STEPPER: PILL DESIGN --- */
+.stepper-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding: 10px 20px;
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 100px;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    flex: 1;
+    opacity: 0.5;
+    transition: all 0.3s;
+}
+
+.step-item.active {
+    opacity: 1;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #1e293b;
+    border: 1px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-family: 'Outfit';
+    color: #94a3b8;
+    margin-bottom: 8px;
+    z-index: 2;
+    transition: all 0.3s;
+}
+
+.step-item.active .step-circle {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    /* Gradient Active */
+    border-color: #8b5cf6;
+    color: white;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    transform: scale(1.1);
+}
+
+.step-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #64748b;
+}
+
+.step-item.active .step-label {
+    color: #e2e8f0;
+}
+
+.step-line {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: #1e293b;
+    z-index: 1;
+}
+
+.step-item:last-child .step-line {
+    display: none;
+}
+
+/* --- BUTTONS: PRIMARY ACTION --- */
+div.stButton>button {
+    background: #1e293b;
+    color: #e2e8f0;
+    border: 1px solid #334155;
+    border-radius: 10px;
+    padding: 0.5rem 1.2rem;
+    font-weight: 600;
+    font-family: 'Outfit';
+    transition: all 0.2s;
+}
+
+div.stButton>button:hover {
+    background: #273549;
+    /* Lighter Slate */
+    border-color: #3b82f6;
+    /* Blue Border Hint */
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Primary (Go/Submit) */
+button[kind="primary"] {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    border: none !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+button[kind="primary"]:hover {
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+    transform: translateY(-1px);
+}
+
+/* --- METRICS --- */
+[data-testid="stMetricValue"] {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 2.8rem !important;
+    background: linear-gradient(to bottom right, #ffffff, #cbd5e1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #94a3b8 !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+}
+
+/* --- INPUTS --- */
+.stTextInput input,
+.stTextArea textarea,
+.stSelectbox div[data-baseweb="select"] {
+    background-color: #0f172a !important;
+    /* Matte Dark */
+    border: 1px solid #334155 !important;
+    color: white !important;
+    border-radius: 10px !important;
+}
+
+.stTextInput input:focus,
+.stTextArea textarea:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+}
+
+/* --- SIDEBAR --- */
+[data-testid="stSidebar"] {
+    background-color: #020617;
+    border-right: 1px solid #1e293b;
+}
