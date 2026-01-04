@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { FileText, ArrowUpDown, RefreshCcw, Upload, Sparkles } from "lucide-react"
+import { FileText, ArrowUpDown, RefreshCcw, Upload, Sparkles, Phone, Video } from "lucide-react"
 import { Button } from "./ui/button"
+import CallingAgentModal from "./CallingAgentModal"
+import InterviewAssistModal from "./InterviewAssistModal"
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
@@ -37,6 +39,11 @@ export default function CandidatesView({ job }) {
   const [aiNotice, setAiNotice] = useState("")
   const [refreshKey, setRefreshKey] = useState(0) // Force re-render trigger
 
+  // Agent modals
+  const [callingModalOpen, setCallingModalOpen] = useState(false)
+  const [interviewModalOpen, setInterviewModalOpen] = useState(false)
+  const [selectedCandidate, setSelectedCandidate] = useState(null)
+
   const fetchCandidates = async (opts = {}) => {
     const { silent = false } = opts
     if (!job?.id) {
@@ -51,23 +58,23 @@ export default function CandidatesView({ job }) {
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
       console.log(`[fetchCandidates] Received ${data.length} candidates`)
-      
+
       // Store previous scores for comparison
       const prevScores = rows.length > 0 ? rows.map(r => r.score).filter(s => s !== undefined && s !== null) : []
-      
+
       // Update state immediately with new data
       const newRows = Array.isArray(data) ? data : []
       setRows(newRows)
-      
+
       // Force a re-render by updating refresh key
       setRefreshKey(prev => prev + 1)
-      
+
       if (data.length > 0) {
         const scores = data.map(c => c.score).filter(s => s !== undefined && s !== null)
         const uniqueScores = new Set(scores)
         console.log(`[fetchCandidates] Score range: ${Math.min(...scores)} - ${Math.max(...scores)}, Unique: ${uniqueScores.size}`)
         console.log(`[fetchCandidates] Sample scores: ${scores.slice(0, 5).join(', ')}`)
-        
+
         // Check if scores changed
         if (prevScores.length > 0) {
           const scoresChanged = JSON.stringify(prevScores.slice(0, 5)) !== JSON.stringify(scores.slice(0, 5))
@@ -239,11 +246,11 @@ export default function CandidatesView({ job }) {
       }
       const data = await res.json()
       console.log("[rescoreJob] Response data:", data)
-      
+
       // Wait for backend processing, then force refresh
       console.log("[rescoreJob] Waiting 2s for backend processing...")
       await new Promise(resolve => setTimeout(resolve, 2000))
-      
+
       // Force refresh with multiple attempts
       console.log("[rescoreJob] Starting refresh sequence...")
       await fetchCandidates({ silent: true })
@@ -285,11 +292,11 @@ export default function CandidatesView({ job }) {
       }
       const data = await res.json()
       console.log("[aiRescore] Response data:", data)
-      
+
       // Wait longer for AI processing (it can take time)
       console.log("[aiRescore] Waiting 5s for backend processing...")
       await new Promise(resolve => setTimeout(resolve, 5000))
-      
+
       // Force refresh with multiple attempts
       console.log("[aiRescore] Starting refresh sequence...")
       await fetchCandidates({ silent: true })
@@ -521,6 +528,34 @@ export default function CandidatesView({ job }) {
                         <div className="flex justify-end gap-2">
                           <Button
                             size="sm"
+                            variant="ghost"
+                            disabled={isBusy || !name}
+                            onClick={() => {
+                              setSelectedCandidate(name)
+                              setCallingModalOpen(true)
+                            }}
+                            className="gap-1 text-blue-300 hover:text-blue-200 hover:bg-blue-500/10"
+                            title="AI Call"
+                          >
+                            <Phone className="w-3.5 h-3.5" />
+                            Call
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            disabled={isBusy || !name}
+                            onClick={() => {
+                              setSelectedCandidate(name)
+                              setInterviewModalOpen(true)
+                            }}
+                            className="gap-1 text-purple-300 hover:text-purple-200 hover:bg-purple-500/10"
+                            title="AI Interview Assist"
+                          >
+                            <Video className="w-3.5 h-3.5" />
+                            Interview
+                          </Button>
+                          <Button
+                            size="sm"
                             variant="secondary"
                             disabled={isBusy || !name}
                             onClick={() => doAction(name, "shortlist")}
@@ -545,6 +580,27 @@ export default function CandidatesView({ job }) {
           </table>
         </div>
       </div>
+
+      {/* Agent Modals */}
+      <CallingAgentModal
+        isOpen={callingModalOpen}
+        onClose={() => {
+          setCallingModalOpen(false)
+          setSelectedCandidate(null)
+        }}
+        jobId={job?.id}
+        candidateName={selectedCandidate}
+      />
+
+      <InterviewAssistModal
+        isOpen={interviewModalOpen}
+        onClose={() => {
+          setInterviewModalOpen(false)
+          setSelectedCandidate(null)
+        }}
+        jobId={job?.id}
+        candidateName={selectedCandidate}
+      />
     </motion.div>
   )
 }

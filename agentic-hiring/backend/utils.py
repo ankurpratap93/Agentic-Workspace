@@ -1086,16 +1086,20 @@ def llm_score_candidates(job_id: str):
     jd_text = load_job_artifact(job_id, "jd.txt") or ""
     csv_path = os.path.join(JOBS_DIR, job_id, "cv_scores.csv")
     if not os.path.exists(csv_path):
+        _append_log(job_id, "LLM_SCORE_ERROR", "No candidates CSV found")
         return {"updated": 0}
     df = pd.read_csv(csv_path)
     if df.empty:
+        _append_log(job_id, "LLM_SCORE_ERROR", "Candidates CSV is empty")
         return {"updated": 0}
 
+    _append_log(job_id, "LLM_SCORE_START", f"Starting LLM scoring for {len(df)} candidates")
     updated = 0
     for idx, row in df.iterrows():
         candidate = row.get("name")
         resume_text = _read_resume_text(job_id, candidate, max_chars=3500)
         if not resume_text.strip():
+            _append_log(job_id, "LLM_SCORE_SKIP", f"Skipping {candidate} - no resume text")
             continue
         # Extract key requirements from improved JD format for LLM scoring
         scoring_jd = jd_text
@@ -1142,6 +1146,7 @@ Resume:
             df.at[idx, "score"] = float(llm_score)
             df.at[idx, "matching_keywords"] = json.dumps(res.get("matched_keywords", []))
             updated += 1
+            _append_log(job_id, "LLM_SCORE_SUCCESS", f"Scored {candidate}: {llm_score}/10 (LLM)")
         except Exception as e:
             # LLM failed - use enhanced heuristic scoring as fallback (different from keyword-based)
             error_msg = str(e)
@@ -1154,11 +1159,16 @@ Resume:
                 matches = get_matching_keywords(resume_text, scoring_jd)
                 df.at[idx, "matching_keywords"] = json.dumps(matches)
                 updated += 1
+                _append_log(job_id, "LLM_SCORE_SUCCESS", f"Scored {candidate}: {heuristic_score}/10 (Heuristic)")
             except Exception as e2:
                 _append_log(job_id, "HEURISTIC_SCORE_ERROR", f"Failed to score {candidate} even with heuristic: {str(e2)}")
                 # Keep existing score if both methods fail
                 pass
+    
+    # Write to CSV and ensure it's flushed
     df.to_csv(csv_path, index=False)
+    _append_log(job_id, "LLM_SCORE_COMPLETE", f"LLM scoring complete. Updated {updated}/{len(df)} candidates")
+    
     return {"updated": updated}
 
 # --- Screening Assessment Agent ---
