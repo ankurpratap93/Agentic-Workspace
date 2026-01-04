@@ -279,6 +279,8 @@ export const TestingPortal = ({ onTestStarted }: TestingPortalProps) => {
                     <SelectItem value="hackathon-gemini-2.0-flash">Gemini 2.0 Flash (Fast) 🚀</SelectItem>
                     <SelectItem value="hackathon-azure-gpt-5.2">GPT-5.2 (Premium) 💎</SelectItem>
                     <SelectItem value="hackathon-azure-gpt-5.1">GPT-5.1 (Efficient) 💡</SelectItem>
+                    <SelectItem value="hackathon-azure-gpt-5-pro">GPT-5 Pro (Maximum) 🏆</SelectItem>
+                    <SelectItem value="hackathon-azure-gpt-5">GPT-5 (Standard) ⚙️</SelectItem>
                     <SelectItem value="hackathon-azure-gpt-4.1">GPT-4.1 (Standard) ⚙️</SelectItem>
                   </SelectContent>
                 </Select>

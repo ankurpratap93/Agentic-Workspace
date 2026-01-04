@@ -21,46 +21,83 @@ function generateDataTests(pageModel) {
       test_data: { selector: table.selector, action: 'verify_rows' }
     });
 
-    // Columns (Sort)
+    // Columns (Sort) - Test ALL sortable headers
     if (table.headers && table.headers.length > 0) {
-      // Pick first 2 headers to test sorting
-      table.headers.slice(0, 2).forEach(header => {
+      // Test ALL headers, not just first 2 - human testers test everything
+      table.headers.forEach(header => {
+        if (!header || header.trim() === '') return; // Skip empty headers
         tests.push({
           type: 'data_sort',
           name: `Sort Table by ${header}`,
-          description: `Click header "${header}" and verify ordering`,
+          description: `Click header "${header}" and verify rows are reordered correctly`,
           severity: 'normal',
-          expected_result: 'Rows reordered',
-          test_data: { selector: table.selector, header: header, action: 'sort' }
+          expected_result: `Rows sorted by ${header} column`,
+          test_data: { selector: table.selector, header: header.trim(), action: 'sort' }
         });
       });
     }
   });
 
-  // 2. Inputs -> Filters / Forms
-  const inputs = components.filter(c => c.type === 'input');
-  inputs.forEach(input => {
+  // 2. Inputs -> Filters / Forms - Test ALL inputs systematically
+  const inputs = components.filter(c => c.type === 'input' && c.visible !== false);
+  inputs.forEach((input, index) => {
     tests.push({
       type: 'functional',
-      name: `Input Interaction - ${input.label}`,
-      description: `Interact with input ${input.label}`,
+      name: `Input Interaction - ${input.label || `Input ${index + 1}`}`,
+      description: `Test ${input.inputType} input "${input.label}" - verify it accepts input, validates correctly, and updates state`,
       severity: 'normal',
-      expected_result: 'Input accepts value',
+      expected_result: `${input.inputType} input accepts value and responds appropriately`,
       test_data: { selector: input.selector, inputType: input.inputType, action: 'input' }
     });
   });
 
-  // 3. Functional Buttons
-  const buttons = components.filter(c => c.type === 'button');
-  buttons.slice(0, 5).forEach(btn => {
-    tests.push({
-      type: 'functional',
-      name: `Click Action - ${btn.text}`,
-      description: `Click button ${btn.text} and check for errors`,
-      severity: 'normal',
-      expected_result: 'No console errors',
-      test_data: { selector: btn.selector, action: 'click' }
-    });
+  // 3. Functional Buttons - Test ALL buttons, but skip external login triggers
+  const buttons = components.filter(c => c.type === 'button' && c.visible !== false);
+  buttons.forEach((btn, index) => {
+    // Skip buttons that trigger external logins (analytics, OAuth, etc.)
+    const btnText = (btn.text || '').toLowerCase();
+    const btnSelector = (btn.selector || '').toLowerCase();
+    const combined = `${btnText} ${btnSelector}`;
+    
+    const externalLoginKeywords = [
+      'analytics',
+      'google',
+      'oauth',
+      'login',
+      'sign in',
+      'authenticate',
+      'authorize',
+      'connect account',
+      'gmail',
+      'microsoft',
+      'facebook',
+      'twitter',
+      'linkedin'
+    ];
+    
+    const willTriggerLogin = externalLoginKeywords.some(keyword => combined.includes(keyword));
+    
+    if (willTriggerLogin) {
+      console.log(`[Test Gen] Skipping button that triggers external login: "${btn.text}"`);
+      // Still create test but mark it to be skipped
+      tests.push({
+        type: 'functional',
+        name: `Click Action - ${btn.text || `Button ${index + 1}`} (Skipped - External Login)`,
+        description: `Skipped: Button "${btn.text || btn.selector}" triggers external login (Google Analytics, OAuth, etc.)`,
+        severity: 'low',
+        expected_result: 'Skipped - External login prompt',
+        test_data: { selector: btn.selector, action: 'click', skip: true }
+      });
+    } else {
+      tests.push({
+        type: 'functional',
+        name: `Click Action - ${btn.text || `Button ${index + 1}`}`,
+        description: `Click button "${btn.text || btn.selector}" and verify response/state change`,
+        severity: 'normal',
+        expected_result: 'Button clickable, no errors, page responds appropriately',
+        test_data: { selector: btn.selector, action: 'click' }
+      });
+    }
   });
 
   return tests;
@@ -96,3 +133,6 @@ export async function generateTests({ url, testType, depth, username, otp, analy
     test_cases: generatedTests
   };
 }
+
+
+

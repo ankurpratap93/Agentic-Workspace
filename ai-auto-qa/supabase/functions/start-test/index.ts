@@ -292,7 +292,7 @@ serve(async (req) => {
     // Validate AI model
     const validAiModels = [
       'hackathon-gemini-2.5-pro', 'hackathon-gemini-2.5-flash', 'hackathon-gemini-2.0-flash',
-      'hackathon-azure-gpt-5.2', 'hackathon-azure-gpt-5.1', 'hackathon-azure-gpt-4.1'
+      'hackathon-azure-gpt-5.2', 'hackathon-azure-gpt-5.1', 'hackathon-azure-gpt-5-pro', 'hackathon-azure-gpt-5', 'hackathon-azure-gpt-4.1'
     ];
     const sanitizedAiModel = validAiModels.includes(aiModel) ? aiModel : 'hackathon-gemini-2.5-flash';
 

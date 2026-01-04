@@ -62,27 +62,63 @@ async function captureDashboardState(url, creds) {
         });
       });
 
-      // 3. Filters / Inputs
-      document.querySelectorAll('input, select').forEach((el) => {
-        // Skip hidden or tiny inputs
-        if (el.type === 'hidden' || el.offsetWidth < 10) return;
-        const label = document.querySelector(`label[for="${el.id}"]`)?.innerText || el.placeholder || el.name || el.id;
+      // 3. Filters / Inputs - Test ALL inputs systematically
+      document.querySelectorAll('input, select, textarea').forEach((el) => {
+        // Skip only truly hidden inputs, but test small inputs (they might be important)
+        if (el.type === 'hidden') return;
+        
+        const label = document.querySelector(`label[for="${el.id}"]`)?.innerText || 
+                     el.placeholder || 
+                     el.name || 
+                     el.getAttribute('aria-label') ||
+                     el.id ||
+                     'Unlabeled Input';
+        
+        // Create robust selector
+        let selector = '';
+        if (el.id) {
+          selector = `#${el.id}`;
+        } else if (el.name) {
+          selector = `${el.tagName.toLowerCase()}[name="${el.name}"]`;
+        } else if (el.placeholder) {
+          selector = `${el.tagName.toLowerCase()}[placeholder="${el.placeholder}"]`;
+        } else {
+          const index = Array.from(document.querySelectorAll(el.tagName.toLowerCase())).indexOf(el);
+          selector = `${el.tagName.toLowerCase()}:nth-of-type(${index + 1})`;
+        }
+        
         dataComponents.push({
           type: 'input',
-          inputType: el.tagName.toLowerCase() === 'select' ? 'select' : el.type,
+          inputType: el.tagName.toLowerCase() === 'select' ? 'select' : 
+                    el.tagName.toLowerCase() === 'textarea' ? 'textarea' : el.type,
           label: label,
-          selector: el.id ? `#${el.id}` : `${el.tagName.toLowerCase()}[name="${el.name}"]`,
-          attributes: getAttributes(el)
+          selector: selector,
+          attributes: getAttributes(el),
+          visible: el.offsetParent !== null
         });
       });
 
-      // 4. Buttons (Primary Actions)
-      document.querySelectorAll('button').forEach((el) => {
-        if (el.innerText.length > 20 || el.innerText.length < 2) return;
+      // 4. Buttons (Primary Actions) - Test ALL buttons, not just first few
+      document.querySelectorAll('button, [role="button"], a[role="button"]').forEach((el) => {
+        // Include buttons even if text is short or long - human testers test everything
+        const text = el.innerText.trim() || el.getAttribute('aria-label') || el.title || '';
+        if (!text && !el.id && !el.className) return; // Skip completely anonymous buttons
+        
+        // Create unique selector
+        let selector = '';
+        if (el.id) {
+          selector = `#${el.id}`;
+        } else if (text) {
+          selector = `button:has-text("${text}"), [role="button"]:has-text("${text}")`;
+        } else {
+          selector = `button:nth-of-type(${Array.from(document.querySelectorAll('button')).indexOf(el) + 1})`;
+        }
+        
         dataComponents.push({
           type: 'button',
-          text: el.innerText.trim(),
-          selector: el.id ? `#${el.id}` : `button:has-text("${el.innerText.trim()}")`
+          text: text || 'Unlabeled Button',
+          selector: selector,
+          visible: el.offsetParent !== null
         });
       });
 
@@ -132,3 +168,6 @@ export async function analyzeSite(config) {
     pageModel: pageModel
   };
 }
+
+
+

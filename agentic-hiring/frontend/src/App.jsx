@@ -171,8 +171,14 @@ function App() {
 
   const rescore = async () => {
     if (!selectedJob?.id) return
+    setJdLoading(true)
+    setJdError("")
     try {
-      await fetch(`${API_URL}/jobs/${selectedJob.id}/rescore`, { method: "POST" })
+      const res = await fetch(`${API_URL}/jobs/${selectedJob.id}/rescore`, { method: "POST" })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json()
+      console.log("Rescore response:", data)
+      
       // refresh metrics/funnel
       const [m, f] = await Promise.all([
         fetch(`${API_URL}/jobs/${selectedJob.id}/metrics`).then(r => r.json()),
@@ -180,9 +186,17 @@ function App() {
       ])
       setMetrics(m)
       setFunnelData(f)
+      
+      // Force a page refresh to show updated scores if on candidates view
+      if (activeStep === 1) {
+        // Trigger a custom event that CandidatesView can listen to
+        window.dispatchEvent(new CustomEvent('candidatesRefresh'))
+      }
     } catch (e) {
       console.error(e)
       setJdError("Re-score failed.")
+    } finally {
+      setJdLoading(false)
     }
   }
 
@@ -212,13 +226,30 @@ function App() {
     setJdLoading(true)
     setJdError("")
     try {
-      await fetch(`${API_URL}/jobs/${selectedJob.id}/rescore_llm`, { method: "POST" })
+      const res = await fetch(`${API_URL}/jobs/${selectedJob.id}/rescore_llm`, { method: "POST" })
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      const data = await res.json()
+      console.log("AI Rescore response:", data)
+      
+      // Wait a bit for processing
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
       const [m, f] = await Promise.all([
         fetch(`${API_URL}/jobs/${selectedJob.id}/metrics`).then(r => r.json()),
         fetch(`${API_URL}/jobs/${selectedJob.id}/funnel`).then(r => r.json()),
       ])
       setMetrics(m)
       setFunnelData(f)
+      
+      // Force a page refresh to show updated scores if on candidates view
+      if (activeStep === 1) {
+        // Trigger a custom event that CandidatesView can listen to
+        window.dispatchEvent(new CustomEvent('candidatesRefresh'))
+        // Also trigger after a delay
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('candidatesRefresh'))
+        }, 3000)
+      }
     } catch (e) {
       console.error(e)
       setJdError("AI rescore failed.")

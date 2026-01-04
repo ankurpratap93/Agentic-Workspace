@@ -5,7 +5,11 @@ import pandas as pd
 from datetime import datetime
 import re
 
-from . import llm
+# Import llm - handle both relative and absolute imports
+try:
+    from . import llm
+except ImportError:
+    import llm
 
 JOBS_DIR = "jobs"
 JOB_META_FILENAME = "job_meta.json"
@@ -382,9 +386,12 @@ def extract_contacts(text: str):
 
 def calculate_score(resume_text, jd_text):
     """
-    Evenly distributes 10 points across unique JD tokens; each matched token
-    contributes an equal share toward the total score (capped at 10).
+    Improved scoring: Extracts key skills from JD and scores based on matches.
+    Gives higher weight to technical skills and experience requirements.
     """
+    if not resume_text or not jd_text:
+        return 0.0
+    
     STOP_WORDS = {
         "and", "the", "for", "with", "you", "that", "this", "are", "will", "can", "have",
         "looking", "team", "work", "year", "years", "experience", "skills", "knowledge",
@@ -392,36 +399,61 @@ def calculate_score(resume_text, jd_text):
         "description", "requirements", "about", "what", "must", "should", "good", "data",
         "them", "their", "they", "there", "here", "such", "including", "include", "ensure", "ensuring",
         "per", "each", "other", "our", "your", "his", "her", "its",
-        "maintain", "maintaining", "maintenance", "test", "tests", "testing"
+        "maintain", "maintaining", "maintenance", "test", "tests", "testing",
+        "seeking", "ideal", "candidate", "should", "have", "expertise", "proficiency", "relevant"
     }
 
     def tokenize(text):
         words = re.findall(r"\b[a-zA-Z]{3,}\b", text.lower())
         return [w for w in words if w not in STOP_WORDS]
 
+    # Extract key technical skills and terms from JD (higher weight)
+    TECH_SKILLS = ['python', 'java', 'javascript', 'typescript', 'react', 'angular', 'vue', 'node', 'sql', 
+                   'mongodb', 'postgresql', 'mysql', 'aws', 'azure', 'docker', 'kubernetes', 'jenkins', 
+                   'git', 'selenium', 'playwright', 'cypress', 'pytest', 'junit', 'testng', 'maven', 'gradle',
+                   'automation', 'manual', 'testing', 'qa', 'quality', 'assurance']
+    
+    # Extract experience requirement
+    exp_match = re.search(r'(\d+)\s*\+?\s*(?:yrs?|years?)', jd_text.lower())
+    required_exp = int(exp_match.group(1)) if exp_match else None
+    
+    # Tokenize JD and resume
     jd_tokens = tokenize(jd_text)
-    # Unique JD tokens preserve order for weighting
+    resume_tokens = set(tokenize(resume_text))
+    
+    # Get unique JD tokens
     seen = set()
     jd_unique = []
     for t in jd_tokens:
         if t not in seen:
             seen.add(t)
             jd_unique.append(t)
-
-    cv_tokens = set(tokenize(resume_text))
-
+    
     if not jd_unique:
         return 0.0
-
-    common = [t for t in jd_unique if t in cv_tokens]
-    common_count = len(common)
-
-    # Avoid tiny JDs yielding auto-10; use minimum denominator of 5 tokens
-    denom = max(5, len(jd_unique))
-    weight_per_token = 10.0 / denom
-    score = common_count * weight_per_token
-
-    return round(min(score, 10.0), 1)
+    
+    # Calculate base score from token matches
+    common = [t for t in jd_unique if t in resume_tokens]
+    base_score = (len(common) / max(len(jd_unique), 5)) * 10.0
+    
+    # Bonus for technical skills matches (weighted higher)
+    tech_matches = sum(1 for skill in TECH_SKILLS if skill in resume_tokens and skill in [t.lower() for t in jd_unique])
+    tech_bonus = min(tech_matches * 1.5, 3.0)  # Max 3 points bonus
+    
+    # Bonus for experience match
+    exp_bonus = 0.0
+    if required_exp:
+        resume_exp_match = re.search(r'(\d+)\s*\+?\s*(?:yrs?|years?)', resume_text.lower())
+        if resume_exp_match:
+            resume_exp = int(resume_exp_match.group(1))
+            if resume_exp >= required_exp:
+                exp_bonus = 2.0
+            elif resume_exp >= required_exp - 1:
+                exp_bonus = 1.0
+    
+    total_score = base_score + tech_bonus + exp_bonus
+    
+    return round(min(total_score, 10.0), 1)
 
 def get_resume_path(job_id, candidate_name):
     job_dir = os.path.join(JOBS_DIR, job_id)
@@ -432,6 +464,64 @@ def get_resume_path(job_id, candidate_name):
             if f.lower().startswith(str(candidate_name).lower()):
                 return os.path.join(resumes_dir, f)
     return None
+
+def _heuristic_score_resume(resume_text, jd_text):
+    """
+    Enhanced heuristic scoring for when LLM is unavailable.
+    This is different from keyword-based scoring - it uses a more nuanced approach.
+    """
+    if not resume_text or not jd_text:
+        return 0.0
+    
+    # Extract key skills from JD
+    TECH_SKILLS = ['python', 'java', 'javascript', 'typescript', 'react', 'angular', 'vue', 'node',
+                   'sql', 'mongodb', 'postgresql', 'mysql', 'aws', 'azure', 'docker', 'kubernetes',
+                   'jenkins', 'git', 'selenium', 'playwright', 'cypress', 'pytest', 'junit', 'testng',
+                   'automation', 'manual', 'testing', 'qa', 'quality', 'assurance']
+    
+    # Extract experience requirement
+    exp_match = re.search(r'(\d+)\s*\+?\s*(?:yrs?|years?)', jd_text.lower())
+    required_exp = int(exp_match.group(1)) if exp_match else None
+    
+    resume_lower = resume_text.lower()
+    jd_lower = jd_text.lower()
+    
+    # Score based on skill matches (weighted)
+    skill_score = 0.0
+    for skill in TECH_SKILLS:
+        if skill in jd_lower:
+            if skill in resume_lower:
+                # Give more weight to technical skills
+                if skill in ['python', 'java', 'selenium', 'playwright', 'automation', 'testing']:
+                    skill_score += 1.5
+                else:
+                    skill_score += 1.0
+    
+    # Cap skill score at 6.0
+    skill_score = min(skill_score, 6.0)
+    
+    # Experience bonus
+    exp_bonus = 0.0
+    if required_exp:
+        resume_exp_match = re.search(r'(\d+)\s*\+?\s*(?:yrs?|years?)', resume_lower)
+        if resume_exp_match:
+            resume_exp = int(resume_exp_match.group(1))
+            if resume_exp >= required_exp:
+                exp_bonus = 2.0
+            elif resume_exp >= required_exp - 1:
+                exp_bonus = 1.0
+    
+    # Overall relevance (simple keyword matching)
+    jd_words = set(re.findall(r'\b[a-z]{4,}\b', jd_lower))
+    resume_words = set(re.findall(r'\b[a-z]{4,}\b', resume_lower))
+    stop_words = {'that', 'this', 'with', 'from', 'have', 'will', 'can', 'are', 'was', 'were', 'been', 'being', 'has', 'had', 'does', 'did', 'do', 'is', 'am', 'an', 'as', 'at', 'be', 'by', 'if', 'in', 'it', 'of', 'on', 'or', 'to', 'we', 'you', 'your', 'our', 'their', 'they', 'them', 'these', 'those', 'which', 'who', 'what', 'when', 'where', 'why', 'how', 'all', 'any', 'but', 'not', 'only', 'some', 'such', 'than', 'then', 'there', 'very', 'would', 'years', 'yrs', 'experience', 'testing', 'manual', 'automation', 'engineer', 'engineers', 'candidate', 'candidates', 'should', 'must', 'required', 'requirements', 'include', 'includes', 'including', 'proficiency', 'expertise', 'strong', 'ideal', 'seeking', 'qualified'}
+    jd_words = jd_words - stop_words
+    resume_words = resume_words - stop_words
+    common_words = jd_words & resume_words
+    relevance_score = min((len(common_words) / max(len(jd_words), 10)) * 2.0, 2.0)
+    
+    total = skill_score + exp_bonus + relevance_score
+    return round(min(total, 10.0), 1)
 
 def get_matching_keywords(resume_text, jd_text):
     STOP_WORDS = {
@@ -727,6 +817,142 @@ Round evaluations:
     return summary
 
 # --- JD Improve Agent ---
+def _heuristic_improve_jd(jd_text: str):
+    """
+    Heuristic JD improvement when LLM is not available.
+    Formats the JD nicely and extracts keywords.
+    """
+    import re
+    
+    # Clean up the text
+    text = jd_text.strip()
+    
+    # Extract key information
+    experience_match = re.search(r'(\d+)\s*\+?\s*(?:yrs?|years?|years?\s+experience)', text, re.IGNORECASE)
+    experience = experience_match.group(0) if experience_match else None
+    
+    # Extract technologies/skills (common patterns)
+    tech_patterns = [
+        r'\b(python|java|javascript|typescript|react|angular|vue|node\.?js|sql|mongodb|postgresql|mysql|aws|azure|docker|kubernetes|jenkins|git|selenium|playwright|cypress|pytest|junit|testng)\b',
+        r'\b(manual\s+testing|automation\s+testing|api\s+testing|ui\s+testing|performance\s+testing|security\s+testing)\b',
+        r'\b(agile|scrum|kanban|ci/cd|devops|qa|quality\s+assurance)\b'
+    ]
+    
+    skills = []
+    for pattern in tech_patterns:
+        matches = re.findall(pattern, text, re.IGNORECASE)
+        skills.extend([m.lower() if isinstance(m, str) else m[0].lower() for m in matches])
+    
+    # Remove duplicates and sort
+    skills = sorted(list(set(skills)))
+    
+    # Build improved JD
+    improved_parts = []
+    
+    # Add role title if we can infer it
+    if any(word in text.lower() for word in ['qa', 'quality', 'test', 'testing']):
+        role = "QA Engineer / Test Engineer"
+    elif any(word in text.lower() for word in ['automation', 'selenium', 'playwright']):
+        role = "Automation Test Engineer"
+    else:
+        role = "Software Engineer"
+    
+    # Detect if this is already an improved JD (has structured format)
+    is_already_improved = any(marker in text for marker in [
+        "We are seeking",
+        "The ideal candidate",
+        "Key requirements include:",
+        "Key Requirements:",
+        "Experience Required:"
+    ])
+    
+    # If already improved, extract the original raw requirements
+    if is_already_improved:
+        # Try to find the original requirements after "Key requirements include:" or in bullet points
+        key_req_match = re.search(r'Key requirements include:\s*(.+?)(?:\.|$)', text, re.IGNORECASE | re.DOTALL)
+        if key_req_match:
+            # Extract the last part which should be the original
+            original_part = key_req_match.group(1).strip()
+            # Remove any nested "Key requirements include:" patterns
+            original_part = re.sub(r'Key requirements include:.*?\.', '', original_part, flags=re.IGNORECASE | re.DOTALL)
+            # Remove any structured content (bullet points, role titles, etc.)
+            original_part = re.sub(r'^[^•]+?Key Requirements:.*', '', original_part, flags=re.IGNORECASE | re.DOTALL)
+            text = original_part.strip().rstrip('.')
+        else:
+            # Fallback: look for comma-separated list at the end
+            parts = re.split(r'Key requirements include:', text, flags=re.IGNORECASE)
+            if len(parts) > 1:
+                last_part = parts[-1].strip().rstrip('.')
+                # Remove any duplicate content or structured format
+                last_part = re.sub(r'^[^•]+?Key Requirements:.*', '', last_part, flags=re.IGNORECASE | re.DOTALL)
+                if len(last_part) < 200 and len(last_part) > 5:  # Reasonable length for original requirements
+                    text = last_part
+    
+    # Build comprehensive, well-structured JD
+    improved_lines = []
+    
+    # Role Title
+    improved_lines.append(role)
+    improved_lines.append("")
+    
+    # Overview Section (concise summary)
+    overview_parts = []
+    if experience:
+        overview_parts.append(f"We are seeking an experienced {role.lower()} with {experience} of experience.")
+    else:
+        overview_parts.append(f"We are seeking a qualified {role.lower()}.")
+    
+    if skills:
+        skills_list = [s.title() for s in skills[:8]]
+        if len(skills_list) > 1:
+            skills_text = ", ".join(skills_list[:-1]) + f", and {skills_list[-1]}"
+        else:
+            skills_text = skills_list[0]
+        overview_parts.append(f"The ideal candidate should have strong expertise in {skills_text}.")
+    
+    improved_lines.append(" ".join(overview_parts))
+    improved_lines.append("")
+    
+    # Key Requirements Section (structured with bullet points)
+    improved_lines.append("Key Requirements:")
+    
+    # Add experience requirement
+    if experience:
+        improved_lines.append(f"• {experience} of relevant experience")
+    
+    # Add technical skills as bullet points
+    if skills:
+        for skill in skills[:8]:
+            improved_lines.append(f"• Proficiency in {skill.title()}")
+    
+    # Add any additional unique requirements from original text (if not already covered)
+    cleaned_original = re.sub(r'\s+', ' ', text.strip())
+    if cleaned_original and len(cleaned_original) > 5 and len(cleaned_original) < 150:
+        # Only add if it's not already represented in skills
+        original_lower = cleaned_original.lower()
+        already_covered = any(skill.lower() in original_lower for skill in skills) if skills else False
+        if not already_covered:
+            # Extract unique requirements
+            req_words = re.findall(r'\b[a-z]{4,}\b', original_lower)
+            if req_words and len(req_words) <= 10:
+                improved_lines.append(f"• {cleaned_original.capitalize()}")
+    
+    improved_jd = "\n".join(improved_lines)
+    
+    # Extract comprehensive keywords
+    kw_list = skills[:10] if skills else []
+    if not kw_list or len(kw_list) < 5:
+        # Extract additional keywords from original text
+        words = re.findall(r'\b[a-z]{3,}\b', text.lower())
+        stop_words = {'the', 'and', 'for', 'with', 'that', 'this', 'from', 'have', 'will', 'can', 'are', 'was', 'were', 'been', 'being', 'has', 'had', 'does', 'did', 'do', 'is', 'am', 'an', 'as', 'at', 'be', 'by', 'if', 'in', 'it', 'of', 'on', 'or', 'to', 'we', 'you', 'your', 'our', 'their', 'they', 'them', 'these', 'those', 'which', 'who', 'what', 'when', 'where', 'why', 'how', 'all', 'any', 'but', 'not', 'only', 'some', 'such', 'than', 'then', 'there', 'very', 'would', 'years', 'yrs', 'experience', 'testing', 'manual', 'automation', 'engineer', 'engineers', 'candidate', 'candidates', 'should', 'must', 'required', 'requirements', 'include', 'includes', 'including', 'proficiency', 'expertise', 'strong', 'ideal', 'seeking', 'qualified'}
+        additional_keywords = [w for w in words if w not in stop_words and w not in [s.lower() for s in skills]][:5]
+        kw_list.extend(additional_keywords)
+    
+    # Remove duplicates and limit
+    kw_list = list(dict.fromkeys(kw_list))[:10]
+    
+    return improved_jd, kw_list
+
 def improve_jd(job_id: str):
     jd_text = load_job_artifact(job_id, "jd.txt") or ""
     jt = str(jd_text or "").strip()
@@ -782,6 +1008,8 @@ JD:
         return t
 
     # Plain-text rewrite with inline keywords to avoid brittle JSON parsing
+    llm_success = False
+    raw = ""
     try:
         raw = llm.call_llm(
             prompt,
@@ -793,13 +1021,26 @@ JD:
             max_tokens=800,
             temperature=0.25,
         )
+        llm_success = True
     except Exception as e:
+        # LLM failed - use heuristic improvement as fallback
         raw = ""
-        return {
-            "improved_jd": jd_text,
-            "must_have_keywords": [],
-            "risks": [f"LLM rewrite failed: {e}"]
+        llm_success = False
+        llm_error = str(e)
+    
+    # If LLM failed, use heuristic improvement
+    if not llm_success:
+        improved_jd, kw_list = _heuristic_improve_jd(jd_text)
+        result = {
+            "improved_jd": improved_jd,
+            "must_have_keywords": kw_list,
+            "risks": [f"LLM unavailable (using heuristic improvement): {llm_error[:100] if 'llm_error' in locals() else 'LLM error'}"]
         }
+        # Save the improved JD even when using heuristic
+        if not _is_empty(jt):
+            save_job_artifact(job_id, "jd.txt", improved_jd)
+            save_job_artifact(job_id, "jd_keywords.json", result)
+        return result
 
     raw = _strip_fences(raw or "")
     lines = [ln.strip() for ln in raw.splitlines() if ln.strip()]
@@ -856,26 +1097,67 @@ def llm_score_candidates(job_id: str):
         resume_text = _read_resume_text(job_id, candidate, max_chars=3500)
         if not resume_text.strip():
             continue
+        # Extract key requirements from improved JD format for LLM scoring
+        scoring_jd = jd_text
+        if "Key Requirements:" in jd_text:
+            # Extract the key requirements section
+            key_req_match = re.search(r'Key Requirements:\s*(.+?)(?:\n\n|\Z)', jd_text, re.IGNORECASE | re.DOTALL)
+            if key_req_match:
+                key_req_text = key_req_match.group(1)
+                # Also try to get keywords from jd_keywords.json
+                jd_keywords_path = os.path.join(JOBS_DIR, job_id, "jd_keywords.json")
+                if os.path.exists(jd_keywords_path):
+                    try:
+                        with open(jd_keywords_path, 'r') as f:
+                            jd_keywords = json.load(f)
+                            keywords = jd_keywords.get("must_have_keywords", [])
+                            if keywords:
+                                scoring_jd = f"Required skills: {', '.join(keywords)}. {key_req_text}"
+                            else:
+                                scoring_jd = key_req_text
+                    except:
+                        scoring_jd = key_req_text
+                else:
+                    scoring_jd = key_req_text
+        
         prompt = f"""
-Score this resume against the JD. Return JSON:
+Score this resume against the JD requirements. Be strict - only high scores for strong matches.
+Return JSON:
 {{
-  "score_0_10": number,
+  "score_0_10": number (0-10, be conservative),
   "matched_keywords": ["..."],
-  "rationale": "short"
+  "rationale": "short explanation"
 }}
-JD:
-{jd_text[:3000]}
+JD Requirements:
+{scoring_jd[:3000]}
 
 Resume:
-{resume_text}
+{resume_text[:3000]}
 """
         try:
-            res = llm.call_llm_json(prompt, system="Be concise. JSON only. Score 0-10.")
-            df.at[idx, "score"] = res.get("score_0_10", row.get("score", 0))
+            res = llm.call_llm_json(prompt, system="Be strict when scoring. Only give 8-10 for excellent matches. Most candidates should score 4-7. Return JSON only.")
+            llm_score = res.get("score_0_10", row.get("score", 0))
+            if llm_score is None or not isinstance(llm_score, (int, float)):
+                raise ValueError("Invalid score from LLM")
+            df.at[idx, "score"] = float(llm_score)
             df.at[idx, "matching_keywords"] = json.dumps(res.get("matched_keywords", []))
             updated += 1
-        except llm.LLMError:
-            continue
+        except Exception as e:
+            # LLM failed - use enhanced heuristic scoring as fallback (different from keyword-based)
+            error_msg = str(e)
+            _append_log(job_id, "LLM_SCORE_FALLBACK", f"Using heuristic scoring for {candidate} (LLM error: {error_msg[:50]})")
+            # Use enhanced heuristic scoring that's different from keyword-based
+            try:
+                heuristic_score = _heuristic_score_resume(resume_text, scoring_jd)
+                df.at[idx, "score"] = float(heuristic_score)
+                # Extract keywords heuristically
+                matches = get_matching_keywords(resume_text, scoring_jd)
+                df.at[idx, "matching_keywords"] = json.dumps(matches)
+                updated += 1
+            except Exception as e2:
+                _append_log(job_id, "HEURISTIC_SCORE_ERROR", f"Failed to score {candidate} even with heuristic: {str(e2)}")
+                # Keep existing score if both methods fail
+                pass
     df.to_csv(csv_path, index=False)
     return {"updated": updated}
 
@@ -883,8 +1165,18 @@ Resume:
 def screening_assess(job_id: str, candidate_name: str, transcript: str):
     jd_text = load_job_artifact(job_id, "jd.txt") or ""
     cand = _get_candidate_row(job_id, candidate_name)
-    score = cand.get("score")
-    matches = cand.get("matching_keywords", "")
+    score = cand.get("score", 0) if cand else 0
+    matches = cand.get("matching_keywords", "") if cand else ""
+    
+    # Parse matches if it's a JSON string
+    if isinstance(matches, str):
+        try:
+            matches_parsed = json.loads(matches)
+            if isinstance(matches_parsed, list):
+                matches = ", ".join(matches_parsed[:5])
+        except:
+            pass
+    
     prompt = f"""
 You are a screening assessor. Given JD, candidate snapshot, and transcript, provide a concise assessment.
 Return JSON:
@@ -898,13 +1190,22 @@ JD:
 {jd_text[:2500]}
 
 Candidate:
-score: {score}
-matches: {matches}
+score: {score}/10
+key matches: {matches}
 
 Transcript:
 {transcript[:4000]}
 """
-    return llm.call_llm_json(prompt, system="Be concise. JSON only.")
+    try:
+        return llm.call_llm_json(prompt, system="Be concise. JSON only.")
+    except Exception as e:
+        # Return basic fallback if LLM fails
+        return {
+            "assessment": f"Candidate scored {score}/10. Transcript review needed.",
+            "hire_recommendation": "maybe",
+            "risks": ["LLM unavailable for detailed assessment"],
+            "next_questions": ["Verify experience", "Confirm availability"]
+        }
 
 # --- Offer Draft Agent ---
 def offer_assist(job_id: str, candidate_name: str, salary: int = None):
@@ -955,6 +1256,52 @@ def trigger_simulation_step(job_id, step_name):
                 jd_text = f.read()
         else:
             jd_text = ""
+        
+        # Extract key requirements from improved JD format for better scoring
+        # If JD has "Key Requirements:" section, extract skills from it
+        if "Key Requirements:" in jd_text:
+            # Try to get keywords from jd_keywords.json first (most reliable)
+            jd_keywords_path = os.path.join(job_dir, "jd_keywords.json")
+            if os.path.exists(jd_keywords_path):
+                try:
+                    with open(jd_keywords_path, 'r') as f:
+                        jd_keywords = json.load(f)
+                        keywords = jd_keywords.get("must_have_keywords", [])
+                        if keywords:
+                            # Use keywords as primary JD text for scoring
+                            jd_text = " ".join(keywords)
+                            # Also extract skills from bullet points
+                            key_req_match = re.search(r'Key Requirements:\s*(.+?)(?:\n\n|\Z)', jd_text, re.IGNORECASE | re.DOTALL)
+                            if key_req_match:
+                                key_req_text = key_req_match.group(1)
+                                bullet_points = re.findall(r'•\s*(.+?)(?:\n|$)', key_req_text)
+                                # Extract skills from bullet points (remove "Proficiency in" etc.)
+                                skills = []
+                                for bp in bullet_points:
+                                    # Extract skill name from "Proficiency in X" or just "X"
+                                    skill_match = re.search(r'(?:Proficiency in|Experience with|Knowledge of)?\s*([A-Za-z\s]+?)(?:\s*$|\.)', bp, re.IGNORECASE)
+                                    if skill_match:
+                                        skills.append(skill_match.group(1).strip())
+                                if skills:
+                                    jd_text = " ".join(keywords) + " " + " ".join(skills)
+                except:
+                    pass
+            
+            # Fallback: extract from bullet points if keywords not available
+            if not jd_text or len(jd_text) < 20:
+                key_req_match = re.search(r'Key Requirements:\s*(.+?)(?:\n\n|\Z)', jd_text, re.IGNORECASE | re.DOTALL)
+                if key_req_match:
+                    key_req_text = key_req_match.group(1)
+                    bullet_points = re.findall(r'•\s*(.+?)(?:\n|$)', key_req_text)
+                    # Extract skills from bullet points
+                    skills = []
+                    for bp in bullet_points:
+                        # Extract skill/requirement
+                        skill_match = re.search(r'(?:Proficiency in|Experience with|Knowledge of|years? of)?\s*([A-Za-z\s]+?)(?:\s*$|\.)', bp, re.IGNORECASE)
+                        if skill_match:
+                            skills.append(skill_match.group(1).strip())
+                    if skills:
+                        jd_text = " ".join(skills)
 
         # Process Resumes
         csv_path = os.path.join(job_dir, "cv_scores.csv")
@@ -983,17 +1330,19 @@ def trigger_simulation_step(job_id, step_name):
                 
                 if found_file:
                     cv_text = extract_text(found_file)
+                    # ALWAYS recalculate score - don't skip if score already exists
                     score = calculate_score(cv_text, jd_text)
                     matches = get_matching_keywords(cv_text, jd_text)
                     
-                    df.at[index, 'score'] = score
+                    # Force update score regardless of existing value
+                    df.at[index, 'score'] = float(score)
                     df.at[index, 'matching_keywords'] = json.dumps(matches)
                     # Only update status if it was New/Error, otherwise keep it (e.g. if already Interviewing)
                     if row['status'] in ['New', 'Error (File Missing)', 'Screening']:
                         df.at[index, 'status'] = 'Screened'
                         
                     updated = True
-                    _append_log(job_id, "DEBUG", f"Scored {candidate_name}: {score}/10 (File: {os.path.basename(found_file)})")
+                    _append_log(job_id, "DEBUG", f"Rescored {candidate_name}: {score}/10 (File: {os.path.basename(found_file)})")
                 else:
                     _append_log(job_id, "ERROR", f"Could not find resume file for {candidate_name} in {resumes_dir}")
             

@@ -35,20 +35,58 @@ export default function CandidatesView({ job }) {
   const [lastUploadedNames, setLastUploadedNames] = useState([])
   const [aiLoading, setAiLoading] = useState(false)
   const [aiNotice, setAiNotice] = useState("")
+  const [refreshKey, setRefreshKey] = useState(0) // Force re-render trigger
 
   const fetchCandidates = async (opts = {}) => {
     const { silent = false } = opts
-    if (!job?.id) return
+    if (!job?.id) {
+      console.error("[fetchCandidates] No job ID")
+      return
+    }
     if (!silent) setLoading(true)
     setError("")
     try {
+      console.log(`[fetchCandidates] Fetching ${API_BASE}/jobs/${job.id}/candidates`)
       const res = await fetch(`${API_BASE}/jobs/${job.id}/candidates`)
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
-      setRows(Array.isArray(data) ? data : [])
+      console.log(`[fetchCandidates] Received ${data.length} candidates`)
+      
+      // Store previous scores for comparison
+      const prevScores = rows.length > 0 ? rows.map(r => r.score).filter(s => s !== undefined && s !== null) : []
+      
+      // Update state immediately with new data
+      const newRows = Array.isArray(data) ? data : []
+      setRows(newRows)
+      
+      // Force a re-render by updating refresh key
+      setRefreshKey(prev => prev + 1)
+      
+      if (data.length > 0) {
+        const scores = data.map(c => c.score).filter(s => s !== undefined && s !== null)
+        const uniqueScores = new Set(scores)
+        console.log(`[fetchCandidates] Score range: ${Math.min(...scores)} - ${Math.max(...scores)}, Unique: ${uniqueScores.size}`)
+        console.log(`[fetchCandidates] Sample scores: ${scores.slice(0, 5).join(', ')}`)
+        
+        // Check if scores changed
+        if (prevScores.length > 0) {
+          const scoresChanged = JSON.stringify(prevScores.slice(0, 5)) !== JSON.stringify(scores.slice(0, 5))
+          if (scoresChanged) {
+            console.log(`[fetchCandidates] ✅ SCORES CHANGED!`)
+            console.log(`[fetchCandidates] Before: ${prevScores.slice(0, 5).join(', ')}`)
+            console.log(`[fetchCandidates] After: ${scores.slice(0, 5).join(', ')}`)
+            // Force another state update to ensure React re-renders
+            setTimeout(() => {
+              setRows([...newRows])
+            }, 100)
+          } else {
+            console.log(`[fetchCandidates] ⚠️ Scores unchanged`)
+          }
+        }
+      }
     } catch (e) {
-      console.error(e)
-      setError("Couldn’t load candidates. Check the backend console for errors.")
+      console.error("[fetchCandidates] Error:", e)
+      setError("Couldn't load candidates. Check the backend console for errors.")
     } finally {
       if (!silent) setLoading(false)
     }
@@ -58,6 +96,26 @@ export default function CandidatesView({ job }) {
     fetchCandidates()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [job?.id])
+
+  // Listen for refresh events from parent component (App.jsx scoring buttons)
+  useEffect(() => {
+    const handleRefresh = () => {
+      console.log("[CandidatesView] Received refresh event, fetching candidates...")
+      setTimeout(() => {
+        fetchCandidates()
+      }, 500)
+      setTimeout(() => {
+        fetchCandidates()
+      }, 2000)
+      setTimeout(() => {
+        fetchCandidates()
+      }, 4000)
+    }
+    window.addEventListener('candidatesRefresh', handleRefresh)
+    return () => {
+      window.removeEventListener('candidatesRefresh', handleRefresh)
+    }
+  }, [])
 
   // Lightweight auto-refresh so new uploads/edits appear without manual click
   useEffect(() => {
@@ -159,13 +217,18 @@ export default function CandidatesView({ job }) {
   }
 
   const rescoreJob = async (silent = false) => {
-    if (!job?.id) return
+    if (!job?.id) {
+      console.error("[rescoreJob] No job ID")
+      return
+    }
     if (!silent) {
       setUploading(true)
       setError("")
     }
     try {
+      console.log(`[rescoreJob] Calling ${API_BASE}/jobs/${job.id}/rescore`)
       const res = await fetch(`${API_BASE}/jobs/${job.id}/rescore`, { method: "POST" })
+      console.log(`[rescoreJob] Response status: ${res.status}`)
       if (!res.ok) {
         let detail = ""
         try {
@@ -174,9 +237,30 @@ export default function CandidatesView({ job }) {
         } catch {/**/ }
         throw new Error(`HTTP ${res.status}${detail}`)
       }
-      await fetchCandidates()
+      const data = await res.json()
+      console.log("[rescoreJob] Response data:", data)
+      
+      // Wait for backend processing, then force refresh
+      console.log("[rescoreJob] Waiting 2s for backend processing...")
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      // Force refresh with multiple attempts
+      console.log("[rescoreJob] Starting refresh sequence...")
+      await fetchCandidates({ silent: true })
+      setTimeout(() => {
+        console.log("[rescoreJob] Refresh 1 (3s)")
+        fetchCandidates({ silent: true })
+      }, 3000)
+      setTimeout(() => {
+        console.log("[rescoreJob] Refresh 2 (5s)")
+        fetchCandidates({ silent: true })
+      }, 5000)
+      setTimeout(() => {
+        console.log("[rescoreJob] Refresh 3 (8s)")
+        fetchCandidates({ silent: true })
+      }, 8000)
     } catch (e) {
-      console.error(e)
+      console.error("[rescoreJob] Error:", e)
       if (!silent) setError("Re-score failed. Ensure JD is saved and logs are valid.")
     } finally {
       if (!silent) setUploading(false)
@@ -184,16 +268,45 @@ export default function CandidatesView({ job }) {
   }
 
   const aiRescore = async () => {
-    if (!job?.id) return
+    if (!job?.id) {
+      console.error("[aiRescore] No job ID")
+      return
+    }
     setAiLoading(true)
     setAiNotice("AI scoring in progress… large batches (100+ resumes) can take up to a minute. We will refresh automatically when done.")
     setError("")
     try {
+      console.log(`[aiRescore] Calling ${API_BASE}/jobs/${job.id}/rescore_llm`)
       const res = await fetch(`${API_BASE}/jobs/${job.id}/rescore_llm`, { method: "POST" })
-      if (!res.ok) throw new Error(`AI rescore failed: HTTP ${res.status}`)
-      await fetchCandidates()
+      console.log(`[aiRescore] Response status: ${res.status}`)
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}))
+        throw new Error(`AI rescore failed: HTTP ${res.status} - ${errorData.message || errorData.detail || ''}`)
+      }
+      const data = await res.json()
+      console.log("[aiRescore] Response data:", data)
+      
+      // Wait longer for AI processing (it can take time)
+      console.log("[aiRescore] Waiting 5s for backend processing...")
+      await new Promise(resolve => setTimeout(resolve, 5000))
+      
+      // Force refresh with multiple attempts
+      console.log("[aiRescore] Starting refresh sequence...")
+      await fetchCandidates({ silent: true })
+      setTimeout(() => {
+        console.log("[aiRescore] Refresh 1 (7s)")
+        fetchCandidates({ silent: true })
+      }, 7000)
+      setTimeout(() => {
+        console.log("[aiRescore] Refresh 2 (10s)")
+        fetchCandidates({ silent: true })
+      }, 10000)
+      setTimeout(() => {
+        console.log("[aiRescore] Refresh 3 (15s)")
+        fetchCandidates({ silent: true })
+      }, 15000)
     } catch (e) {
-      console.error("AI Rescore error:", e)
+      console.error("[aiRescore] Error:", e)
       setError(e?.message || "AI rescore failed.")
     } finally {
       setAiLoading(false)

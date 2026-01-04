@@ -24,13 +24,18 @@ def call_llm(
     """
     Thin wrapper over LiteLLM completion. Expects env vars:
     - LITELLM_API_KEY or GEMINI_API_KEY
-    - LITELLM_MODEL (default: gemini-pro)
+    - LITELLM_MODEL (default: hackathon-gemini-2.5-pro)
     """
     if not LITELLM_API_KEY:
-        raise LLMError("Missing LITELLM_API_KEY/GEMINI_API_KEY")
+        raise LLMError("Missing LITELLM_API_KEY/GEMINI_API_KEY. Please set the environment variable.")
 
     try:
         use_model = model or LITELLM_MODEL
+        
+        # Set API key for litellm
+        if LITELLM_API_KEY:
+            os.environ["OPENAI_API_KEY"] = LITELLM_API_KEY
+        
         resp = litellm.completion(
             model=use_model,
             messages=[
@@ -42,6 +47,7 @@ def call_llm(
             timeout=LITELLM_TIMEOUT,
             response_format=response_format,
             api_base=LITELLM_API_BASE,
+            api_key=LITELLM_API_KEY,
             # Force OpenAI-compatible provider so Gemini names don't trigger Vertex ADC
             custom_llm_provider="openai" if LITELLM_API_BASE else None,
         )
