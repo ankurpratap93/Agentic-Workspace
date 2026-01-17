@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
-import { FileText, ArrowUpDown, RefreshCcw, Upload, Sparkles, Phone, Video } from "lucide-react"
+import { FileText, ArrowUpDown, RefreshCcw, Upload, Sparkles } from "lucide-react"
 import { Button } from "./ui/button"
-import CallingAgentModal from "./CallingAgentModal"
-import InterviewAssistModal from "./InterviewAssistModal"
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
@@ -38,11 +36,6 @@ export default function CandidatesView({ job }) {
   const [aiLoading, setAiLoading] = useState(false)
   const [aiNotice, setAiNotice] = useState("")
   const [refreshKey, setRefreshKey] = useState(0) // Force re-render trigger
-
-  // Agent modals
-  const [callingModalOpen, setCallingModalOpen] = useState(false)
-  const [interviewModalOpen, setInterviewModalOpen] = useState(false)
-  const [selectedCandidate, setSelectedCandidate] = useState(null)
 
   const fetchCandidates = async (opts = {}) => {
     const { silent = false } = opts
@@ -161,14 +154,14 @@ export default function CandidatesView({ job }) {
     })
   }
 
-  const doAction = async (candidateName, action) => {
+  const doAction = async (candidateName, action, feedback = "") => {
     if (!job?.id || !candidateName) return
     setActing((m) => ({ ...m, [candidateName]: true }))
     try {
       const res = await fetch(`${API_BASE}/candidates/action`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ job_id: job.id, candidate_name: candidateName, action }),
+        body: JSON.stringify({ job_id: job.id, candidate_name: candidateName, action, feedback }),
       })
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
@@ -482,7 +475,8 @@ export default function CandidatesView({ job }) {
               ) : (
                 sorted.map((c) => {
                   const name = String(c?.name ?? "")
-                  const primaryScore = c?.screening_score ?? c?.score
+                  // Prioritize resume score on the main candidates page
+                  const primaryScore = c?.score ?? c?.screening_score
                   const pill = scorePill(primaryScore)
                   const mk = c?.matching_keywords
                   const mkDisplay = mk && String(mk).trim().length > 0 ? String(mk) : "No JD matches captured yet"
@@ -495,7 +489,7 @@ export default function CandidatesView({ job }) {
                       <td className="px-4 py-4">
                         <span
                           className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${pill.cls}`}
-                          title={`JD matches: ${mkDisplay}`}
+                          title={`JD matches: ${mkDisplay}${c?.screening_score ? ` | AI Call Score: ${c.screening_score}` : ""}`}
                         >
                           {pill.label}
                         </span>
@@ -528,34 +522,6 @@ export default function CandidatesView({ job }) {
                         <div className="flex justify-end gap-2">
                           <Button
                             size="sm"
-                            variant="ghost"
-                            disabled={isBusy || !name}
-                            onClick={() => {
-                              setSelectedCandidate(name)
-                              setCallingModalOpen(true)
-                            }}
-                            className="gap-1 text-blue-300 hover:text-blue-200 hover:bg-blue-500/10"
-                            title="AI Call"
-                          >
-                            <Phone className="w-3.5 h-3.5" />
-                            Call
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            disabled={isBusy || !name}
-                            onClick={() => {
-                              setSelectedCandidate(name)
-                              setInterviewModalOpen(true)
-                            }}
-                            className="gap-1 text-purple-300 hover:text-purple-200 hover:bg-purple-500/10"
-                            title="AI Interview Assist"
-                          >
-                            <Video className="w-3.5 h-3.5" />
-                            Interview
-                          </Button>
-                          <Button
-                            size="sm"
                             variant="secondary"
                             disabled={isBusy || !name}
                             onClick={() => doAction(name, "shortlist")}
@@ -566,7 +532,15 @@ export default function CandidatesView({ job }) {
                             size="sm"
                             variant="destructive"
                             disabled={isBusy || !name}
-                            onClick={() => doAction(name, "reject")}
+                            onClick={() => {
+                              const fb = window.prompt("Add rejection feedback (REQUIRED):")
+                              if (fb === null) return
+                              if (!fb.trim()) {
+                                alert("Rejection feedback is required.")
+                                return
+                              }
+                              doAction(name, "reject", fb)
+                            }}
                           >
                             Reject
                           </Button>
@@ -581,26 +555,6 @@ export default function CandidatesView({ job }) {
         </div>
       </div>
 
-      {/* Agent Modals */}
-      <CallingAgentModal
-        isOpen={callingModalOpen}
-        onClose={() => {
-          setCallingModalOpen(false)
-          setSelectedCandidate(null)
-        }}
-        jobId={job?.id}
-        candidateName={selectedCandidate}
-      />
-
-      <InterviewAssistModal
-        isOpen={interviewModalOpen}
-        onClose={() => {
-          setInterviewModalOpen(false)
-          setSelectedCandidate(null)
-        }}
-        jobId={job?.id}
-        candidateName={selectedCandidate}
-      />
     </motion.div>
   )
 }

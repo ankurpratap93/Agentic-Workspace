@@ -6,6 +6,8 @@ from typing import List, Optional
 import os
 import sys
 import asyncio
+import pandas as pd
+from urllib.parse import quote
 
 # Add current directory to path to allow imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -164,27 +166,57 @@ def get_candidates(job_id: str):
     df = utils.load_job_artifact(job_id, "cv_scores.csv")
     if df is None:
         return []
-    # Fill NaN
-    df = df.fillna("")
     
-    # Add resume_url for each candidate
-    from urllib.parse import quote
+    # Ensure scores are numeric before they touch fillna
+    if 'score' in df.columns:
+        df['score'] = pd.to_numeric(df['score'], errors='coerce')
+    if 'screening_score' in df.columns:
+        df['screening_score'] = pd.to_numeric(df['screening_score'], errors='coerce')
+        
+    # Fill NaN safely only for string columns or specifically
+    df = df.fillna({
+        "status": "New",
+        "matching_keywords": "[]",
+        "email": "",
+        "phone": ""
+    })
+    
+    # Replace NaN with None for JSON serializability
+    df = df.astype(object).where(pd.notnull(df), None)
+    
+    # Convert to dict
     candidates = df.to_dict(orient="records")
+    
+    # Debug print for first few candidates to check scores
+    if candidates:
+        print(f"DEBUG api.py: Sending {len(candidates)} candidates. First score: {candidates[0].get('screening_score')}")
+    
     for candidate in candidates:
         candidate_name = candidate.get("name", "")
         if candidate_name:
             # Find the resume file
             resume_path = utils.get_resume_path(job_id, candidate_name)
             if resume_path and os.path.exists(resume_path):
-                # Get just the filename and URL-encode it
                 filename = os.path.basename(resume_path)
                 encoded_filename = quote(filename, safe='')
-                # Create the URL
                 candidate["resume_url"] = f"/jobs/{job_id}/resume/{encoded_filename}"
             else:
                 candidate["resume_url"] = None
     
     return candidates
+
+@app.get("/jobs/{job_id}/candidates/{candidate_name}/contact")
+def get_candidate_contact(job_id: str, candidate_name: str):
+    """Fetch or extract candidate contact details on demand"""
+    email, phone = utils._get_contact(job_id, candidate_name)
+    return {"email": email or "", "phone": phone or ""}
+
+@app.get("/jobs/{job_id}/candidates/{candidate_name}/transcript")
+def get_candidate_transcript(job_id: str, candidate_name: str):
+    """Fetch the latest call transcript for a candidate"""
+    filename = f"call_log_{candidate_name.replace(' ', '_')}.txt"
+    transcript = utils.load_job_artifact(job_id, filename)
+    return {"transcript": transcript or ""}
 
 @app.get("/jobs/{job_id}/metrics")
 def get_metrics(job_id: str):
@@ -211,6 +243,8 @@ def candidate_action(payload: CandidateAction):
         new_status = "Shortlisted"
     elif payload.action == "reject":
         new_status = "Rejected"
+    elif payload.action == "interview":
+        new_status = "Interview Ready"
     elif payload.action == "restore":
         new_status = "Shortlisted"
     else:
@@ -231,6 +265,61 @@ class AssessRequest(BaseModel):
     candidate_name: str
     transcript: str
 
+class InterviewGuideRequest(BaseModel):
+    job_id: str
+    candidate_name: str
+    round_type: str
+
+class InterviewEvalRequest(BaseModel):
+    job_id: str
+    candidate_name: str
+    round_type: str
+    transcript: str
+
+class InterviewSummaryRequest(BaseModel):
+    job_id: str
+    candidate_name: str
+
+class SlotSuggestRequest(BaseModel):
+    job_id: str
+    candidate_name: str
+
+@app.post("/interview/guide")
+def get_interview_guide(payload: InterviewGuideRequest):
+    """Generate interview guide/questions"""
+    try:
+        guide = utils.generate_interview_guide(payload.job_id, payload.candidate_name, payload.round_type)
+        return {"guide": guide, "status": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Guide generation failed: {str(e)}")
+
+@app.post("/interview/evaluate")
+def evaluate_interview_round(payload: InterviewEvalRequest):
+    """Evaluate an interview round transcript"""
+    try:
+        eval_result = utils.evaluate_interview(payload.job_id, payload.candidate_name, payload.round_type, payload.transcript)
+        return {"evaluation": eval_result, "status": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Evaluation failed: {str(e)}")
+
+@app.post("/interview/summary")
+def get_interview_summary(payload: InterviewSummaryRequest):
+    """Summarize all interviews for a candidate"""
+    try:
+        summary = utils.summarize_interviews(payload.job_id, payload.candidate_name)
+        return {"summary": summary, "status": "success"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Summary failed: {str(e)}")
+
+@app.post("/schedule/suggest")
+def suggest_schedule_slots(payload: SlotSuggestRequest):
+    """Suggest interview slots using AI"""
+    try:
+        slots = utils.suggest_slots(payload.job_id, payload.candidate_name)
+        return slots # suggest_slots returns a dict with "slots" key already
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Slot suggestion failed: {str(e)}")
+
 @app.post("/screen/assess")
 def assess_candidate(payload: AssessRequest):
     """AI Assessment of candidate based on transcript"""
@@ -248,26 +337,51 @@ def assess_candidate(payload: AssessRequest):
             
             # Simple heuristic assessment
             transcript_lower = payload.transcript.lower()
+            
+            # Check for specific mismatches
+            loc_mismatch = "pune" in transcript_lower and "gurgaon" not in transcript_lower
+            salary_concern = "expectation" in transcript_lower or "budget" in transcript_lower
+            shift_match = "shift" in transcript_lower or "night" in transcript_lower
+            
             positive_indicators = ["yes", "available", "interested", "experience", "skills", "ready"]
             negative_indicators = ["no", "not available", "cannot", "unable"]
             
             positive_count = sum(1 for word in positive_indicators if word in transcript_lower)
             negative_count = sum(1 for word in negative_indicators if word in transcript_lower)
             
-            if score >= 7 and positive_count > negative_count:
+            # Weighted calculation
+            h_score = 5.0 # baseline
+            if not loc_mismatch: h_score += 2.0
+            if positive_count > negative_count: h_score += 2.0
+            if shift_match: h_score += 1.0
+            
+            h_score = max(min(h_score, 10.0), 0.0)
+            
+            if h_score >= 7:
                 recommendation = "yes"
-            elif score >= 5:
+            elif h_score >= 5:
                 recommendation = "maybe"
             else:
                 recommendation = "no"
             
-            return {
-                "assessment": {
-                    "assessment": f"Candidate scored {score}/10. Transcript analysis shows {positive_count} positive indicators vs {negative_count} concerns.",
+            result_obj = {
+                    "assessment": f"LLM unavailable. Heuristic analysis suggests {recommendation} ({h_score}/10). Transcript mentions {positive_count} positive and {negative_count} negative keywords.",
                     "hire_recommendation": recommendation,
-                    "risks": ["LLM unavailable - using heuristic assessment"] if negative_count > 0 else [],
-                    "next_questions": ["Verify experience details", "Confirm availability"] if recommendation == "maybe" else []
-                },
+                    "score": h_score,
+                    "criteria_breakdown": {
+                        "location": "Mismatch detected" if loc_mismatch else "Confirmed/Neutral",
+                        "salary": "Discussed" if salary_concern else "Not explicitly mentioned",
+                        "shift": "Mentioned" if shift_match else "Not explicitly mentioned",
+                        "tech": f"{positive_count} matches found"
+                    },
+                    "risks": ["LLM unavailable - using heuristic assessment"] + (["Location mismatch hinted"] if loc_mismatch else []),
+                    "next_questions": ["Verify experience details", "Confirm relocation availability"]
+                }
+            
+            utils.update_candidate_status(payload.job_id, payload.candidate_name, "AI Screened", screening_score=h_score)
+
+            return {
+                "assessment": result_obj,
                 "status": "partial",
                 "method": "heuristic"
             }
@@ -410,6 +524,11 @@ def schedule_interview(payload: ScheduleRequest):
     
     utils.schedule_interview(payload.job_id, payload.candidate_name, d_obj, t_obj, payload.interviewer)
     return {"status": "scheduled"}
+
+@app.get("/jobs/{job_id}/schedule")
+def get_job_schedule(job_id: str):
+    """Get interview schedule for a job"""
+    return utils.get_schedule(job_id)
 
 @app.get("/jobs/{job_id}/funnel")
 def get_funnel(job_id: str):
@@ -601,7 +720,6 @@ def rescore_candidates(job_id: str):
         utils.trigger_simulation_step(job_id, "score_cvs")
         
         # Verify scores were updated
-        import pandas as pd
         df = pd.read_csv(csv_path)
         scored_count = len(df[df['score'] > 0])
         
@@ -647,7 +765,6 @@ def rescore_candidates_llm(job_id: str):
             }
         
         # If no candidates updated, check why
-        import pandas as pd
         df = pd.read_csv(csv_path)
         if df.empty:
             return {

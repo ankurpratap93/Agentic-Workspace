@@ -1,16 +1,50 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { X, Phone, PhoneCall, Loader2, FileText } from "lucide-react"
 import { Button } from "./ui/button"
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"
 
-export default function CallingAgentModal({ isOpen, onClose, jobId, candidateName }) {
-    const [phoneNumber, setPhoneNumber] = useState("")
+export default function CallingAgentModal({ isOpen, onClose, jobId, candidateName, initialPhoneNumber, onCallComplete }) {
+    const [phoneNumber, setPhoneNumber] = useState(initialPhoneNumber || "")
+    const [extracting, setExtracting] = useState(false)
+    const [extractedSource, setExtractedSource] = useState(initialPhoneNumber ? "prop" : null)
     const [callType, setCallType] = useState("screening")
     const [calling, setCalling] = useState(false)
     const [callResult, setCallResult] = useState(null)
     const [error, setError] = useState("")
+
+    // Auto-extract if empty when opening
+    useEffect(() => {
+        if (isOpen && !phoneNumber && candidateName && jobId) {
+            handleExtract(true)
+        } else if (isOpen && initialPhoneNumber) {
+            setPhoneNumber(initialPhoneNumber)
+            setExtractedSource("prop")
+        }
+    }, [isOpen, candidateName, jobId, initialPhoneNumber])
+
+    const handleExtract = async (silent = false) => {
+        if (!jobId || !candidateName) return
+        if (!silent) setExtracting(true)
+        setError("")
+        try {
+            const res = await fetch(`${API_BASE}/jobs/${jobId}/candidates/${candidateName}/contact`)
+            if (!res.ok) throw new Error("Extraction failed")
+            const data = await res.json()
+            if (data.phone) {
+                setPhoneNumber(data.phone)
+                setExtractedSource("extracted")
+            } else if (!silent) {
+                setError("No phone number found in resume.")
+            }
+        } catch (e) {
+            console.error("Extraction error", e)
+            if (!silent) setError("Failed to extract contact details.")
+        } finally {
+            if (!silent) setExtracting(false)
+        }
+    }
 
     const handleCall = async () => {
         if (!phoneNumber.trim()) {
@@ -41,6 +75,14 @@ export default function CallingAgentModal({ isOpen, onClose, jobId, candidateNam
 
             const data = await res.json()
             setCallResult(data)
+            if (onCallComplete) {
+                onCallComplete({
+                    candidateName,
+                    transcript: data.transcript,
+                    assessment: data.assessment,
+                    score: data.score
+                })
+            }
         } catch (e) {
             setError(e.message || "Call failed. Please try again.")
         } finally {
@@ -96,14 +138,50 @@ export default function CallingAgentModal({ isOpen, onClose, jobId, candidateNam
                                     <label className="block text-sm font-medium text-slate-300 mb-2">
                                         Phone Number
                                     </label>
-                                    <input
-                                        type="tel"
-                                        value={phoneNumber}
-                                        onChange={(e) => setPhoneNumber(e.target.value)}
-                                        placeholder="+1 (555) 123-4567"
-                                        className="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                                        disabled={calling}
-                                    />
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="tel"
+                                            value={phoneNumber}
+                                            onChange={(e) => {
+                                                setPhoneNumber(e.target.value)
+                                                setExtractedSource("manual")
+                                            }}
+                                            placeholder="+1 (555) 123-4567"
+                                            className="flex-1 bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-slate-100 placeholder-slate-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                                            disabled={calling || extracting}
+                                        />
+                                        <Button
+                                            variant="secondary"
+                                            size="sm"
+                                            onClick={() => handleExtract(false)}
+                                            disabled={calling || extracting || !candidateName}
+                                            type="button"
+                                            title="Re-extract from Resume"
+                                            className="h-[46px] px-3"
+                                        >
+                                            {extracting ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+                                        </Button>
+                                    </div>
+                                    {extractedSource === "prop" && (
+                                        <p className="text-xs text-emerald-400 mt-1 flex items-center gap-1">
+                                            ✓ Pre-filled from contact record
+                                        </p>
+                                    )}
+                                    {extractedSource === "extracted" && (
+                                        <p className="text-xs text-emerald-400 mt-1 flex items-center gap-1">
+                                            ✓ Auto-extracted from resume
+                                        </p>
+                                    )}
+                                    {extractedSource === "manual" && phoneNumber && (
+                                        <p className="text-xs text-slate-500 mt-1">
+                                            Hand-entered or edited
+                                        </p>
+                                    )}
+                                    {!phoneNumber && !extracting && (
+                                        <p className="text-xs text-amber-400 mt-1">
+                                            ⚠ No phone number found. Please enter manually.
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Call Type Selection */}
@@ -133,7 +211,7 @@ export default function CallingAgentModal({ isOpen, onClose, jobId, candidateNam
                                 {/* Call Button */}
                                 <Button
                                     onClick={handleCall}
-                                    disabled={calling || !phoneNumber.trim()}
+                                    disabled={calling || extracting || !phoneNumber.trim()}
                                     className="w-full gap-2 bg-blue-600 hover:bg-blue-700 text-white"
                                     size="lg"
                                 >

@@ -287,17 +287,54 @@ def save_job_artifact(job_id, filename, data):
          with open(path, 'w') as f:
             f.write(data)
 
-def update_candidate_status(job_id, candidate_name, new_status, new_score=None):
+def update_candidate_status(job_id, candidate_name, new_status, new_score=None, screening_score=None):
     csv_path = os.path.join(JOBS_DIR, job_id, "cv_scores.csv")
     if os.path.exists(csv_path):
         df = pd.read_csv(csv_path)
         if 'name' in df.columns:
-            # Update status
-            df.loc[df['name'] == candidate_name, 'status'] = new_status
-            if new_score is not None:
-                df.loc[df['name'] == candidate_name, 'score'] = new_score
+            # Update status with ultra-robust matching (underscores vs spaces)
+            def normalize(s):
+                return str(s or "").replace("_", " ").strip().lower()
+
+            target_norm = normalize(candidate_name)
+            df['name_norm'] = df['name'].apply(normalize)
+            mask = df['name_norm'] == target_norm
             
-            df.to_csv(csv_path, index=False)
+            # Fallback: check if candidate_name matches 'id' column
+            if not mask.any() and 'id' in df.columns:
+                mask = df['id'].astype(str) == str(candidate_name)
+
+            if mask.any():
+                match_count = mask.sum()
+                df.loc[mask, 'status'] = new_status
+                
+                if new_score is not None:
+                    df.loc[mask, 'score'] = new_score
+                    
+                if screening_score is not None:
+                    if 'screening_score' not in df.columns:
+                        df['screening_score'] = None
+                    try:
+                        score_val = float(screening_score)
+                        df.loc[mask, 'screening_score'] = score_val
+                        print(f"DEBUG: SUCCESS - Updated {match_count} row(s) for '{candidate_name}' (norm: '{target_norm}') to {score_val}")
+                    except (ValueError, TypeError) as e:
+                        print(f"DEBUG: ERROR - Failed to cast score {screening_score}: {e}")
+                
+                # Cleanup temporary column before saving
+                df.drop(columns=['name_norm'], inplace=True)
+                df.to_csv(csv_path, index=False)
+            else:
+                existing_names = df['name'].tolist()[:5]
+                print(f"DEBUG: ERROR - No match found for '{candidate_name}' (norm: '{target_norm}'). CSV (norm sample): {[normalize(n) for n in existing_names]}")
+                # Save anyway in case 'screening_score' col was added but no row matched
+                # (though usually we don't save if no match, let's at least ensure column exists if needed)
+                if 'screening_score' not in df.columns:
+                    df['screening_score'] = None
+                    df.drop(columns=['name_norm'], inplace=True)
+                    df.to_csv(csv_path, index=False)
+                else:
+                    df.drop(columns=['name_norm'], inplace=True)
             
             # Log it
             _append_log(job_id, "STATUS_UPDATE", f"{candidate_name} moved to {new_status}")
@@ -772,7 +809,19 @@ matches: {matches}
 Transcript/Q&A:
 {transcript[:4000]}
 """
-    evaluation = llm.call_llm_json(prompt, system="Be concise. JSON only. Scores 0-10.")
+    try:
+        evaluation = llm.call_llm_json(prompt, system="Be concise. JSON only. Scores 0-10.")
+    except Exception as e:
+        print(f"Evaluate interview LLM failed: {e}")
+        evaluation = {
+            "overall_score_0_10": 5.0,
+            "skill_scores": {"communication": 5, "technical": 5},
+            "strengths": ["Feedback recorded (LLM unavailable)"],
+            "concerns": ["LLM scoring unavailable - manual review required"],
+            "hire_recommendation": "maybe",
+            "rationale": "Evaluation saved but automatic scoring failed due to LLM unavailability.",
+            "matched_keywords": []
+        }
 
     folder = os.path.join(JOBS_DIR, job_id, "interviews")
     os.makedirs(folder, exist_ok=True)
@@ -808,7 +857,18 @@ Return JSON:
 Round evaluations:
 {json.dumps(summaries)[:4000]}
 """
-    summary = llm.call_llm_json(prompt, system="Be concise. JSON only.")
+    try:
+        summary = llm.call_llm_json(prompt, system="Be concise. JSON only.")
+    except Exception as e:
+        print(f"Summarize interviews LLM failed: {e}")
+        summary = {
+            "final_recommendation": "maybe",
+            "overall_score_0_10": 5.0,
+            "strengths": ["Data aggregated (LLM unavailable)"],
+            "concerns": ["LLM summary unavailable"],
+            "risks": ["Manual review recommended"],
+            "next_steps": ["Review individual evaluations"]
+        }
 
     os.makedirs(folder, exist_ok=True)
     fname = os.path.join(folder, f"{_slug(candidate_name)}_summary.json")
@@ -1188,31 +1248,49 @@ def screening_assess(job_id: str, candidate_name: str, transcript: str):
             pass
     
     prompt = f"""
-You are a screening assessor. Given JD, candidate snapshot, and transcript, provide a concise assessment.
+You are an expert recruitment assessor. Evaluate the candidate based on the JD and the Call Transcript.
+Calculate a 'score' (0-10) using these strict criteria:
+1. Location Match (3 points): Full points if candidate is in the job location or open to relocate. Subtract points for mismatches (e.g. Job is Gurgaon, Candidate is Pune and won't relocate).
+2. Salary & Benefits (2 points): Align expectations with JD budget.
+3. Shift & Availability (2 points): Check if candidate accepts the job's shift (Night/Day/Rotational) and notice period.
+4. Technical/Job Requirements (3 points): Verify if the candidate's responses in the transcript confirm the required tech skills mentioned in JD.
+
 Return JSON:
 {{
-  "assessment": "short paragraph",
+  "assessment": "concise summary of findings",
   "hire_recommendation": "yes|maybe|no",
-  "risks": ["..."],
-  "next_questions": ["..."]
+  "score": 0.0,
+  "criteria_breakdown": {{
+     "location": "...",
+     "salary": "...",
+     "shift": "...",
+     "tech": "..."
+  }},
+  "risks": ["list of concerns"],
+  "next_questions": ["questions for next round"]
 }}
+
 JD:
 {jd_text[:2500]}
 
-Candidate:
-score: {score}/10
-key matches: {matches}
+Candidate Resume Snapshot:
+Initial Score: {score}/10
+Key Keywords: {matches}
 
-Transcript:
+Call Transcript:
 {transcript[:4000]}
 """
     try:
-        return llm.call_llm_json(prompt, system="Be concise. JSON only.")
+        result = llm.call_llm_json(prompt, system="Be concise. JSON only.")
+        if result and "score" in result:
+            update_candidate_status(job_id, candidate_name, "AI Screened", screening_score=result["score"])
+        return result
     except Exception as e:
         # Return basic fallback if LLM fails
         return {
-            "assessment": f"Candidate scored {score}/10. Transcript review needed.",
+            "assessment": f"Candidate scored {score}/10. Metadata analysis suggests further review.",
             "hire_recommendation": "maybe",
+            "score": score,
             "risks": ["LLM unavailable for detailed assessment"],
             "next_questions": ["Verify experience", "Confirm availability"]
         }
@@ -1253,7 +1331,19 @@ Propose 4 interview slot options in the next 7 days. Return JSON:
 }
 Keep concise.
 """
-    return llm.call_llm_json(prompt, system="Be concise. JSON only.")
+    try:
+        return llm.call_llm_json(prompt, system="Be concise. JSON only.")
+    except Exception as e:
+        print(f"Slot suggestion LLM failed: {e}")
+        # Fallback slots
+        return {
+            "slots": [
+                {"day": "Mon", "time": "10:00", "timezone": "local", "note": "Standard morning slot"},
+                {"day": "Wed", "time": "14:00", "timezone": "local", "note": "Mid-week afternoon"},
+                {"day": "Thu", "time": "11:00", "timezone": "local", "note": "Late morning option"},
+                {"day": "Fri", "time": "09:00", "timezone": "local", "note": "Early wrap-up"}
+            ]
+        }
 
 def trigger_simulation_step(job_id, step_name):
     job_dir = os.path.join(JOBS_DIR, job_id)

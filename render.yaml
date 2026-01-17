@@ -1,14 +1,32 @@
 services:
-  # AI-Auto-QA Backend (Express)
+  # AI-Auto-QA Backend (Express) - Test Case Management System
   - type: web
     name: ai-auto-qa-api
     runtime: node
     plan: free
-    buildCommand: npm install && npm install --prefix ai-auto-qa/server
-    startCommand: npm --prefix ai-auto-qa/server start
+    buildCommand: cd ai-auto-qa/apps/api-gateway && npm install
+    startCommand: cd ai-auto-qa/apps/api-gateway && npm start
     envVars:
       - key: PORT
-        value: 10000
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: LITELLM_BASE_URL
+        sync: false
+      - key: LITELLM_API_KEY
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: AZURE_DEVOPS_ORG
+        sync: false
+      - key: FIGMA_API_TOKEN
+        sync: false
+      - key: ENCRYPTION_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
 
   # AI-Auto-QA Frontend (Vite Static)
   - type: web

@@ -69,3 +69,10 @@ ai-auto-qa/server/src/data/*.json
 Agentic_Project.zip
 *.webm
 *.mp4
+
+# Large data files
+ai-auto-qa/apps/api-gateway/data/*.json
+ai-auto-qa/apps/api-gateway/data/traces/*.zip
+
+# Backup directories
+ai-auto-qa-backup-*

@@ -204,6 +204,11 @@ class CallingAgent:
         # Generate realistic transcript using LLM
         prompt = f"""
         Simulate a realistic phone call transcript between an AI recruiter and candidate {candidate_name}.
+        The candidate might be a perfect match, or might have issues like:
+        - Location mismatch (e.g. Pune vs Gurgaon)
+        - Salary expectations higher than budget
+        - Shift preferences (e.g. only weeks, but job needs rotational)
+        - Tech skills that don't perfectly align with the script.
         
         Call Script:
         {json.dumps(call_script, indent=2)}
@@ -217,12 +222,13 @@ class CallingAgent:
                 "experience_verified": boolean,
                 "location_match": boolean,
                 "notice_period": "string",
-                "salary_expectation": "string"
+                "salary_expectation": "string",
+                "shift_preference": "string"
             }},
             "overall_assessment": "short paragraph"
         }}
         
-        Make it realistic and conversational.
+        Make it realistic, professional, and slightly varying based on candidate quality.
         """
         
         try:
@@ -236,16 +242,16 @@ class CallingAgent:
             transcript = result.get("transcript", "")
             duration = result.get("duration_seconds", 300)
             
-            # Save transcript
-            filename = f"call_log_{candidate_name.replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-            utils.save_job_artifact(job_id, filename, transcript)
-            
-            # Update candidate status
-            utils.update_candidate_status(job_id, candidate_name, "AI Screened")
-            
             # Calculate screening score based on verification
             verification = result.get("verification_results", {})
             score = self._calculate_screening_score(verification)
+            
+            # Save transcript
+            filename = f"call_log_{candidate_name.replace(' ', '_')}.txt"
+            utils.save_job_artifact(job_id, filename, transcript)
+            
+            # Update candidate status (but not score yet, score comes after assessment)
+            utils.update_candidate_status(job_id, candidate_name, "AI Screened")
             
             utils._append_log(
                 job_id,
