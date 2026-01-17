@@ -33,7 +33,7 @@ export function Sidebar() {
   return (
     <div
       className={cn(
-        'gradient-dark flex flex-col border-r border-sidebar-border transition-all duration-300',
+        'gradient-dark flex flex-col border-r border-sidebar-border transition-all duration-300 relative z-10',
         collapsed ? 'w-16' : 'w-64'
       )}
     >
