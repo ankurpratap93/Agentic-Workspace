@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, ArrowRight } from 'lucide-react';
 
 interface MetricCardProps {
   title: string;
@@ -39,8 +39,8 @@ export function MetricCard({
     <div
       onClick={onClick}
       className={cn(
-        "rounded-xl border border-border bg-card p-6 gradient-card transition-all",
-        isClickable && "cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] active:scale-[0.98]",
+        "rounded-xl border border-border bg-card p-6 gradient-card transition-all group",
+        isClickable && "cursor-pointer hover:border-primary hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] hover:bg-gradient-to-br hover:from-card hover:to-primary/5",
         !isClickable && "card-hover"
       )}
       role={isClickable ? "button" : undefined}
@@ -78,7 +78,12 @@ export function MetricCard({
             </div>
           )}
           {isClickable && (
-            <p className="mt-2 text-xs text-muted-foreground">Click to view details →</p>
+            <div className="mt-3 flex items-center gap-1.5 group-hover:gap-2 transition-all">
+              <span className="text-xs font-semibold text-primary group-hover:text-primary/90 transition-colors">
+                Click to view details
+              </span>
+              <ArrowRight className="h-3.5 w-3.5 text-primary group-hover:translate-x-0.5 transition-transform" />
+            </div>
           )}
         </div>
         <div className={cn('rounded-lg p-3 flex-shrink-0', variantStyles[variant])}>
