@@ -150,7 +150,15 @@ export default function Auth() {
     }
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Only auto-navigate on explicit sign-in, not on signup
       if (event === 'SIGNED_IN' && session?.user) {
+        // Check if this is from a signup (we'll track this in state)
+        const isFromSignup = sessionStorage.getItem('just_signed_up') === 'true';
+        if (isFromSignup) {
+          // Don't auto-navigate, let user sign in manually
+          sessionStorage.removeItem('just_signed_up');
+          return;
+        }
         // Clear rate limit on successful auth
         localStorage.removeItem('auth_rate_limit');
         navigate('/');
@@ -297,12 +305,32 @@ export default function Auth() {
           throw error;
         }
         
-        // Check if email confirmation is required
+        // After successful signup, always redirect to login
+        // Clear form and switch to login mode
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
+        setFullName('');
+        setPasswordStrength(null);
+        setErrors({});
+        
+        // Mark that we just signed up to prevent auto-navigation
+        sessionStorage.setItem('just_signed_up', 'true');
+        
+        // If a session was created (auto-login), sign out immediately
+        if (data.session) {
+          await supabase.auth.signOut();
+        }
+        
+        // Switch to login mode
+        setIsLogin(true);
+        
+        // Show appropriate message based on email confirmation requirement
         if (data.user && !data.session) {
           toast.success('Account created! Please check your email to verify your account.');
-          toast.info('You can sign in after verifying your email address.');
+          toast.info('After verifying your email, please sign in below.');
         } else {
-          toast.success('Account created successfully!');
+          toast.success('Account created successfully! Please sign in to continue.');
         }
       }
     } catch (error: any) {
