@@ -50,12 +50,15 @@ export function AgentStatusCard({ agent, compact = false }: AgentStatusCardProps
     return (
       <div
         className={cn(
-          'flex items-center gap-2 rounded-lg border px-3 py-2 transition-all',
+          'flex items-center gap-2 rounded-lg border-2 px-3 py-2 transition-all hover:shadow-sm',
           statusStyles[agent.status]
         )}
+        role="status"
+        aria-label={`${agent.name} agent is ${agent.status}`}
+        title={`${agent.name} - ${agent.status}`}
       >
-        <div className={cn('h-2 w-2 rounded-full', statusDotStyles[agent.status])} />
-        <Icon className="h-4 w-4" />
+        <div className={cn('h-2 w-2 rounded-full', statusDotStyles[agent.status])} aria-hidden="true" />
+        <Icon className="h-4 w-4" aria-hidden="true" />
         <span className="text-xs font-medium truncate">{agent.name}</span>
       </div>
     );

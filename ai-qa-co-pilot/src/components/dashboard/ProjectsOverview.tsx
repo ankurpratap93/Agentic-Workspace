@@ -42,24 +42,35 @@ const projects: Project[] = [
 
 export function ProjectsOverview() {
   return (
-    <div className="rounded-xl border border-border bg-card">
+    <div className="rounded-xl border-2 border-border bg-card">
       <div className="flex items-center justify-between border-b border-border px-6 py-4">
-        <h2 className="font-semibold text-foreground">Active Projects</h2>
+        <h2 className="text-lg font-semibold text-foreground">Active Projects</h2>
         <Link
           to="/projects"
-          className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+          className="flex items-center gap-1 text-sm font-medium text-primary hover:text-primary/80 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-2 py-1"
+          aria-label="View all projects"
         >
           View all
-          <ArrowRight className="h-4 w-4" />
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
         </Link>
       </div>
-      <div className="divide-y divide-border">
+      <div className="divide-y divide-border" role="list">
         {projects.map((project) => (
           <div
             key={project.id}
-            className="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-muted/50"
+            className="flex items-center gap-4 px-6 py-4 transition-colors hover:bg-muted/50 focus-within:bg-muted/50 cursor-pointer"
+            onClick={() => window.location.href = '/projects'}
+            role="listitem"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                window.location.href = '/projects';
+              }
+            }}
+            aria-label={`View project ${project.name} with ${project.testCasesCount} test cases and ${project.bugsCount} bugs`}
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20" aria-hidden="true">
               <FolderKanban className="h-5 w-5 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
@@ -76,15 +87,17 @@ export function ProjectsOverview() {
                 <p className="text-sm font-medium text-foreground">{project.passRate}%</p>
                 <p className="text-xs text-muted-foreground">Pass rate</p>
               </div>
-              <div className="w-24">
+              <div className="w-24" aria-label={`Pass rate: ${project.passRate}%`}>
                 <Progress
                   value={project.passRate}
                   className="h-2"
+                  aria-hidden="true"
                 />
               </div>
               <Badge
                 variant={project.bugsCount > 10 ? 'destructive' : 'outline'}
                 className="min-w-[60px] justify-center"
+                aria-label={`${project.bugsCount} bugs`}
               >
                 {project.bugsCount} bugs
               </Badge>

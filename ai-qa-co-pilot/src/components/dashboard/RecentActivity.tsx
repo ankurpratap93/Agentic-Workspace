@@ -65,9 +65,9 @@ const iconStyles = {
 
 export function RecentActivity() {
   return (
-    <div className="rounded-xl border border-border bg-card">
+    <div className="rounded-xl border-2 border-border bg-card">
       <div className="border-b border-border px-6 py-4">
-        <h2 className="font-semibold text-foreground">Recent Activity</h2>
+        <h2 className="text-lg font-semibold text-foreground">Recent Activity</h2>
       </div>
       <div className="divide-y divide-border">
         {activities.map((activity, index) => {
@@ -76,9 +76,11 @@ export function RecentActivity() {
             <div
               key={activity.id}
               className={cn(
-                'flex items-start gap-4 px-6 py-4 transition-colors hover:bg-muted/50',
+                'flex items-start gap-4 px-6 py-4 transition-colors hover:bg-muted/50 focus-within:bg-muted/50',
                 index === 0 && 'animate-fade-in'
               )}
+              role="listitem"
+              aria-label={`${activity.title}: ${activity.description}`}
             >
               <div
                 className={cn(

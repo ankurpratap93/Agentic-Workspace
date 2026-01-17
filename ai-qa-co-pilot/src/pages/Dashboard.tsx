@@ -46,12 +46,16 @@ export default function Dashboard() {
   return (
     <AppLayout title="Dashboard" subtitle="QA Intelligence Platform Overview">
       <div className="space-y-6">
-        {/* Metrics Grid */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {/* Metrics Grid - Top Priority */}
+        <section aria-label="Key Metrics" className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {testCasesLoading || bugsLoading ? (
             <>
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="rounded-xl border border-border bg-card p-6 flex items-center justify-center">
+                <div 
+                  key={i} 
+                  className="rounded-xl border-2 border-border bg-card p-6 flex items-center justify-center"
+                  aria-label="Loading metric"
+                >
                   <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               ))}
@@ -98,35 +102,46 @@ export default function Dashboard() {
               />
             </>
           )}
-        </div>
+        </section>
 
-        {/* AI Agents Status */}
-        <div className="rounded-xl border border-border bg-card p-6">
-          <div className="mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg gradient-primary">
-                <Bot className="h-5 w-5 text-primary-foreground" />
-              </div>
-              <div>
-                <h2 className="font-semibold text-foreground">AI Agents</h2>
-                <p className="text-sm text-muted-foreground">
-                  {activeAgents} of {agents.length} agents active
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
-            {agents.map((agent) => (
-              <AgentStatusCard key={agent.id} agent={agent} compact />
-            ))}
-          </div>
-        </div>
-
-        {/* Main Content Grid */}
-        <div className="grid gap-6 lg:grid-cols-2">
+        {/* Main Content Grid - Projects and Activity */}
+        <section aria-label="Projects and Activity" className="grid gap-6 lg:grid-cols-2">
           <ProjectsOverview />
           <RecentActivity />
-        </div>
+        </section>
+
+        {/* AI Agents Status - Bottom Section */}
+        <section aria-label="AI Agents Status" className="rounded-xl border-2 border-border bg-card">
+          <div className="border-b border-border px-6 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
+                  <Bot className="h-5 w-5 text-primary" aria-hidden="true" />
+                </div>
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground">AI Agents</h2>
+                  <p className="text-sm text-muted-foreground">
+                    {activeAgents} of {agents.length} agents active
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => navigate('/agents')}
+                className="text-sm font-medium text-primary hover:text-primary/80 hover:underline transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-2 py-1"
+                aria-label="View all AI agents"
+              >
+                View all →
+              </button>
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
+              {agents.map((agent) => (
+                <AgentStatusCard key={agent.id} agent={agent} compact />
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
     </AppLayout>
   );
