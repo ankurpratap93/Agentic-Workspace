@@ -35,13 +35,30 @@ export function MetricCard({
   const isNegative = change && change < 0;
   const isClickable = clickable || !!onClick;
 
+  // Get variant-specific border and background colors for uniform UX
+  const getVariantStyles = () => {
+    if (!isClickable) return '';
+    switch (variant) {
+      case 'success':
+        return 'hover:border-success/40 hover:bg-gradient-to-br hover:from-card hover:to-success/5';
+      case 'destructive':
+        return 'hover:border-destructive/40 hover:bg-gradient-to-br hover:from-card hover:to-destructive/5';
+      case 'info':
+        return 'hover:border-info/40 hover:bg-gradient-to-br hover:from-card hover:to-info/5';
+      case 'warning':
+        return 'hover:border-warning/40 hover:bg-gradient-to-br hover:from-card hover:to-warning/5';
+      default:
+        return 'hover:border-primary/40 hover:bg-gradient-to-br hover:from-card hover:to-primary/5';
+    }
+  };
+
   return (
     <div
       onClick={onClick}
       className={cn(
-        "rounded-xl border border-border bg-card p-6 gradient-card transition-all group",
-        isClickable && "cursor-pointer hover:border-primary hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] hover:bg-gradient-to-br hover:from-card hover:to-primary/5",
-        !isClickable && "card-hover"
+        "rounded-xl border-2 border-border bg-card p-6 transition-all group",
+        isClickable && `cursor-pointer hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] ${getVariantStyles()}`,
+        !isClickable && "card-hover gradient-card"
       )}
       role={isClickable ? "button" : undefined}
       tabIndex={isClickable ? 0 : undefined}
@@ -55,7 +72,7 @@ export function MetricCard({
     >
       <div className="flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-muted-foreground">{title}</p>
+          <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">{title}</p>
           <p className="mt-2 text-3xl font-bold text-foreground">{value}</p>
           {change !== undefined && (
             <div className="mt-2 flex items-center gap-1">
@@ -78,8 +95,8 @@ export function MetricCard({
             </div>
           )}
           {isClickable && (
-            <div className="mt-3 flex items-center gap-1.5 group-hover:gap-2 transition-all">
-              <span className="text-xs font-semibold text-primary group-hover:text-primary/90 transition-colors">
+            <div className="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-md bg-primary/10 border border-primary/20 group-hover:bg-primary/15 group-hover:border-primary/30 transition-all">
+              <span className="text-xs font-semibold text-primary group-hover:text-primary transition-colors">
                 Click to view details
               </span>
               <ArrowRight className="h-3.5 w-3.5 text-primary group-hover:translate-x-0.5 transition-transform" />
