@@ -55,12 +55,45 @@ const mockNotifications: Notification[] = [
     time: '3 hours ago',
     read: true,
   },
+  {
+    id: '4',
+    type: 'success',
+    title: 'Test Case Approved',
+    message: 'Test case TC-001 has been approved by QA team',
+    time: '5 hours ago',
+    read: true,
+  },
+  {
+    id: '5',
+    type: 'info',
+    title: 'Bug Resolved',
+    message: 'Bug BUG-123 has been marked as resolved',
+    time: '1 day ago',
+    read: true,
+  },
+  {
+    id: '6',
+    type: 'error',
+    title: 'Sync Failed',
+    message: 'Failed to sync 3 bugs to Azure DevOps. Please retry.',
+    time: '2 days ago',
+    read: false,
+  },
+  {
+    id: '7',
+    type: 'info',
+    title: 'Weekly Report',
+    message: 'Weekly test execution report is ready for review',
+    time: '3 days ago',
+    read: true,
+  },
 ];
 
 export function Header({ title, subtitle }: HeaderProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
+  const [showAllNotifications, setShowAllNotifications] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
@@ -78,6 +111,12 @@ export function Header({ title, subtitle }: HeaderProps) {
   const markAllAsRead = () => {
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
   };
+
+  const displayedNotifications = showAllNotifications 
+    ? notifications 
+    : notifications.slice(0, 5);
+  
+  const hasMoreNotifications = notifications.length > 5;
 
   const getNotificationIcon = (type: Notification['type']) => {
     switch (type) {
@@ -142,9 +181,11 @@ export function Header({ title, subtitle }: HeaderProps) {
               )}
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80 z-[100]">
+            <DropdownMenuContent align="end" className="w-80 z-[100]">
             <div className="flex items-center justify-between px-2 py-1.5">
-              <DropdownMenuLabel className="text-base font-semibold">Notifications</DropdownMenuLabel>
+              <DropdownMenuLabel className="text-base font-semibold">
+                Notifications {unreadCount > 0 && `(${unreadCount})`}
+              </DropdownMenuLabel>
               {unreadCount > 0 && (
                 <Button
                   variant="ghost"
@@ -161,12 +202,12 @@ export function Header({ title, subtitle }: HeaderProps) {
             </div>
             <DropdownMenuSeparator />
             <div className="max-h-[400px] overflow-y-auto">
-              {notifications.length === 0 ? (
+              {displayedNotifications.length === 0 ? (
                 <div className="px-2 py-6 text-center text-sm text-muted-foreground">
                   No notifications
                 </div>
               ) : (
-                notifications.map((notification) => (
+                displayedNotifications.map((notification) => (
                   <DropdownMenuItem
                     key={notification.id}
                     className={cn(
@@ -182,7 +223,7 @@ export function Header({ title, subtitle }: HeaderProps) {
                       <div className="flex items-start justify-between gap-2">
                         <p className="text-sm font-medium leading-none">{notification.title}</p>
                         {!notification.read && (
-                          <div className="h-2 w-2 rounded-full bg-primary mt-1.5" />
+                          <div className="h-2 w-2 rounded-full bg-primary mt-1.5 flex-shrink-0" />
                         )}
                       </div>
                       <p className="text-xs text-muted-foreground line-clamp-2">
@@ -194,14 +235,21 @@ export function Header({ title, subtitle }: HeaderProps) {
                 ))
               )}
             </div>
-            {notifications.length > 0 && (
+            {hasMoreNotifications && (
               <>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="justify-center text-sm cursor-pointer"
-                  onClick={() => navigate('/settings')}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowAllNotifications(!showAllNotifications);
+                  }}
                 >
-                  View all notifications
+                  {showAllNotifications ? (
+                    <>Show less</>
+                  ) : (
+                    <>View all notifications ({notifications.length})</>
+                  )}
                 </DropdownMenuItem>
               </>
             )}
