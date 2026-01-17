@@ -9,6 +9,8 @@ interface MetricCardProps {
   changeLabel?: string;
   icon: ReactNode;
   variant?: 'default' | 'success' | 'warning' | 'destructive' | 'info';
+  onClick?: () => void;
+  clickable?: boolean;
 }
 
 const variantStyles = {
@@ -26,14 +28,33 @@ export function MetricCard({
   changeLabel,
   icon,
   variant = 'default',
+  onClick,
+  clickable = false,
 }: MetricCardProps) {
   const isPositive = change && change > 0;
   const isNegative = change && change < 0;
+  const isClickable = clickable || !!onClick;
 
   return (
-    <div className="rounded-xl border border-border bg-card p-6 card-hover gradient-card">
+    <div
+      onClick={onClick}
+      className={cn(
+        "rounded-xl border border-border bg-card p-6 gradient-card transition-all",
+        isClickable && "cursor-pointer hover:border-primary hover:shadow-md hover:scale-[1.02] active:scale-[0.98]",
+        !isClickable && "card-hover"
+      )}
+      role={isClickable ? "button" : undefined}
+      tabIndex={isClickable ? 0 : undefined}
+      onKeyDown={(e) => {
+        if (isClickable && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
+      title={isClickable ? `Click to view ${title.toLowerCase()}` : undefined}
+    >
       <div className="flex items-start justify-between">
-        <div>
+        <div className="flex-1">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           <p className="mt-2 text-3xl font-bold text-foreground">{value}</p>
           {change !== undefined && (
@@ -56,8 +77,11 @@ export function MetricCard({
               )}
             </div>
           )}
+          {isClickable && (
+            <p className="mt-2 text-xs text-muted-foreground">Click to view details →</p>
+          )}
         </div>
-        <div className={cn('rounded-lg p-3', variantStyles[variant])}>
+        <div className={cn('rounded-lg p-3 flex-shrink-0', variantStyles[variant])}>
           {icon}
         </div>
       </div>

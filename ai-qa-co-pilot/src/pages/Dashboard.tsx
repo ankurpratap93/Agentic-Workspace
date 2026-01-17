@@ -8,8 +8,10 @@ import { FileCheck, Bug, Bot, TrendingUp, Link2, Loader2 } from 'lucide-react';
 import { useTestCases } from '@/hooks/useTestCases';
 import { useBugs } from '@/hooks/useBugs';
 import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const activeAgents = agents.filter((a) => a.status === 'active' || a.status === 'processing').length;
   
   // Fetch real data
@@ -63,6 +65,8 @@ export default function Dashboard() {
                 changeLabel={metrics.totalTestCases > 0 ? "vs last month" : undefined}
                 icon={<FileCheck className="h-5 w-5" />}
                 variant="default"
+                clickable
+                onClick={() => navigate('/test-cases')}
               />
               <MetricCard
                 title="Active Bugs"
@@ -71,6 +75,8 @@ export default function Dashboard() {
                 changeLabel={metrics.activeBugs > 0 ? "vs last week" : undefined}
                 icon={<Bug className="h-5 w-5" />}
                 variant="destructive"
+                clickable
+                onClick={() => navigate('/bugs')}
               />
               <MetricCard
                 title="Pass Rate"
@@ -79,12 +85,16 @@ export default function Dashboard() {
                 changeLabel={parseFloat(metrics.passRate) > 0 ? "improvement" : undefined}
                 icon={<TrendingUp className="h-5 w-5" />}
                 variant="success"
+                clickable
+                onClick={() => navigate('/test-cases')}
               />
               <MetricCard
                 title="Azure Synced"
                 value={formatNumber(metrics.syncedBugs)}
                 icon={<Link2 className="h-5 w-5" />}
                 variant="info"
+                clickable
+                onClick={() => navigate('/integrations')}
               />
             </>
           )}
