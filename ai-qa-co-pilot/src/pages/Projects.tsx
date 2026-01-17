@@ -98,26 +98,37 @@ export default function Projects() {
           value={activeTab} 
           onValueChange={(value) => setActiveTab(value as 'all' | 'active' | 'archived')} 
           className="w-full"
-          defaultValue="all"
         >
-          <TabsList className="bg-muted/50 w-full justify-start h-auto p-1">
-            <TabsTrigger value="all" className="gap-2 data-[state=active]:bg-background">
+          <TabsList className="bg-muted/50 w-full justify-start h-auto p-1 grid grid-cols-3">
+            <TabsTrigger 
+              value="all" 
+              className="gap-2 flex items-center justify-center"
+              disabled={false}
+            >
               <FolderOpen className="h-4 w-4" />
-              All Projects
+              <span>All Projects</span>
               <Badge variant="secondary" className="ml-1 text-xs">
                 {projects.length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="active" className="gap-2 data-[state=active]:bg-background">
+            <TabsTrigger 
+              value="active" 
+              className="gap-2 flex items-center justify-center"
+              disabled={false}
+            >
               <FileCheck className="h-4 w-4" />
-              Active
+              <span>Active</span>
               <Badge variant="success" className="ml-1 text-xs">
                 {activeCount}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="archived" className="gap-2 data-[state=active]:bg-background">
+            <TabsTrigger 
+              value="archived" 
+              className="gap-2 flex items-center justify-center"
+              disabled={false}
+            >
               <Archive className="h-4 w-4" />
-              Archived
+              <span>Archived</span>
               <Badge variant="secondary" className="ml-1 text-xs">
                 {archivedCount}
               </Badge>
