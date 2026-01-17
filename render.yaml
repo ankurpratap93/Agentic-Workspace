@@ -1,47 +1,4 @@
 services:
-  # AI-Auto-QA Backend (Express) - Test Case Management System
-  - type: web
-    name: ai-auto-qa-api
-    runtime: node
-    plan: free
-    buildCommand: cd ai-auto-qa/apps/api-gateway && npm install
-    startCommand: cd ai-auto-qa/apps/api-gateway && npm start
-    envVars:
-      - key: PORT
-        value: 3001
-      - key: NODE_ENV
-        value: production
-      - key: DATABASE_URL
-        sync: false
-      - key: LITELLM_BASE_URL
-        sync: false
-      - key: LITELLM_API_KEY
-        sync: false
-      - key: REDIS_URL
-        sync: false
-      - key: AZURE_DEVOPS_ORG
-        sync: false
-      - key: FIGMA_API_TOKEN
-        sync: false
-      - key: ENCRYPTION_KEY
-        sync: false
-      - key: JWT_SECRET
-        sync: false
-
-  # AI-Auto-QA Frontend (Vite Static)
-  - type: web
-    runtime: static
-    name: ai-auto-qa-ui
-    buildCommand: npm install --prefix ai-auto-qa && npm run build --prefix ai-auto-qa
-    staticPublishPath: ai-auto-qa/dist
-    routes:
-      - type: rewrite
-        source: /api/*
-        destination: https://ai-auto-qa-api.onrender.com/api/*
-      - type: rewrite
-        source: /*
-        destination: /index.html
-
   # Agentic Hiring Backend (FastAPI)
   - type: web
     name: agentic-hiring-api
@@ -66,6 +23,24 @@ services:
     envVars:
       - key: VITE_API_URL
         value: https://agentic-hiring-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
+  # AI QA Co-Pilot (Vite/React + Supabase)
+  - type: web
+    name: ai-qa-co-pilot
+    runtime: static
+    buildCommand: npm install --prefix ai-qa-co-pilot && npm run build --prefix ai-qa-co-pilot
+    staticPublishPath: ai-qa-co-pilot/dist
+    envVars:
+      - key: VITE_SUPABASE_PROJECT_ID
+        sync: false
+      - key: VITE_SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: VITE_SUPABASE_URL
+        sync: false
     routes:
       - type: rewrite
         source: /*

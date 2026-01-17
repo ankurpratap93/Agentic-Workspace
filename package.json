@@ -3,11 +3,11 @@
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "install:all": "npm install --prefix ai-auto-qa && npm install --prefix ai-auto-qa/server && npm install --prefix agentic-hiring/frontend",
-        "dev:qa": "concurrently \"npm --prefix ai-auto-qa/server run dev\" \"npm --prefix ai-auto-qa run dev\"",
+        "install:all": "npm install --prefix agentic-hiring/frontend && npm install --prefix ai-qa-co-pilot",
+        "install:copilot": "npm install --prefix ai-qa-co-pilot",
         "dev:hiring": "concurrently \"uvicorn agentic-hiring.backend.api:app --reload\" \"npm --prefix agentic-hiring/frontend run dev\"",
-        "start:qa": "concurrently \"npm --prefix ai-auto-qa/server start\" \"npm --prefix ai-auto-qa run dev\"",
-        "build:qa": "npm run build --prefix ai-auto-qa"
+        "dev:copilot": "npm --prefix ai-qa-co-pilot run dev",
+        "build:copilot": "npm --prefix ai-qa-co-pilot run build"
     },
     "devDependencies": {
         "concurrently": "^8.2.2"
