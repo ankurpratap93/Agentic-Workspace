@@ -1,4 +1,4 @@
-import { Bell, Search, User, Settings, LogOut, Mail, CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+import { Bell, Search, User, Settings, LogOut, Mail, CheckCircle2, AlertCircle, Info, X, FolderKanban, FileCheck, Bug, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -9,11 +9,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import { useAuth } from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { cn } from '@/lib/utils';
 
 interface HeaderProps {
@@ -89,11 +103,90 @@ const mockNotifications: Notification[] = [
   },
 ];
 
+// Search result types
+interface SearchResult {
+  id: string;
+  type: 'project' | 'testcase' | 'bug';
+  title: string;
+  subtitle: string;
+  path: string;
+}
+
+// Load projects from localStorage for search
+const getSearchableProjects = (): SearchResult[] => {
+  try {
+    const stored = localStorage.getItem('qa-forge-projects');
+    if (stored) {
+      const projects = JSON.parse(stored);
+      return projects.map((p: any) => ({
+        id: p.id,
+        type: 'project' as const,
+        title: p.name,
+        subtitle: p.description || 'No description',
+        path: `/projects/${p.id}`,
+      }));
+    }
+  } catch (e) {
+    console.error('Failed to load projects for search:', e);
+  }
+  return [];
+};
+
+// Mock test cases for search
+const mockTestCases: SearchResult[] = [
+  { id: 'tc1', type: 'testcase', title: 'User Login with valid credentials', subtitle: 'TC-001 • Authentication', path: '/test-cases' },
+  { id: 'tc2', type: 'testcase', title: 'Add item to cart', subtitle: 'TC-002 • Cart', path: '/test-cases' },
+  { id: 'tc3', type: 'testcase', title: 'Checkout with credit card', subtitle: 'TC-003 • Checkout', path: '/test-cases' },
+  { id: 'tc4', type: 'testcase', title: 'Apply discount code', subtitle: 'TC-004 • Checkout', path: '/test-cases' },
+  { id: 'tc5', type: 'testcase', title: 'User registration flow', subtitle: 'TC-005 • Authentication', path: '/test-cases' },
+];
+
+// Mock bugs for search
+const mockBugs: SearchResult[] = [
+  { id: 'bug1', type: 'bug', title: 'Cart total not updating correctly', subtitle: 'BUG-001 • High • Cart', path: '/bugs' },
+  { id: 'bug2', type: 'bug', title: 'Payment fails on Safari browser', subtitle: 'BUG-002 • Critical • Checkout', path: '/bugs' },
+  { id: 'bug3', type: 'bug', title: 'Order confirmation email delayed', subtitle: 'BUG-003 • Medium • Orders', path: '/bugs' },
+];
+
 export function Header({ title, subtitle }: HeaderProps) {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<Notification[]>(mockNotifications);
   const [showAllNotifications, setShowAllNotifications] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Get all searchable items
+  const searchableItems = useMemo(() => {
+    const projects = getSearchableProjects();
+    return [...projects, ...mockTestCases, ...mockBugs];
+  }, []);
+
+  // Filter search results based on query
+  const searchResults = useMemo(() => {
+    if (!searchQuery.trim()) return { projects: [], testcases: [], bugs: [] };
+    
+    const query = searchQuery.toLowerCase();
+    const filtered = searchableItems.filter(
+      item => 
+        item.title.toLowerCase().includes(query) || 
+        item.subtitle.toLowerCase().includes(query)
+    );
+
+    return {
+      projects: filtered.filter(r => r.type === 'project'),
+      testcases: filtered.filter(r => r.type === 'testcase'),
+      bugs: filtered.filter(r => r.type === 'bug'),
+    };
+  }, [searchQuery, searchableItems]);
+
+  const hasResults = searchResults.projects.length > 0 || searchResults.testcases.length > 0 || searchResults.bugs.length > 0;
+
+  const handleSelect = (result: SearchResult) => {
+    setSearchOpen(false);
+    setSearchQuery('');
+    navigate(result.path);
+  };
 
   const handleSignOut = async () => {
     await signOut();
@@ -162,13 +255,98 @@ export function Header({ title, subtitle }: HeaderProps) {
       </div>
 
       <div className="flex items-center gap-4">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder="Search..."
-            className="w-64 pl-9 bg-secondary/50 border-transparent focus:border-primary"
-          />
-        </div>
+        <Popover open={searchOpen} onOpenChange={setSearchOpen}>
+          <PopoverTrigger asChild>
+            <Button 
+              variant="outline" 
+              className="w-64 justify-start text-muted-foreground bg-secondary/50 border-transparent hover:border-primary"
+            >
+              <Search className="mr-2 h-4 w-4" />
+              <span>Search...</span>
+              <kbd className="pointer-events-none ml-auto hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+                <span className="text-xs">⌘</span>K
+              </kbd>
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-80 p-0" align="start">
+            <Command>
+              <CommandInput 
+                placeholder="Search projects, test cases, bugs..." 
+                value={searchQuery}
+                onValueChange={setSearchQuery}
+              />
+              <CommandList>
+                {!searchQuery.trim() ? (
+                  <CommandEmpty className="py-6 text-center text-sm text-muted-foreground">
+                    Start typing to search...
+                  </CommandEmpty>
+                ) : !hasResults ? (
+                  <CommandEmpty>No results found.</CommandEmpty>
+                ) : (
+                  <>
+                    {searchResults.projects.length > 0 && (
+                      <CommandGroup heading="Projects">
+                        {searchResults.projects.map((result) => (
+                          <CommandItem
+                            key={result.id}
+                            onSelect={() => handleSelect(result)}
+                            className="cursor-pointer"
+                          >
+                            <FolderKanban className="mr-2 h-4 w-4 text-primary" />
+                            <div className="flex-1 overflow-hidden">
+                              <p className="truncate font-medium">{result.title}</p>
+                              <p className="truncate text-xs text-muted-foreground">{result.subtitle}</p>
+                            </div>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
+                    {searchResults.testcases.length > 0 && (
+                      <>
+                        {searchResults.projects.length > 0 && <CommandSeparator />}
+                        <CommandGroup heading="Test Cases">
+                          {searchResults.testcases.map((result) => (
+                            <CommandItem
+                              key={result.id}
+                              onSelect={() => handleSelect(result)}
+                              className="cursor-pointer"
+                            >
+                              <FileCheck className="mr-2 h-4 w-4 text-success" />
+                              <div className="flex-1 overflow-hidden">
+                                <p className="truncate font-medium">{result.title}</p>
+                                <p className="truncate text-xs text-muted-foreground">{result.subtitle}</p>
+                              </div>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </>
+                    )}
+                    {searchResults.bugs.length > 0 && (
+                      <>
+                        {(searchResults.projects.length > 0 || searchResults.testcases.length > 0) && <CommandSeparator />}
+                        <CommandGroup heading="Bugs">
+                          {searchResults.bugs.map((result) => (
+                            <CommandItem
+                              key={result.id}
+                              onSelect={() => handleSelect(result)}
+                              className="cursor-pointer"
+                            >
+                              <Bug className="mr-2 h-4 w-4 text-destructive" />
+                              <div className="flex-1 overflow-hidden">
+                                <p className="truncate font-medium">{result.title}</p>
+                                <p className="truncate text-xs text-muted-foreground">{result.subtitle}</p>
+                              </div>
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </>
+                    )}
+                  </>
+                )}
+              </CommandList>
+            </Command>
+          </PopoverContent>
+        </Popover>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
