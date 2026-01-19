@@ -64,7 +64,27 @@ import {
   CheckCircle,
   XCircle,
   HelpCircle,
+  Scan,
+  Target,
+  ShieldCheck,
+  AlertTriangle,
+  TrendingUp,
+  Eye,
+  MousePointer,
+  FormInput,
+  LayoutGrid,
+  Navigation,
+  RefreshCw,
 } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Separator } from '@/components/ui/separator';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 const sourceIcons: Record<string, React.ElementType> = {
   manual: Edit2,
@@ -97,6 +117,56 @@ const saveTestCasesToStorage = (cases: TestCase[]) => {
     console.error('Failed to save test cases:', e);
   }
 };
+
+// Coverage Analysis Types
+interface DOMElement {
+  type: string;
+  selector: string;
+  text?: string;
+  attributes?: Record<string, string>;
+}
+
+interface CoverageGap {
+  element: DOMElement;
+  recommendation: string;
+  priority: 'high' | 'medium' | 'low';
+  category: string;
+}
+
+interface CoveredElement {
+  element: DOMElement;
+  testCases: string[];
+  coverage: 'full' | 'partial';
+}
+
+interface SuggestedTestCase {
+  title: string;
+  description: string;
+  steps: string[];
+  expectedResult: string;
+  priority: 'high' | 'medium' | 'low' | 'critical';
+  category: string;
+}
+
+interface CoverageAnalysis {
+  url: string;
+  timestamp: string;
+  overallScore: number;
+  elementsFound: number;
+  elementsCovered: number;
+  coverageByCategory: Record<string, { total: number; covered: number; percentage: number }>;
+  coveredElements: CoveredElement[];
+  gaps: CoverageGap[];
+  suggestedTestCases: SuggestedTestCase[];
+  pageMetadata: {
+    title: string;
+    forms: number;
+    buttons: number;
+    links: number;
+    inputs: number;
+    modals: number;
+  };
+}
 
 export default function TestCases() {
   const { toast } = useToast();
@@ -148,6 +218,14 @@ export default function TestCases() {
   const [aiUrl, setAiUrl] = useState('');
   const [aiCount, setAiCount] = useState('5');
   
+  // AI Coverage Agent state
+  const [isCoverageAgentOpen, setIsCoverageAgentOpen] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [coverageUrl, setCoverageUrl] = useState('');
+  const [analysisProgress, setAnalysisProgress] = useState(0);
+  const [analysisPhase, setAnalysisPhase] = useState('');
+  const [coverageResults, setCoverageResults] = useState<CoverageAnalysis | null>(null);
+
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState({
     testTypes: [] as string[],
@@ -574,6 +652,249 @@ export default function TestCases() {
     { id: '3', name: 'Healthcare Portal' },
   ];
 
+  // AI Coverage Agent - Analyze test coverage against website DOM
+  const runCoverageAnalysis = async () => {
+    if (!coverageUrl.trim()) {
+      toast({
+        title: 'URL Required',
+        description: 'Please enter a website URL to analyze',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setAnalysisProgress(0);
+    setCoverageResults(null);
+
+    // Simulate DOM analysis phases
+    const phases = [
+      { name: 'Fetching page content...', duration: 800, progress: 15 },
+      { name: 'Parsing DOM structure...', duration: 600, progress: 30 },
+      { name: 'Identifying interactive elements...', duration: 700, progress: 50 },
+      { name: 'Matching with existing test cases...', duration: 900, progress: 70 },
+      { name: 'Analyzing coverage gaps...', duration: 800, progress: 85 },
+      { name: 'Generating recommendations...', duration: 600, progress: 100 },
+    ];
+
+    for (const phase of phases) {
+      setAnalysisPhase(phase.name);
+      await new Promise(resolve => setTimeout(resolve, phase.duration));
+      setAnalysisProgress(phase.progress);
+    }
+
+    // Generate mock analysis results based on existing test cases
+    const hostname = new URL(coverageUrl).hostname;
+    const existingTitles = testCases.map(tc => tc.title.toLowerCase());
+
+    // Simulate detected DOM elements
+    const detectedElements: DOMElement[] = [
+      { type: 'button', selector: '#login-btn', text: 'Login', attributes: { type: 'submit' } },
+      { type: 'button', selector: '#signup-btn', text: 'Sign Up', attributes: { type: 'button' } },
+      { type: 'button', selector: '#add-to-cart', text: 'Add to Cart', attributes: { type: 'button' } },
+      { type: 'button', selector: '#checkout-btn', text: 'Checkout', attributes: { type: 'submit' } },
+      { type: 'button', selector: '#apply-coupon', text: 'Apply', attributes: { type: 'button' } },
+      { type: 'input', selector: '#email-input', attributes: { type: 'email', placeholder: 'Email' } },
+      { type: 'input', selector: '#password-input', attributes: { type: 'password', placeholder: 'Password' } },
+      { type: 'input', selector: '#search-input', attributes: { type: 'search', placeholder: 'Search' } },
+      { type: 'input', selector: '#quantity-input', attributes: { type: 'number', min: '1' } },
+      { type: 'input', selector: '#coupon-input', attributes: { type: 'text', placeholder: 'Coupon code' } },
+      { type: 'form', selector: '#login-form', attributes: { action: '/login' } },
+      { type: 'form', selector: '#checkout-form', attributes: { action: '/checkout' } },
+      { type: 'form', selector: '#search-form', attributes: { action: '/search' } },
+      { type: 'link', selector: 'a.nav-home', text: 'Home', attributes: { href: '/' } },
+      { type: 'link', selector: 'a.nav-products', text: 'Products', attributes: { href: '/products' } },
+      { type: 'link', selector: 'a.nav-cart', text: 'Cart', attributes: { href: '/cart' } },
+      { type: 'link', selector: 'a.forgot-password', text: 'Forgot Password?', attributes: { href: '/reset' } },
+      { type: 'modal', selector: '#cart-modal', text: 'Shopping Cart' },
+      { type: 'modal', selector: '#confirmation-modal', text: 'Order Confirmation' },
+    ];
+
+    // Check which elements are covered by existing test cases
+    const coveredElements: CoveredElement[] = [];
+    const uncoveredElements: DOMElement[] = [];
+
+    detectedElements.forEach(element => {
+      const keywords = [element.text?.toLowerCase(), element.type, element.selector].filter(Boolean);
+      const matchingTests = testCases.filter(tc => 
+        keywords.some(kw => 
+          tc.title.toLowerCase().includes(kw!) || 
+          tc.description.toLowerCase().includes(kw!) ||
+          tc.steps.some(s => s.toLowerCase().includes(kw!))
+        )
+      );
+
+      if (matchingTests.length > 0) {
+        coveredElements.push({
+          element,
+          testCases: matchingTests.map(tc => tc.id),
+          coverage: matchingTests.length >= 2 ? 'full' : 'partial',
+        });
+      } else {
+        uncoveredElements.push(element);
+      }
+    });
+
+    // Generate gaps and recommendations
+    const gaps: CoverageGap[] = uncoveredElements.map(element => ({
+      element,
+      recommendation: `Add test case for ${element.type} "${element.text || element.selector}"`,
+      priority: element.type === 'form' || element.type === 'button' ? 'high' : 'medium',
+      category: element.type === 'form' ? 'Forms' : 
+                element.type === 'button' ? 'Buttons' : 
+                element.type === 'input' ? 'Inputs' : 
+                element.type === 'link' ? 'Navigation' : 'UI Components',
+    }));
+
+    // Generate suggested test cases for gaps
+    const suggestedTestCases: SuggestedTestCase[] = uncoveredElements.slice(0, 5).map(element => {
+      const actionVerb = element.type === 'button' ? 'Click' : 
+                         element.type === 'input' ? 'Enter data in' : 
+                         element.type === 'form' ? 'Submit' :
+                         element.type === 'link' ? 'Navigate to' : 'Interact with';
+      
+      return {
+        title: `${actionVerb} ${element.text || element.type} - ${element.selector}`,
+        description: `Test the ${element.type} element ${element.text ? `"${element.text}"` : ''} on ${hostname}`,
+        steps: [
+          `Navigate to ${coverageUrl}`,
+          `Locate the ${element.type} element ${element.text ? `with text "${element.text}"` : `at ${element.selector}`}`,
+          `${actionVerb} the element`,
+          'Verify the expected behavior',
+        ],
+        expectedResult: element.type === 'button' ? 'Action is performed successfully' :
+                       element.type === 'form' ? 'Form is submitted and validated' :
+                       element.type === 'input' ? 'Input accepts and validates data' :
+                       element.type === 'link' ? 'Navigation to target page succeeds' :
+                       'Element behaves as expected',
+        priority: element.type === 'form' ? 'high' : element.type === 'button' ? 'high' : 'medium',
+        category: element.type === 'form' ? 'Forms' : 
+                  element.type === 'button' ? 'User Actions' : 
+                  element.type === 'input' ? 'Data Entry' : 
+                  element.type === 'link' ? 'Navigation' : 'UI Components',
+      };
+    });
+
+    // Calculate coverage by category
+    const categories = ['Buttons', 'Forms', 'Inputs', 'Navigation', 'UI Components'];
+    const coverageByCategory: Record<string, { total: number; covered: number; percentage: number }> = {};
+    
+    categories.forEach(cat => {
+      const categoryType = cat === 'Buttons' ? 'button' : 
+                          cat === 'Forms' ? 'form' : 
+                          cat === 'Inputs' ? 'input' : 
+                          cat === 'Navigation' ? 'link' : 'modal';
+      const total = detectedElements.filter(e => e.type === categoryType).length;
+      const covered = coveredElements.filter(e => e.element.type === categoryType).length;
+      coverageByCategory[cat] = {
+        total,
+        covered,
+        percentage: total > 0 ? Math.round((covered / total) * 100) : 0,
+      };
+    });
+
+    const overallScore = Math.round((coveredElements.length / detectedElements.length) * 100);
+
+    const results: CoverageAnalysis = {
+      url: coverageUrl,
+      timestamp: new Date().toISOString(),
+      overallScore,
+      elementsFound: detectedElements.length,
+      elementsCovered: coveredElements.length,
+      coverageByCategory,
+      coveredElements,
+      gaps,
+      suggestedTestCases,
+      pageMetadata: {
+        title: `${hostname} - Page Analysis`,
+        forms: detectedElements.filter(e => e.type === 'form').length,
+        buttons: detectedElements.filter(e => e.type === 'button').length,
+        links: detectedElements.filter(e => e.type === 'link').length,
+        inputs: detectedElements.filter(e => e.type === 'input').length,
+        modals: detectedElements.filter(e => e.type === 'modal').length,
+      },
+    };
+
+    setCoverageResults(results);
+    setIsAnalyzing(false);
+    setAnalysisPhase('');
+
+    toast({
+      title: 'Analysis Complete',
+      description: `Found ${detectedElements.length} elements, ${overallScore}% coverage`,
+    });
+  };
+
+  // Add suggested test case from coverage analysis
+  const addSuggestedTestCase = (suggested: SuggestedTestCase) => {
+    const newTestCase: TestCase = {
+      id: generateId(),
+      projectId: selectedProject,
+      title: suggested.title,
+      description: suggested.description,
+      preconditions: 'User is on the target page',
+      steps: suggested.steps,
+      expectedResult: suggested.expectedResult,
+      priority: suggested.priority as TestCase['priority'],
+      severity: 'major',
+      status: 'draft',
+      testType: 'functional',
+      automationFeasibility: 'yes',
+      source: 'crawler',
+      version: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      createdBy: 'AI Coverage Agent',
+    };
+
+    setTestCases(prev => [newTestCase, ...prev]);
+    
+    toast({
+      title: 'Test Case Added',
+      description: `${newTestCase.id} has been created from suggestion`,
+    });
+  };
+
+  // Add all suggested test cases
+  const addAllSuggestedTestCases = () => {
+    if (!coverageResults) return;
+
+    let currentMaxId = testCases.reduce((max, tc) => {
+      const num = parseInt(tc.id.replace('TC-', ''), 10);
+      return num > max ? num : max;
+    }, 0);
+
+    const newTestCases: TestCase[] = coverageResults.suggestedTestCases.map(suggested => {
+      currentMaxId++;
+      return {
+        id: `TC-${String(currentMaxId).padStart(3, '0')}`,
+        projectId: selectedProject,
+        title: suggested.title,
+        description: suggested.description,
+        preconditions: 'User is on the target page',
+        steps: suggested.steps,
+        expectedResult: suggested.expectedResult,
+        priority: suggested.priority as TestCase['priority'],
+        severity: 'major',
+        status: 'draft',
+        testType: 'functional',
+        automationFeasibility: 'yes',
+        source: 'crawler',
+        version: 1,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        createdBy: 'AI Coverage Agent',
+      };
+    });
+
+    setTestCases(prev => [...newTestCases, ...prev]);
+    
+    toast({
+      title: 'Test Cases Added',
+      description: `${newTestCases.length} test cases created from suggestions`,
+    });
+  };
+
   // Handle export
   const handleExport = () => {
     const dataStr = JSON.stringify(testCases, null, 2);
@@ -705,6 +1026,10 @@ export default function TestCases() {
             <Button variant="outline" className="gap-2" onClick={() => setIsImportOpen(true)}>
               <Upload className="h-4 w-4" />
               Import
+            </Button>
+            <Button variant="outline" className="gap-2 border-purple-500/50 text-purple-600 hover:bg-purple-500/10" onClick={() => setIsCoverageAgentOpen(true)}>
+              <Scan className="h-4 w-4" />
+              Coverage Agent
             </Button>
             <Button variant="outline" className="gap-2" onClick={() => setIsAIGenerateOpen(true)}>
               <Sparkles className="h-4 w-4" />
@@ -1453,6 +1778,381 @@ export default function TestCases() {
                 </>
               )}
             </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* AI Coverage Agent Dialog */}
+      <Dialog open={isCoverageAgentOpen} onOpenChange={(open) => {
+        setIsCoverageAgentOpen(open);
+        if (!open) {
+          setCoverageResults(null);
+          setCoverageUrl('');
+          setAnalysisProgress(0);
+        }
+      }}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-purple-500/10">
+                <Scan className="h-5 w-5 text-purple-500" />
+              </div>
+              AI Coverage Agent
+            </DialogTitle>
+            <DialogDescription>
+              Analyze your test cases against a website's DOM to find coverage gaps and get suggestions
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex-1 overflow-hidden">
+            {!coverageResults ? (
+              <div className="space-y-6 py-4">
+                {/* URL Input */}
+                <div className="space-y-2">
+                  <Label htmlFor="coverage-url">Website URL to Analyze</Label>
+                  <div className="relative">
+                    <Globe className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <Input
+                      id="coverage-url"
+                      placeholder="https://example.com/page"
+                      value={coverageUrl}
+                      onChange={(e) => setCoverageUrl(e.target.value)}
+                      className="pl-9"
+                      disabled={isAnalyzing}
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Enter the URL of the page you want to analyze for test coverage
+                  </p>
+                </div>
+
+                {/* Project Selection */}
+                <div className="space-y-2">
+                  <Label>Project Context</Label>
+                  <Select value={selectedProject} onValueChange={setSelectedProject} disabled={isAnalyzing}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select project" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {mockProjects.map(project => (
+                        <SelectItem key={project.id} value={project.id}>
+                          {project.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    Test cases from this project will be matched against the DOM
+                  </p>
+                </div>
+
+                {/* Current Test Cases Info */}
+                <div className="p-4 bg-muted/30 rounded-xl space-y-2">
+                  <div className="flex items-center gap-2">
+                    <FileCheck className="h-4 w-4 text-primary" />
+                    <span className="font-medium text-sm">Current Test Repository</span>
+                  </div>
+                  <div className="grid grid-cols-4 gap-3 text-center">
+                    <div className="p-2 bg-background rounded-lg">
+                      <p className="text-2xl font-bold text-primary">{testCases.length}</p>
+                      <p className="text-xs text-muted-foreground">Total</p>
+                    </div>
+                    <div className="p-2 bg-background rounded-lg">
+                      <p className="text-2xl font-bold text-success">{testCases.filter(t => t.status === 'approved').length}</p>
+                      <p className="text-xs text-muted-foreground">Approved</p>
+                    </div>
+                    <div className="p-2 bg-background rounded-lg">
+                      <p className="text-2xl font-bold text-warning">{testCases.filter(t => t.status === 'draft').length}</p>
+                      <p className="text-xs text-muted-foreground">Draft</p>
+                    </div>
+                    <div className="p-2 bg-background rounded-lg">
+                      <p className="text-2xl font-bold text-muted-foreground">{testCases.filter(t => t.status === 'deprecated').length}</p>
+                      <p className="text-xs text-muted-foreground">Deprecated</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Analysis Progress */}
+                {isAnalyzing && (
+                  <div className="space-y-3 p-4 border border-purple-500/30 bg-purple-500/5 rounded-xl">
+                    <div className="flex items-center gap-3">
+                      <Loader2 className="h-5 w-5 animate-spin text-purple-500" />
+                      <span className="font-medium text-purple-600">{analysisPhase}</span>
+                    </div>
+                    <Progress value={analysisProgress} className="h-2" />
+                    <p className="text-xs text-muted-foreground text-center">
+                      {analysisProgress}% complete
+                    </p>
+                  </div>
+                )}
+
+                {/* How it works */}
+                <div className="space-y-3">
+                  <Label className="text-sm">How it works</Label>
+                  <div className="grid grid-cols-1 gap-2">
+                    <div className="flex items-start gap-3 p-3 bg-muted/20 rounded-lg">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/20 text-purple-500 text-xs font-bold">1</div>
+                      <div>
+                        <p className="font-medium text-sm">DOM Analysis</p>
+                        <p className="text-xs text-muted-foreground">Agent scans the page for interactive elements (buttons, forms, inputs, links)</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 bg-muted/20 rounded-lg">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/20 text-purple-500 text-xs font-bold">2</div>
+                      <div>
+                        <p className="font-medium text-sm">Test Case Matching</p>
+                        <p className="text-xs text-muted-foreground">Compares detected elements with your existing test cases</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3 p-3 bg-muted/20 rounded-lg">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/20 text-purple-500 text-xs font-bold">3</div>
+                      <div>
+                        <p className="font-medium text-sm">Gap Analysis & Suggestions</p>
+                        <p className="text-xs text-muted-foreground">Identifies uncovered elements and generates test case suggestions</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Results View */
+              <ScrollArea className="h-[60vh] pr-4">
+                <div className="space-y-6 py-4">
+                  {/* Coverage Score */}
+                  <div className="flex items-center gap-6 p-6 bg-gradient-to-r from-purple-500/10 to-primary/10 rounded-xl">
+                    <div className="relative">
+                      <div className={`flex items-center justify-center w-24 h-24 rounded-full border-4 ${
+                        coverageResults.overallScore >= 70 ? 'border-success' : 
+                        coverageResults.overallScore >= 40 ? 'border-warning' : 'border-destructive'
+                      }`}>
+                        <span className="text-3xl font-bold">{coverageResults.overallScore}%</span>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold mb-1">Overall Test Coverage</h3>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        {coverageResults.elementsCovered} of {coverageResults.elementsFound} interactive elements are covered by test cases
+                      </p>
+                      <div className="flex items-center gap-4 text-sm">
+                        <div className="flex items-center gap-1">
+                          <CheckCircle className="h-4 w-4 text-success" />
+                          <span>{coverageResults.elementsCovered} Covered</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <AlertTriangle className="h-4 w-4 text-warning" />
+                          <span>{coverageResults.gaps.length} Gaps</span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Target className="h-4 w-4 text-primary" />
+                          <span>{coverageResults.suggestedTestCases.length} Suggestions</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Page Metadata */}
+                  <div className="grid grid-cols-5 gap-3">
+                    <Card className="p-3 text-center">
+                      <MousePointer className="h-5 w-5 mx-auto mb-1 text-blue-500" />
+                      <p className="text-xl font-bold">{coverageResults.pageMetadata.buttons}</p>
+                      <p className="text-xs text-muted-foreground">Buttons</p>
+                    </Card>
+                    <Card className="p-3 text-center">
+                      <FormInput className="h-5 w-5 mx-auto mb-1 text-green-500" />
+                      <p className="text-xl font-bold">{coverageResults.pageMetadata.forms}</p>
+                      <p className="text-xs text-muted-foreground">Forms</p>
+                    </Card>
+                    <Card className="p-3 text-center">
+                      <Edit2 className="h-5 w-5 mx-auto mb-1 text-orange-500" />
+                      <p className="text-xl font-bold">{coverageResults.pageMetadata.inputs}</p>
+                      <p className="text-xs text-muted-foreground">Inputs</p>
+                    </Card>
+                    <Card className="p-3 text-center">
+                      <Navigation className="h-5 w-5 mx-auto mb-1 text-purple-500" />
+                      <p className="text-xl font-bold">{coverageResults.pageMetadata.links}</p>
+                      <p className="text-xs text-muted-foreground">Links</p>
+                    </Card>
+                    <Card className="p-3 text-center">
+                      <LayoutGrid className="h-5 w-5 mx-auto mb-1 text-pink-500" />
+                      <p className="text-xl font-bold">{coverageResults.pageMetadata.modals}</p>
+                      <p className="text-xs text-muted-foreground">Modals</p>
+                    </Card>
+                  </div>
+
+                  {/* Coverage by Category */}
+                  <div className="space-y-3">
+                    <Label className="text-sm font-semibold">Coverage by Category</Label>
+                    <div className="space-y-2">
+                      {Object.entries(coverageResults.coverageByCategory).map(([category, data]) => (
+                        <div key={category} className="flex items-center gap-3">
+                          <span className="w-24 text-sm text-muted-foreground">{category}</span>
+                          <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full transition-all ${
+                                data.percentage >= 70 ? 'bg-success' : 
+                                data.percentage >= 40 ? 'bg-warning' : 'bg-destructive'
+                              }`}
+                              style={{ width: `${data.percentage}%` }}
+                            />
+                          </div>
+                          <span className="w-16 text-sm text-right">
+                            {data.covered}/{data.total} ({data.percentage}%)
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Coverage Gaps */}
+                  {coverageResults.gaps.length > 0 && (
+                    <Accordion type="single" collapsible defaultValue="gaps">
+                      <AccordionItem value="gaps" className="border rounded-xl px-4">
+                        <AccordionTrigger className="hover:no-underline">
+                          <div className="flex items-center gap-2">
+                            <AlertTriangle className="h-4 w-4 text-warning" />
+                            <span>Coverage Gaps ({coverageResults.gaps.length})</span>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="space-y-2 pt-2">
+                            {coverageResults.gaps.map((gap, idx) => (
+                              <div key={idx} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                                <div className="flex items-center gap-3">
+                                  <Badge variant={gap.priority === 'high' ? 'destructive' : 'secondary'} className="text-xs">
+                                    {gap.priority}
+                                  </Badge>
+                                  <div>
+                                    <p className="font-medium text-sm">{gap.element.text || gap.element.selector}</p>
+                                    <p className="text-xs text-muted-foreground">{gap.element.type} • {gap.category}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  )}
+
+                  {/* Suggested Test Cases */}
+                  {coverageResults.suggestedTestCases.length > 0 && (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Target className="h-4 w-4 text-primary" />
+                          <Label className="text-sm font-semibold">Suggested Test Cases</Label>
+                        </div>
+                        <Button size="sm" variant="outline" onClick={addAllSuggestedTestCases}>
+                          <Plus className="h-3 w-3 mr-1" />
+                          Add All ({coverageResults.suggestedTestCases.length})
+                        </Button>
+                      </div>
+                      <div className="space-y-2">
+                        {coverageResults.suggestedTestCases.map((suggested, idx) => (
+                          <Card key={idx} className="p-4">
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex-1 space-y-2">
+                                <div className="flex items-center gap-2">
+                                  <Badge variant={suggested.priority === 'high' ? 'destructive' : suggested.priority === 'critical' ? 'destructive' : 'secondary'}>
+                                    {suggested.priority}
+                                  </Badge>
+                                  <Badge variant="outline">{suggested.category}</Badge>
+                                </div>
+                                <h4 className="font-medium">{suggested.title}</h4>
+                                <p className="text-sm text-muted-foreground">{suggested.description}</p>
+                                <div className="text-xs text-muted-foreground">
+                                  <span className="font-medium">Steps: </span>
+                                  {suggested.steps.length} steps defined
+                                </div>
+                              </div>
+                              <Button size="sm" onClick={() => addSuggestedTestCase(suggested)}>
+                                <Plus className="h-3 w-3 mr-1" />
+                                Add
+                              </Button>
+                            </div>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Covered Elements */}
+                  {coverageResults.coveredElements.length > 0 && (
+                    <Accordion type="single" collapsible>
+                      <AccordionItem value="covered" className="border rounded-xl px-4">
+                        <AccordionTrigger className="hover:no-underline">
+                          <div className="flex items-center gap-2">
+                            <ShieldCheck className="h-4 w-4 text-success" />
+                            <span>Covered Elements ({coverageResults.coveredElements.length})</span>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="space-y-2 pt-2">
+                            {coverageResults.coveredElements.map((item, idx) => (
+                              <div key={idx} className="flex items-center justify-between p-3 bg-success/5 rounded-lg border border-success/20">
+                                <div className="flex items-center gap-3">
+                                  <CheckCircle className="h-4 w-4 text-success" />
+                                  <div>
+                                    <p className="font-medium text-sm">{item.element.text || item.element.selector}</p>
+                                    <p className="text-xs text-muted-foreground">{item.element.type}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                  <Badge variant={item.coverage === 'full' ? 'success' : 'secondary'} className="text-xs">
+                                    {item.coverage}
+                                  </Badge>
+                                  <span className="text-xs text-muted-foreground">
+                                    {item.testCases.join(', ')}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  )}
+                </div>
+              </ScrollArea>
+            )}
+          </div>
+
+          <DialogFooter className="border-t pt-4">
+            {!coverageResults ? (
+              <>
+                <Button variant="outline" onClick={() => setIsCoverageAgentOpen(false)} disabled={isAnalyzing}>
+                  Cancel
+                </Button>
+                <Button onClick={runCoverageAnalysis} disabled={isAnalyzing || !coverageUrl.trim()}>
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Analyzing...
+                    </>
+                  ) : (
+                    <>
+                      <Scan className="mr-2 h-4 w-4" />
+                      Start Analysis
+                    </>
+                  )}
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" onClick={() => {
+                  setCoverageResults(null);
+                  setCoverageUrl('');
+                }}>
+                  <RefreshCw className="mr-2 h-4 w-4" />
+                  New Analysis
+                </Button>
+                <Button onClick={() => setIsCoverageAgentOpen(false)}>
+                  Done
+                </Button>
+              </>
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>
