@@ -411,25 +411,49 @@ export default function Projects() {
 
         {/* Tabs for Filtering - Using defaultValue like Settings page */}
         <Tabs defaultValue="all" className="space-y-6">
-          <TabsList className="bg-muted/50">
-            <TabsTrigger value="all" className="gap-2">
-              <FolderOpen className="h-4 w-4" />
-              All Projects
-              <Badge variant="secondary" className="ml-1 text-xs">
+          <TabsList className="bg-muted/30 p-1.5 h-auto border-2 border-border rounded-xl">
+            <TabsTrigger 
+              value="all" 
+              className="gap-2 px-4 py-2.5 rounded-lg data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-md font-medium transition-all"
+            >
+              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-primary/10 data-[state=active]:bg-primary-foreground/20">
+                <FolderOpen className="h-4 w-4" />
+              </div>
+              <span className="font-semibold">All Projects</span>
+              <Badge 
+                variant="secondary" 
+                className="ml-1 text-xs font-bold bg-primary/20 text-primary border border-primary/30 px-2"
+              >
                 {projects.length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="active" className="gap-2">
-              <FileCheck className="h-4 w-4" />
-              Active
-              <Badge variant="success" className="ml-1 text-xs">
+            <TabsTrigger 
+              value="active" 
+              className="gap-2 px-4 py-2.5 rounded-lg data-[state=active]:bg-success data-[state=active]:text-success-foreground data-[state=active]:shadow-md font-medium transition-all"
+            >
+              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-success/10">
+                <FileCheck className="h-4 w-4 text-success" />
+              </div>
+              <span className="font-semibold">Active</span>
+              <Badge 
+                variant="success" 
+                className="ml-1 text-xs font-bold px-2 border border-success/30"
+              >
                 {activeProjects.length}
               </Badge>
             </TabsTrigger>
-            <TabsTrigger value="archived" className="gap-2">
-              <Archive className="h-4 w-4" />
-              Archived
-              <Badge variant="secondary" className="ml-1 text-xs">
+            <TabsTrigger 
+              value="archived" 
+              className="gap-2 px-4 py-2.5 rounded-lg data-[state=active]:bg-muted data-[state=active]:text-foreground data-[state=active]:shadow-md font-medium transition-all"
+            >
+              <div className="flex items-center justify-center w-7 h-7 rounded-md bg-muted">
+                <Archive className="h-4 w-4 text-muted-foreground" />
+              </div>
+              <span className="font-semibold">Archived</span>
+              <Badge 
+                variant="secondary" 
+                className="ml-1 text-xs font-bold px-2 border border-border"
+              >
                 {archivedProjects.length}
               </Badge>
             </TabsTrigger>
