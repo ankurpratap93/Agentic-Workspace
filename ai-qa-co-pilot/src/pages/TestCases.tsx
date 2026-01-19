@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +35,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Progress } from '@/components/ui/progress';
 import { testCases as mockTestCases } from '@/data/mockTestCases';
 import { TestCase } from '@/types';
 import { useToast } from '@/hooks/use-toast';
@@ -58,6 +59,11 @@ import {
   FileUp,
   Link,
   Bot,
+  File,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
+  HelpCircle,
 } from 'lucide-react';
 
 const sourceIcons: Record<string, React.ElementType> = {
@@ -101,9 +107,28 @@ export default function TestCases() {
   // Dialog states
   const [isNewTestCaseOpen, setIsNewTestCaseOpen] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isBulkUploadOpen, setIsBulkUploadOpen] = useState(false);
   const [isAIGenerateOpen, setIsAIGenerateOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  
+  // File upload state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [parsedData, setParsedData] = useState<any[]>([]);
+  const [parseError, setParseError] = useState<string | null>(null);
+  const [columnMapping, setColumnMapping] = useState({
+    title: 'title',
+    description: 'description',
+    preconditions: 'preconditions',
+    steps: 'steps',
+    expectedResult: 'expectedResult',
+    priority: 'priority',
+    testType: 'testType',
+  });
+  const [selectedProject, setSelectedProject] = useState('1');
   
   // New test case form state
   const [newTestCase, setNewTestCase] = useState({
@@ -292,53 +317,262 @@ export default function TestCases() {
     });
   };
 
-  // Handle import
-  const handleImport = (source: string) => {
-    toast({
-      title: 'Import Started',
-      description: `Importing test cases from ${source}...`,
-    });
-    
-    // Simulate import delay
-    setTimeout(() => {
-      const importedCases: TestCase[] = [];
-      const sourceMap: Record<string, TestCase['source']> = {
-        'excel': 'excel',
-        'figma': 'figma',
-        'csv': 'excel',
-      };
-      
-      for (let i = 0; i < 3; i++) {
-        importedCases.push({
-          id: generateId(),
-          projectId: '1',
-          title: `Imported Test Case ${i + 1} from ${source}`,
-          description: `Test case imported from ${source} file`,
-          preconditions: 'As specified in source',
-          steps: ['Step 1 from import', 'Step 2 from import'],
-          expectedResult: 'As specified in source',
-          priority: 'medium',
-          severity: 'major',
-          status: 'draft',
-          testType: 'functional',
-          automationFeasibility: 'partial',
-          source: sourceMap[source] || 'manual',
-          version: 1,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-          createdBy: 'Import Agent',
-        });
-      }
+  // Parse CSV content
+  const parseCSV = (content: string): any[] => {
+    const lines = content.split('\n').filter(line => line.trim());
+    if (lines.length < 2) return [];
 
-      setTestCases(prev => [...importedCases, ...prev]);
-      setIsImportOpen(false);
-      
+    // Parse header
+    const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/['"]/g, ''));
+    
+    // Parse data rows
+    const data: any[] = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = parseCSVLine(lines[i]);
+      if (values.length >= headers.length) {
+        const row: any = {};
+        headers.forEach((header, idx) => {
+          row[header] = values[idx]?.trim().replace(/^["']|["']$/g, '') || '';
+        });
+        data.push(row);
+      }
+    }
+    return data;
+  };
+
+  // Parse a single CSV line (handles quoted values with commas)
+  const parseCSVLine = (line: string): string[] => {
+    const result: string[] = [];
+    let current = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < line.length; i++) {
+      const char = line[i];
+      if (char === '"' && (i === 0 || line[i - 1] !== '\\')) {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        result.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+    result.push(current);
+    return result;
+  };
+
+  // Handle file selection
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validTypes = ['.csv', '.xlsx', '.xls'];
+    const fileExt = '.' + file.name.split('.').pop()?.toLowerCase();
+    
+    if (!validTypes.includes(fileExt)) {
+      setParseError('Please upload a CSV or Excel file (.csv, .xlsx, .xls)');
+      return;
+    }
+
+    setUploadedFile(file);
+    setParseError(null);
+    setParsedData([]);
+    setUploadProgress(0);
+
+    // Read and parse file
+    const reader = new FileReader();
+    reader.onprogress = (e) => {
+      if (e.lengthComputable) {
+        setUploadProgress(Math.round((e.loaded / e.total) * 100));
+      }
+    };
+    reader.onload = (e) => {
+      try {
+        const content = e.target?.result as string;
+        const data = parseCSV(content);
+        
+        if (data.length === 0) {
+          setParseError('No valid data found in file. Please check the format.');
+          return;
+        }
+
+        // Auto-detect column mapping
+        const firstRow = data[0];
+        const keys = Object.keys(firstRow);
+        const newMapping = { ...columnMapping };
+        
+        const mappingGuesses: Record<string, string[]> = {
+          title: ['title', 'name', 'test case', 'testcase', 'test_case', 'test name'],
+          description: ['description', 'desc', 'details', 'summary'],
+          preconditions: ['preconditions', 'precondition', 'pre-conditions', 'prerequisites'],
+          steps: ['steps', 'test steps', 'procedure', 'actions'],
+          expectedResult: ['expected result', 'expected', 'expected_result', 'result', 'expected outcome'],
+          priority: ['priority', 'prio', 'importance'],
+          testType: ['type', 'test type', 'testtype', 'test_type', 'category'],
+        };
+
+        Object.entries(mappingGuesses).forEach(([field, guesses]) => {
+          const match = keys.find(k => 
+            guesses.some(g => k.toLowerCase().includes(g))
+          );
+          if (match) {
+            newMapping[field as keyof typeof newMapping] = match;
+          }
+        });
+
+        setColumnMapping(newMapping);
+        setParsedData(data);
+        setUploadProgress(100);
+      } catch (err) {
+        setParseError('Failed to parse file. Please ensure it is a valid CSV format.');
+      }
+    };
+    reader.onerror = () => {
+      setParseError('Failed to read file. Please try again.');
+    };
+    reader.readAsText(file);
+  };
+
+  // Handle bulk import
+  const handleBulkImport = () => {
+    if (parsedData.length === 0) {
       toast({
-        title: 'Import Complete',
-        description: `${importedCases.length} test cases imported from ${source}`,
+        title: 'No Data',
+        description: 'Please upload a file with test case data first',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setIsUploading(true);
+
+    // Convert parsed data to test cases
+    const importedCases: TestCase[] = [];
+    let currentMaxId = testCases.reduce((max, tc) => {
+      const num = parseInt(tc.id.replace('TC-', ''), 10);
+      return num > max ? num : max;
+    }, 0);
+
+    parsedData.forEach((row) => {
+      currentMaxId++;
+      const stepsValue = row[columnMapping.steps] || '';
+      const stepsArray = typeof stepsValue === 'string' 
+        ? stepsValue.split(/[;\n]/).filter((s: string) => s.trim())
+        : ['Step 1'];
+
+      const priorityValue = (row[columnMapping.priority] || 'medium').toLowerCase();
+      const validPriorities = ['low', 'medium', 'high', 'critical'];
+      const priority = validPriorities.includes(priorityValue) ? priorityValue : 'medium';
+
+      const testTypeValue = (row[columnMapping.testType] || 'functional').toLowerCase();
+      const validTypes = ['functional', 'regression', 'smoke', 'integration', 'e2e'];
+      const testType = validTypes.includes(testTypeValue) ? testTypeValue : 'functional';
+
+      importedCases.push({
+        id: `TC-${String(currentMaxId).padStart(3, '0')}`,
+        projectId: selectedProject,
+        title: row[columnMapping.title] || `Test Case ${currentMaxId}`,
+        description: row[columnMapping.description] || '',
+        preconditions: row[columnMapping.preconditions] || '',
+        steps: stepsArray.length > 0 ? stepsArray : ['Step 1'],
+        expectedResult: row[columnMapping.expectedResult] || '',
+        priority: priority as TestCase['priority'],
+        severity: 'major',
+        status: 'draft',
+        testType: testType as TestCase['testType'],
+        automationFeasibility: 'partial',
+        source: 'excel',
+        version: 1,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        createdBy: 'Bulk Import',
+      });
+    });
+
+    // Simulate processing delay
+    setTimeout(() => {
+      setTestCases(prev => [...importedCases, ...prev]);
+      setIsUploading(false);
+      setIsBulkUploadOpen(false);
+      resetUploadState();
+
+      toast({
+        title: 'Bulk Import Complete',
+        description: `Successfully imported ${importedCases.length} test cases`,
       });
     }, 1500);
   };
+
+  // Reset upload state
+  const resetUploadState = () => {
+    setUploadedFile(null);
+    setParsedData([]);
+    setParseError(null);
+    setUploadProgress(0);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  // Handle import source selection
+  const handleImportSourceSelect = (source: string) => {
+    if (source === 'excel' || source === 'csv') {
+      setIsImportOpen(false);
+      setIsBulkUploadOpen(true);
+    } else {
+      // Other sources - simulate import
+      toast({
+        title: 'Import Started',
+        description: `Importing test cases from ${source}...`,
+      });
+      
+      setTimeout(() => {
+        const importedCases: TestCase[] = [];
+        const sourceMap: Record<string, TestCase['source']> = {
+          'figma': 'figma',
+          'url': 'crawler',
+          'json': 'manual',
+        };
+        
+        for (let i = 0; i < 3; i++) {
+          importedCases.push({
+            id: generateId(),
+            projectId: selectedProject,
+            title: `Imported Test Case ${i + 1} from ${source}`,
+            description: `Test case imported from ${source}`,
+            preconditions: 'As specified in source',
+            steps: ['Step 1 from import', 'Step 2 from import'],
+            expectedResult: 'As specified in source',
+            priority: 'medium',
+            severity: 'major',
+            status: 'draft',
+            testType: 'functional',
+            automationFeasibility: 'partial',
+            source: sourceMap[source] || 'manual',
+            version: 1,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+            createdBy: 'Import Agent',
+          });
+        }
+
+        setTestCases(prev => [...importedCases, ...prev]);
+        setIsImportOpen(false);
+        
+        toast({
+          title: 'Import Complete',
+          description: `${importedCases.length} test cases imported from ${source}`,
+        });
+      }, 1500);
+    }
+  };
+
+  // Mock projects for selection
+  const mockProjects = [
+    { id: '1', name: 'E-Commerce Platform' },
+    { id: '2', name: 'Banking Application' },
+    { id: '3', name: 'Healthcare Portal' },
+  ];
 
   // Handle export
   const handleExport = () => {
@@ -846,21 +1080,21 @@ export default function TestCases() {
             <Button 
               variant="outline" 
               className="justify-start gap-3 h-14"
-              onClick={() => handleImport('excel')}
+              onClick={() => handleImportSourceSelect('excel')}
             >
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-green-500/10">
                 <FileSpreadsheet className="h-5 w-5 text-green-500" />
               </div>
               <div className="text-left">
-                <p className="font-medium">Excel / CSV</p>
-                <p className="text-xs text-muted-foreground">Import from spreadsheet files</p>
+                <p className="font-medium">Excel / CSV File</p>
+                <p className="text-xs text-muted-foreground">Upload spreadsheet with test cases</p>
               </div>
             </Button>
 
             <Button 
               variant="outline" 
               className="justify-start gap-3 h-14"
-              onClick={() => handleImport('figma')}
+              onClick={() => handleImportSourceSelect('figma')}
             >
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-purple-500/10">
                 <Figma className="h-5 w-5 text-purple-500" />
@@ -874,7 +1108,7 @@ export default function TestCases() {
             <Button 
               variant="outline" 
               className="justify-start gap-3 h-14"
-              onClick={() => handleImport('url')}
+              onClick={() => handleImportSourceSelect('url')}
             >
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-blue-500/10">
                 <Globe className="h-5 w-5 text-blue-500" />
@@ -888,7 +1122,7 @@ export default function TestCases() {
             <Button 
               variant="outline" 
               className="justify-start gap-3 h-14"
-              onClick={() => handleImport('json')}
+              onClick={() => handleImportSourceSelect('json')}
             >
               <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-orange-500/10">
                 <FileUp className="h-5 w-5 text-orange-500" />
@@ -899,6 +1133,249 @@ export default function TestCases() {
               </div>
             </Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Bulk Upload Dialog */}
+      <Dialog open={isBulkUploadOpen} onOpenChange={(open) => {
+        setIsBulkUploadOpen(open);
+        if (!open) resetUploadState();
+      }}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <FileSpreadsheet className="h-5 w-5 text-green-500" />
+              Bulk Upload Test Cases
+            </DialogTitle>
+            <DialogDescription>
+              Upload an Excel or CSV file containing test cases
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="grid gap-6 py-4">
+            {/* Project Selection */}
+            <div className="space-y-2">
+              <Label>Target Project</Label>
+              <Select value={selectedProject} onValueChange={setSelectedProject}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select project" />
+                </SelectTrigger>
+                <SelectContent>
+                  {mockProjects.map(project => (
+                    <SelectItem key={project.id} value={project.id}>
+                      {project.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* File Upload Area */}
+            <div className="space-y-2">
+              <Label>Upload File</Label>
+              <div 
+                className={`border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer hover:border-primary/50 ${
+                  uploadedFile ? 'border-success bg-success/5' : 'border-border'
+                } ${parseError ? 'border-destructive bg-destructive/5' : ''}`}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept=".csv,.xlsx,.xls"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                
+                {!uploadedFile ? (
+                  <>
+                    <Upload className="h-10 w-10 mx-auto text-muted-foreground mb-3" />
+                    <p className="font-medium text-foreground">
+                      Click to upload or drag and drop
+                    </p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      CSV, XLSX, or XLS files supported
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center justify-center gap-3">
+                      <File className="h-8 w-8 text-success" />
+                      <div className="text-left">
+                        <p className="font-medium text-foreground">{uploadedFile.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {(uploadedFile.size / 1024).toFixed(1)} KB
+                        </p>
+                      </div>
+                      <Button 
+                        variant="ghost" 
+                        size="icon"
+                        className="ml-2"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          resetUploadState();
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    {uploadProgress < 100 && (
+                      <Progress value={uploadProgress} className="mt-3" />
+                    )}
+                  </>
+                )}
+              </div>
+              
+              {parseError && (
+                <div className="flex items-center gap-2 text-destructive text-sm mt-2">
+                  <AlertCircle className="h-4 w-4" />
+                  {parseError}
+                </div>
+              )}
+            </div>
+
+            {/* Parsed Data Preview */}
+            {parsedData.length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5 text-success" />
+                    <span className="font-medium">
+                      {parsedData.length} test cases detected
+                    </span>
+                  </div>
+                </div>
+
+                {/* Column Mapping */}
+                <div className="space-y-3 p-4 bg-muted/30 rounded-xl">
+                  <div className="flex items-center gap-2">
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                    <Label className="text-sm">Column Mapping</Label>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {Object.entries(columnMapping).map(([field, value]) => (
+                      <div key={field} className="space-y-1">
+                        <Label className="text-xs capitalize text-muted-foreground">
+                          {field.replace(/([A-Z])/g, ' $1').trim()}
+                        </Label>
+                        <Select 
+                          value={value} 
+                          onValueChange={(v) => setColumnMapping(prev => ({ ...prev, [field]: v }))}
+                        >
+                          <SelectTrigger className="h-8 text-sm">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {Object.keys(parsedData[0] || {}).map(col => (
+                              <SelectItem key={col} value={col} className="text-sm">
+                                {col}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Preview Table */}
+                <div className="space-y-2">
+                  <Label className="text-sm">Preview (first 3 rows)</Label>
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-muted/50">
+                          <TableHead className="w-12">#</TableHead>
+                          <TableHead>Title</TableHead>
+                          <TableHead>Priority</TableHead>
+                          <TableHead>Type</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {parsedData.slice(0, 3).map((row, idx) => (
+                          <TableRow key={idx}>
+                            <TableCell className="font-mono text-xs">{idx + 1}</TableCell>
+                            <TableCell className="max-w-xs truncate">
+                              {row[columnMapping.title] || '-'}
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="secondary" className="text-xs">
+                                {row[columnMapping.priority] || 'medium'}
+                              </Badge>
+                            </TableCell>
+                            <TableCell className="text-sm text-muted-foreground">
+                              {row[columnMapping.testType] || 'functional'}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  {parsedData.length > 3 && (
+                    <p className="text-xs text-muted-foreground text-center">
+                      ... and {parsedData.length - 3} more rows
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Template Download */}
+            <div className="flex items-center justify-between p-4 bg-muted/30 rounded-xl">
+              <div>
+                <p className="font-medium text-sm">Need a template?</p>
+                <p className="text-xs text-muted-foreground">
+                  Download our CSV template with the correct format
+                </p>
+              </div>
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => {
+                  const template = 'title,description,preconditions,steps,expectedResult,priority,testType\n"Login Test","Test user login","User exists","Navigate to login;Enter credentials;Click submit","User is logged in","high","functional"\n';
+                  const blob = new Blob([template], { type: 'text/csv' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement('a');
+                  link.href = url;
+                  link.download = 'test-cases-template.csv';
+                  link.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download Template
+              </Button>
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button 
+              variant="outline" 
+              onClick={() => {
+                setIsBulkUploadOpen(false);
+                resetUploadState();
+              }}
+              disabled={isUploading}
+            >
+              Cancel
+            </Button>
+            <Button 
+              onClick={handleBulkImport}
+              disabled={parsedData.length === 0 || isUploading}
+            >
+              {isUploading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Importing...
+                </>
+              ) : (
+                <>
+                  <Upload className="mr-2 h-4 w-4" />
+                  Import {parsedData.length} Test Cases
+                </>
+              )}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
