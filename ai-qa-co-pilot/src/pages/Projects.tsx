@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
@@ -130,12 +130,17 @@ function ProjectCard({
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8"
+              onClick={(e) => e.stopPropagation()}
+            >
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>View Details</DropdownMenuItem>
+          <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+            <DropdownMenuItem onClick={() => onViewDetails(project)}>View Details</DropdownMenuItem>
             {isArchived ? (
               <>
                 <DropdownMenuItem>Restore</DropdownMenuItem>
@@ -204,9 +209,31 @@ function ProjectCard({
   );
 }
 
+// Helper to load projects from localStorage
+const loadProjectsFromStorage = (): Project[] => {
+  try {
+    const stored = localStorage.getItem('qa-forge-projects');
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error('Failed to load projects from storage:', e);
+  }
+  return initialProjects;
+};
+
+// Helper to save projects to localStorage
+const saveProjectsToStorage = (projects: Project[]) => {
+  try {
+    localStorage.setItem('qa-forge-projects', JSON.stringify(projects));
+  } catch (e) {
+    console.error('Failed to save projects to storage:', e);
+  }
+};
+
 export default function Projects() {
   const navigate = useNavigate();
-  const [projects, setProjects] = useState<Project[]>(initialProjects);
+  const [projects, setProjects] = useState<Project[]>(loadProjectsFromStorage);
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -214,6 +241,11 @@ export default function Projects() {
   const [newProjectDescription, setNewProjectDescription] = useState('');
   const [newProjectModules, setNewProjectModules] = useState('');
   const { toast } = useToast();
+
+  // Save projects to localStorage whenever they change
+  useEffect(() => {
+    saveProjectsToStorage(projects);
+  }, [projects]);
 
   // Compute filtered projects
   const activeProjects = projects.filter((p) => p.status === 'active');

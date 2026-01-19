@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
@@ -21,8 +22,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 
-// Mock project data - in a real app, this would come from an API or context
-const projectsData: Record<string, {
+type Project = {
   id: string;
   name: string;
   description: string;
@@ -33,55 +33,19 @@ const projectsData: Record<string, {
   modules: string[];
   createdAt: string;
   lastActivity: string;
-}> = {
-  '1': {
-    id: '1',
-    name: 'E-Commerce Platform',
-    description: 'Main shopping application with cart, checkout, and order management',
-    status: 'active',
-    testCasesCount: 456,
-    bugsCount: 23,
-    passRate: 87,
-    modules: ['Authentication', 'Cart', 'Checkout', 'Orders', 'Products'],
-    createdAt: '2024-01-15',
-    lastActivity: '2 hours ago',
-  },
-  '2': {
-    id: '2',
-    name: 'Mobile Banking App',
-    description: 'iOS and Android banking solution with transfers and payments',
-    status: 'active',
-    testCasesCount: 312,
-    bugsCount: 8,
-    passRate: 94,
-    modules: ['Login', 'Accounts', 'Transfers', 'Payments', 'Settings'],
-    createdAt: '2024-01-10',
-    lastActivity: '30 min ago',
-  },
-  '3': {
-    id: '3',
-    name: 'Admin Dashboard',
-    description: 'Internal management portal for system administration',
-    status: 'active',
-    testCasesCount: 189,
-    bugsCount: 15,
-    passRate: 79,
-    modules: ['Users', 'Reports', 'Settings', 'Analytics'],
-    createdAt: '2024-01-05',
-    lastActivity: '1 day ago',
-  },
-  '4': {
-    id: '4',
-    name: 'Customer Support Portal',
-    description: 'Ticketing and knowledge base system',
-    status: 'archived',
-    testCasesCount: 98,
-    bugsCount: 2,
-    passRate: 95,
-    modules: ['Tickets', 'KB Articles', 'Chat'],
-    createdAt: '2023-12-01',
-    lastActivity: '2 weeks ago',
-  },
+};
+
+// Load projects from localStorage
+const loadProjectsFromStorage = (): Project[] => {
+  try {
+    const stored = localStorage.getItem('qa-forge-projects');
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error('Failed to load projects from storage:', e);
+  }
+  return [];
 };
 
 // Mock test cases for the project
@@ -104,47 +68,42 @@ const mockBugs = [
 export default function ProjectDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Get project from mock data or handle dynamic projects
-  const project = id ? projectsData[id] : null;
+  // Load project from localStorage
+  useEffect(() => {
+    const projects = loadProjectsFromStorage();
+    const foundProject = projects.find(p => p.id === id);
+    setProject(foundProject || null);
+    setLoading(false);
+  }, [id]);
 
-  // If project not found in mock data, show a generic view for dynamically created projects
-  if (!project && id) {
+  if (loading) {
     return (
-      <AppLayout title="Project Details" subtitle="View and manage your project">
-        <div className="space-y-6">
-          <Button variant="ghost" onClick={() => navigate('/projects')} className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Back to Projects
-          </Button>
-          
-          <Card className="p-8 text-center">
-            <FolderKanban className="h-16 w-16 text-primary mx-auto mb-4" />
-            <h2 className="text-2xl font-bold mb-2">Project #{id}</h2>
-            <p className="text-muted-foreground mb-6">
-              This is a newly created project. Start by adding test cases and configuring your modules.
-            </p>
-            <div className="flex justify-center gap-4">
-              <Button onClick={() => navigate('/test-cases')} className="gap-2">
-                <Plus className="h-4 w-4" />
-                Add Test Cases
-              </Button>
-              <Button variant="outline" onClick={() => navigate('/projects')}>
-                Back to Projects
-              </Button>
-            </div>
-          </Card>
+      <AppLayout title="Loading..." subtitle="">
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       </AppLayout>
     );
   }
 
+  // If project not found, show error
   if (!project) {
     return (
       <AppLayout title="Project Not Found" subtitle="">
-        <div className="text-center py-12">
-          <h2 className="text-2xl font-bold mb-4">Project not found</h2>
-          <Button onClick={() => navigate('/projects')}>Back to Projects</Button>
+        <div className="space-y-6">
+          <Button variant="ghost" onClick={() => navigate('/projects')} className="gap-2">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Projects
+          </Button>
+          <div className="text-center py-12">
+            <FolderKanban className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-2xl font-bold mb-4">Project not found</h2>
+            <p className="text-muted-foreground mb-6">The project you're looking for doesn't exist or has been deleted.</p>
+            <Button onClick={() => navigate('/projects')}>Back to Projects</Button>
+          </div>
         </div>
       </AppLayout>
     );
