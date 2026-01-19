@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -204,6 +205,7 @@ function ProjectCard({
 }
 
 export default function Projects() {
+  const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -506,11 +508,10 @@ export default function Projects() {
               Close
             </Button>
             <Button onClick={() => {
-              toast({
-                title: "Opening Project",
-                description: `Navigating to ${selectedProject?.name}...`,
-              });
               setIsDetailsOpen(false);
+              if (selectedProject) {
+                navigate(`/projects/${selectedProject.id}`);
+              }
             }}>
               Open Project
             </Button>
