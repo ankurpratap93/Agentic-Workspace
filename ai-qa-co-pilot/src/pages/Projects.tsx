@@ -1,16 +1,29 @@
+import { useState } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, FolderKanban, MoreVertical, FileCheck, Bug, Calendar, FolderOpen, Archive } from 'lucide-react';
+import { Plus, FolderKanban, MoreVertical, FileCheck, Bug, Calendar, FolderOpen, Archive, X } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 
 const projects = [
   {
@@ -67,10 +80,27 @@ const activeProjects = projects.filter((p) => p.status === 'active');
 const archivedProjects = projects.filter((p) => p.status === 'archived');
 
 // Reusable Project Card component
-function ProjectCard({ project, isArchived = false }: { project: typeof projects[0]; isArchived?: boolean }) {
+function ProjectCard({ 
+  project, 
+  isArchived = false,
+  onViewDetails 
+}: { 
+  project: typeof projects[0]; 
+  isArchived?: boolean;
+  onViewDetails: (project: typeof projects[0]) => void;
+}) {
   return (
     <Card
       className={`p-6 card-hover cursor-pointer border-border hover:border-primary/50 transition-all ${isArchived ? 'opacity-75' : ''}`}
+      onClick={() => onViewDetails(project)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onViewDetails(project);
+        }
+      }}
     >
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
@@ -164,6 +194,29 @@ function ProjectCard({ project, isArchived = false }: { project: typeof projects
 }
 
 export default function Projects() {
+  const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const { toast } = useToast();
+
+  const handleNewProject = () => {
+    setIsNewProjectOpen(true);
+  };
+
+  const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Project Created",
+      description: "Your new project has been created successfully.",
+    });
+    setIsNewProjectOpen(false);
+  };
+
+  const handleViewDetails = (project: typeof projects[0]) => {
+    setSelectedProject(project);
+    setIsDetailsOpen(true);
+  };
+
   return (
     <AppLayout title="Projects" subtitle="Manage your QA projects and test suites">
       <div className="space-y-6">
@@ -176,7 +229,7 @@ export default function Projects() {
               <Badge variant="secondary">{archivedProjects.length} Archived</Badge>
             )}
           </div>
-          <Button className="gap-2">
+          <Button className="gap-2" onClick={handleNewProject}>
             <Plus className="h-4 w-4" />
             New Project
           </Button>
@@ -211,7 +264,12 @@ export default function Projects() {
           <TabsContent value="all">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
-                <ProjectCard key={project.id} project={project} isArchived={project.status === 'archived'} />
+                <ProjectCard 
+                  key={project.id} 
+                  project={project} 
+                  isArchived={project.status === 'archived'} 
+                  onViewDetails={handleViewDetails}
+                />
               ))}
             </div>
           </TabsContent>
@@ -226,7 +284,11 @@ export default function Projects() {
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {activeProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} />
+                  <ProjectCard 
+                    key={project.id} 
+                    project={project} 
+                    onViewDetails={handleViewDetails}
+                  />
                 ))}
               </div>
             )}
@@ -242,13 +304,153 @@ export default function Projects() {
             ) : (
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                 {archivedProjects.map((project) => (
-                  <ProjectCard key={project.id} project={project} isArchived />
+                  <ProjectCard 
+                    key={project.id} 
+                    project={project} 
+                    isArchived 
+                    onViewDetails={handleViewDetails}
+                  />
                 ))}
               </div>
             )}
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* New Project Dialog */}
+      <Dialog open={isNewProjectOpen} onOpenChange={setIsNewProjectOpen}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Create New Project</DialogTitle>
+            <DialogDescription>
+              Add a new QA project to your workspace. Fill in the details below.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleCreateProject}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="project-name">Project Name</Label>
+                <Input id="project-name" placeholder="e.g., E-Commerce Platform" required />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="project-description">Description</Label>
+                <Textarea 
+                  id="project-description" 
+                  placeholder="Brief description of the project..." 
+                  rows={3}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="project-modules">Modules (comma-separated)</Label>
+                <Input 
+                  id="project-modules" 
+                  placeholder="e.g., Authentication, Cart, Checkout" 
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => setIsNewProjectOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Create Project</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Project Details Dialog */}
+      <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
+        <DialogContent className="sm:max-w-[600px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
+                <FolderKanban className="h-5 w-5 text-primary" />
+              </div>
+              {selectedProject?.name}
+            </DialogTitle>
+            <DialogDescription>
+              {selectedProject?.description}
+            </DialogDescription>
+          </DialogHeader>
+          {selectedProject && (
+            <div className="space-y-6 py-4">
+              {/* Status */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">Status:</span>
+                <Badge variant={selectedProject.status === 'active' ? 'success' : 'secondary'}>
+                  {selectedProject.status}
+                </Badge>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-4">
+                <div className="rounded-lg border p-4 text-center">
+                  <div className="flex items-center justify-center gap-1 text-2xl font-bold text-foreground">
+                    <FileCheck className="h-5 w-5 text-primary" />
+                    {selectedProject.testCasesCount}
+                  </div>
+                  <p className="text-sm text-muted-foreground">Test Cases</p>
+                </div>
+                <div className="rounded-lg border p-4 text-center">
+                  <div className="flex items-center justify-center gap-1 text-2xl font-bold text-foreground">
+                    <Bug className="h-5 w-5 text-destructive" />
+                    {selectedProject.bugsCount}
+                  </div>
+                  <p className="text-sm text-muted-foreground">Active Bugs</p>
+                </div>
+                <div className="rounded-lg border p-4 text-center">
+                  <div className="text-2xl font-bold text-foreground">{selectedProject.passRate}%</div>
+                  <p className="text-sm text-muted-foreground">Pass Rate</p>
+                </div>
+              </div>
+
+              {/* Progress */}
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Test Coverage</span>
+                  <span className="text-sm text-muted-foreground">{selectedProject.passRate}%</span>
+                </div>
+                <Progress value={selectedProject.passRate} className="h-2" />
+              </div>
+
+              {/* Modules */}
+              <div>
+                <span className="text-sm font-medium">Modules</span>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {selectedProject.modules.map((module) => (
+                    <Badge key={module} variant="outline">
+                      {module}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+
+              {/* Dates */}
+              <div className="flex items-center justify-between text-sm text-muted-foreground border-t pt-4">
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-4 w-4" />
+                  Created: {selectedProject.createdAt}
+                </div>
+                <span>Last activity: {selectedProject.lastActivity}</span>
+              </div>
+            </div>
+          )}
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsDetailsOpen(false)}>
+              Close
+            </Button>
+            <Button onClick={() => {
+              toast({
+                title: "Opening Project",
+                description: `Navigating to ${selectedProject?.name}...`,
+              });
+              setIsDetailsOpen(false);
+            }}>
+              Open Project
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AppLayout>
   );
 }
