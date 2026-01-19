@@ -395,14 +395,7 @@ export default function Projects() {
     <AppLayout title="Projects" subtitle="Manage your QA projects and test suites">
       <div className="space-y-6">
         {/* Header Actions */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary">{projects.length} Projects</Badge>
-            <Badge variant="success">{activeProjects.length} Active</Badge>
-            {archivedProjects.length > 0 && (
-              <Badge variant="secondary">{archivedProjects.length} Archived</Badge>
-            )}
-          </div>
+        <div className="flex items-center justify-end">
           <Button className="gap-2" onClick={handleNewProject}>
             <Plus className="h-4 w-4" />
             New Project
