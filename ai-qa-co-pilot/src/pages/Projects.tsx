@@ -94,11 +94,19 @@ const initialProjects: Project[] = [
 function ProjectCard({ 
   project, 
   isArchived = false,
-  onViewDetails 
+  onViewDetails,
+  onEdit,
+  onArchive,
+  onRestore,
+  onDelete,
 }: { 
   project: Project; 
   isArchived?: boolean;
   onViewDetails: (project: Project) => void;
+  onEdit: (project: Project) => void;
+  onArchive: (project: Project) => void;
+  onRestore: (project: Project) => void;
+  onDelete: (project: Project) => void;
 }) {
   return (
     <Card
@@ -143,13 +151,13 @@ function ProjectCard({
             <DropdownMenuItem onClick={() => onViewDetails(project)}>View Details</DropdownMenuItem>
             {isArchived ? (
               <>
-                <DropdownMenuItem>Restore</DropdownMenuItem>
-                <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onRestore(project)}>Restore</DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive" onClick={() => onDelete(project)}>Delete</DropdownMenuItem>
               </>
             ) : (
               <>
-                <DropdownMenuItem>Edit Project</DropdownMenuItem>
-                <DropdownMenuItem>Archive</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onEdit(project)}>Edit Project</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onArchive(project)}>Archive</DropdownMenuItem>
               </>
             )}
           </DropdownMenuContent>
@@ -235,6 +243,7 @@ export default function Projects() {
   const navigate = useNavigate();
   const [projects, setProjects] = useState<Project[]>(loadProjectsFromStorage);
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
+  const [isEditProjectOpen, setIsEditProjectOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
@@ -302,6 +311,86 @@ export default function Projects() {
     setIsDetailsOpen(true);
   };
 
+  const handleEditProject = (project: Project) => {
+    setSelectedProject(project);
+    setNewProjectName(project.name);
+    setNewProjectDescription(project.description);
+    setNewProjectModules(project.modules.join(', '));
+    setIsEditProjectOpen(true);
+  };
+
+  const handleUpdateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!selectedProject || !newProjectName.trim()) {
+      toast({
+        title: "Error",
+        description: "Project name is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setProjects(prev => prev.map(p => 
+      p.id === selectedProject.id 
+        ? {
+            ...p,
+            name: newProjectName.trim(),
+            description: newProjectDescription.trim() || 'No description provided',
+            modules: newProjectModules.split(',').map(m => m.trim()).filter(m => m.length > 0),
+            lastActivity: 'Just now',
+          }
+        : p
+    ));
+    
+    toast({
+      title: "Project Updated",
+      description: `"${newProjectName}" has been updated successfully.`,
+    });
+    
+    // Reset form
+    setNewProjectName('');
+    setNewProjectDescription('');
+    setNewProjectModules('');
+    setSelectedProject(null);
+    setIsEditProjectOpen(false);
+  };
+
+  const handleArchiveProject = (project: Project) => {
+    setProjects(prev => prev.map(p => 
+      p.id === project.id 
+        ? { ...p, status: 'archived' as const, lastActivity: 'Just now' }
+        : p
+    ));
+    
+    toast({
+      title: "Project Archived",
+      description: `"${project.name}" has been archived.`,
+    });
+  };
+
+  const handleRestoreProject = (project: Project) => {
+    setProjects(prev => prev.map(p => 
+      p.id === project.id 
+        ? { ...p, status: 'active' as const, lastActivity: 'Just now' }
+        : p
+    ));
+    
+    toast({
+      title: "Project Restored",
+      description: `"${project.name}" has been restored.`,
+    });
+  };
+
+  const handleDeleteProject = (project: Project) => {
+    setProjects(prev => prev.filter(p => p.id !== project.id));
+    
+    toast({
+      title: "Project Deleted",
+      description: `"${project.name}" has been permanently deleted.`,
+    });
+  };
+
   return (
     <AppLayout title="Projects" subtitle="Manage your QA projects and test suites">
       <div className="space-y-6">
@@ -354,6 +443,10 @@ export default function Projects() {
                   project={project} 
                   isArchived={project.status === 'archived'} 
                   onViewDetails={handleViewDetails}
+                  onEdit={handleEditProject}
+                  onArchive={handleArchiveProject}
+                  onRestore={handleRestoreProject}
+                  onDelete={handleDeleteProject}
                 />
               ))}
             </div>
@@ -373,6 +466,10 @@ export default function Projects() {
                     key={project.id} 
                     project={project} 
                     onViewDetails={handleViewDetails}
+                    onEdit={handleEditProject}
+                    onArchive={handleArchiveProject}
+                    onRestore={handleRestoreProject}
+                    onDelete={handleDeleteProject}
                   />
                 ))}
               </div>
@@ -394,6 +491,10 @@ export default function Projects() {
                     project={project} 
                     isArchived 
                     onViewDetails={handleViewDetails}
+                    onEdit={handleEditProject}
+                    onArchive={handleArchiveProject}
+                    onRestore={handleRestoreProject}
+                    onDelete={handleDeleteProject}
                   />
                 ))}
               </div>
@@ -548,6 +649,71 @@ export default function Projects() {
               Open Project
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Project Dialog */}
+      <Dialog open={isEditProjectOpen} onOpenChange={(open) => {
+        setIsEditProjectOpen(open);
+        if (!open) {
+          setNewProjectName('');
+          setNewProjectDescription('');
+          setNewProjectModules('');
+          setSelectedProject(null);
+        }
+      }}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Edit Project</DialogTitle>
+            <DialogDescription>
+              Update the project details below.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleUpdateProject}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="edit-project-name">Project Name *</Label>
+                <Input 
+                  id="edit-project-name" 
+                  placeholder="e.g., E-Commerce Platform" 
+                  value={newProjectName}
+                  onChange={(e) => setNewProjectName(e.target.value)}
+                  required 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="edit-project-description">Description</Label>
+                <Textarea 
+                  id="edit-project-description" 
+                  placeholder="Brief description of the project..." 
+                  rows={3}
+                  value={newProjectDescription}
+                  onChange={(e) => setNewProjectDescription(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="edit-project-modules">Modules (comma-separated)</Label>
+                <Input 
+                  id="edit-project-modules" 
+                  placeholder="e.g., Authentication, Cart, Checkout" 
+                  value={newProjectModules}
+                  onChange={(e) => setNewProjectModules(e.target.value)}
+                />
+              </div>
+            </div>
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={() => {
+                setNewProjectName('');
+                setNewProjectDescription('');
+                setNewProjectModules('');
+                setSelectedProject(null);
+                setIsEditProjectOpen(false);
+              }}>
+                Cancel
+              </Button>
+              <Button type="submit">Save Changes</Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </AppLayout>
