@@ -25,7 +25,20 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 
-const projects = [
+type Project = {
+  id: string;
+  name: string;
+  description: string;
+  status: 'active' | 'archived';
+  testCasesCount: number;
+  bugsCount: number;
+  passRate: number;
+  modules: string[];
+  createdAt: string;
+  lastActivity: string;
+};
+
+const initialProjects: Project[] = [
   {
     id: '1',
     name: 'E-Commerce Platform',
@@ -76,18 +89,15 @@ const projects = [
   },
 ];
 
-const activeProjects = projects.filter((p) => p.status === 'active');
-const archivedProjects = projects.filter((p) => p.status === 'archived');
-
 // Reusable Project Card component
 function ProjectCard({ 
   project, 
   isArchived = false,
   onViewDetails 
 }: { 
-  project: typeof projects[0]; 
+  project: Project; 
   isArchived?: boolean;
-  onViewDetails: (project: typeof projects[0]) => void;
+  onViewDetails: (project: Project) => void;
 }) {
   return (
     <Card
@@ -194,10 +204,18 @@ function ProjectCard({
 }
 
 export default function Projects() {
+  const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [isNewProjectOpen, setIsNewProjectOpen] = useState(false);
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [newProjectName, setNewProjectName] = useState('');
+  const [newProjectDescription, setNewProjectDescription] = useState('');
+  const [newProjectModules, setNewProjectModules] = useState('');
   const { toast } = useToast();
+
+  // Compute filtered projects
+  const activeProjects = projects.filter((p) => p.status === 'active');
+  const archivedProjects = projects.filter((p) => p.status === 'archived');
 
   const handleNewProject = () => {
     setIsNewProjectOpen(true);
@@ -205,14 +223,47 @@ export default function Projects() {
 
   const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!newProjectName.trim()) {
+      toast({
+        title: "Error",
+        description: "Project name is required.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0];
+    
+    const newProject: Project = {
+      id: String(Date.now()),
+      name: newProjectName.trim(),
+      description: newProjectDescription.trim() || 'No description provided',
+      status: 'active',
+      testCasesCount: 0,
+      bugsCount: 0,
+      passRate: 0,
+      modules: newProjectModules.split(',').map(m => m.trim()).filter(m => m.length > 0),
+      createdAt: formattedDate,
+      lastActivity: 'Just now',
+    };
+
+    setProjects(prev => [newProject, ...prev]);
+    
     toast({
       title: "Project Created",
-      description: "Your new project has been created successfully.",
+      description: `"${newProject.name}" has been created successfully.`,
     });
+    
+    // Reset form
+    setNewProjectName('');
+    setNewProjectDescription('');
+    setNewProjectModules('');
     setIsNewProjectOpen(false);
   };
 
-  const handleViewDetails = (project: typeof projects[0]) => {
+  const handleViewDetails = (project: Project) => {
     setSelectedProject(project);
     setIsDetailsOpen(true);
   };
@@ -329,8 +380,14 @@ export default function Projects() {
           <form onSubmit={handleCreateProject}>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
-                <Label htmlFor="project-name">Project Name</Label>
-                <Input id="project-name" placeholder="e.g., E-Commerce Platform" required />
+                <Label htmlFor="project-name">Project Name *</Label>
+                <Input 
+                  id="project-name" 
+                  placeholder="e.g., E-Commerce Platform" 
+                  value={newProjectName}
+                  onChange={(e) => setNewProjectName(e.target.value)}
+                  required 
+                />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="project-description">Description</Label>
@@ -338,6 +395,8 @@ export default function Projects() {
                   id="project-description" 
                   placeholder="Brief description of the project..." 
                   rows={3}
+                  value={newProjectDescription}
+                  onChange={(e) => setNewProjectDescription(e.target.value)}
                 />
               </div>
               <div className="grid gap-2">
@@ -345,11 +404,18 @@ export default function Projects() {
                 <Input 
                   id="project-modules" 
                   placeholder="e.g., Authentication, Cart, Checkout" 
+                  value={newProjectModules}
+                  onChange={(e) => setNewProjectModules(e.target.value)}
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => setIsNewProjectOpen(false)}>
+              <Button type="button" variant="outline" onClick={() => {
+                setNewProjectName('');
+                setNewProjectDescription('');
+                setNewProjectModules('');
+                setIsNewProjectOpen(false);
+              }}>
                 Cancel
               </Button>
               <Button type="submit">Create Project</Button>
