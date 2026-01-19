@@ -37,7 +37,6 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { Progress } from '@/components/ui/progress';
 import { testCases as mockTestCases } from '@/data/mockTestCases';
-import { TestCase } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import {
   Plus,
@@ -75,6 +74,22 @@ import {
   LayoutGrid,
   Navigation,
   RefreshCw,
+  Play,
+  MoreHorizontal,
+  Bug,
+  Clock,
+  RotateCcw,
+  Pencil,
+  Trash2,
+  Copy,
+  PlayCircle,
+  PauseCircle,
+  SkipForward,
+  Calendar,
+  Users,
+  BarChart3,
+  ChevronRight,
+  ChevronDown,
 } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -85,6 +100,15 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import type { TestCase, TestCycle, TestExecution, TestStepExecution, Bug } from '@/types';
 
 const sourceIcons: Record<string, React.ElementType> = {
   manual: Edit2,
@@ -93,8 +117,50 @@ const sourceIcons: Record<string, React.ElementType> = {
   excel: FileSpreadsheet,
 };
 
-// LocalStorage key
+// LocalStorage keys
 const STORAGE_KEY = 'qa-forge-test-cases';
+const CYCLES_STORAGE_KEY = 'qa-forge-test-cycles';
+const BUGS_STORAGE_KEY = 'qa-forge-bugs';
+
+// Load test cycles from localStorage
+const loadTestCyclesFromStorage = (): TestCycle[] => {
+  try {
+    const stored = localStorage.getItem(CYCLES_STORAGE_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch (e) {
+    console.error('Failed to load test cycles:', e);
+  }
+  return [];
+};
+
+// Save test cycles to localStorage
+const saveTestCyclesToStorage = (cycles: TestCycle[]) => {
+  try {
+    localStorage.setItem(CYCLES_STORAGE_KEY, JSON.stringify(cycles));
+  } catch (e) {
+    console.error('Failed to save test cycles:', e);
+  }
+};
+
+// Load bugs from localStorage
+const loadBugsFromStorage = (): Bug[] => {
+  try {
+    const stored = localStorage.getItem(BUGS_STORAGE_KEY);
+    if (stored) return JSON.parse(stored);
+  } catch (e) {
+    console.error('Failed to load bugs:', e);
+  }
+  return [];
+};
+
+// Save bugs to localStorage
+const saveBugsToStorage = (bugs: Bug[]) => {
+  try {
+    localStorage.setItem(BUGS_STORAGE_KEY, JSON.stringify(bugs));
+  } catch (e) {
+    console.error('Failed to save bugs:', e);
+  }
+};
 
 // Load test cases from localStorage or use mock data
 const loadTestCasesFromStorage = (): TestCase[] => {
@@ -226,6 +292,36 @@ export default function TestCases() {
   const [analysisPhase, setAnalysisPhase] = useState('');
   const [coverageResults, setCoverageResults] = useState<CoverageAnalysis | null>(null);
 
+  // Edit Test Case state
+  const [isEditTestCaseOpen, setIsEditTestCaseOpen] = useState(false);
+  const [editingTestCase, setEditingTestCase] = useState<TestCase | null>(null);
+
+  // Test Execution state
+  const [isExecuteTestOpen, setIsExecuteTestOpen] = useState(false);
+  const [executingTestCase, setExecutingTestCase] = useState<TestCase | null>(null);
+  const [stepExecutions, setStepExecutions] = useState<TestStepExecution[]>([]);
+  const [executionNotes, setExecutionNotes] = useState('');
+  const [currentCycleId, setCurrentCycleId] = useState<string | null>(null);
+
+  // Test Cycles state
+  const [testCycles, setTestCycles] = useState<TestCycle[]>(loadTestCyclesFromStorage);
+  const [isTestCyclesOpen, setIsTestCyclesOpen] = useState(false);
+  const [isNewCycleOpen, setIsNewCycleOpen] = useState(false);
+  const [selectedCycle, setSelectedCycle] = useState<TestCycle | null>(null);
+  const [newCycleName, setNewCycleName] = useState('');
+  const [newCycleType, setNewCycleType] = useState<TestCycle['type']>('regression');
+  const [newCycleDescription, setNewCycleDescription] = useState('');
+  const [selectedTestCasesForCycle, setSelectedTestCasesForCycle] = useState<string[]>([]);
+
+  // Bug creation state
+  const [bugs, setBugs] = useState<Bug[]>(loadBugsFromStorage);
+  const [isCreateBugOpen, setIsCreateBugOpen] = useState(false);
+  const [bugFromTestCase, setBugFromTestCase] = useState<TestCase | null>(null);
+  const [newBugTitle, setNewBugTitle] = useState('');
+  const [newBugDescription, setNewBugDescription] = useState('');
+  const [newBugPriority, setNewBugPriority] = useState<Bug['priority']>('medium');
+  const [newBugSeverity, setNewBugSeverity] = useState<Bug['severity']>('major');
+
   // Advanced filter state
   const [advancedFilters, setAdvancedFilters] = useState({
     testTypes: [] as string[],
@@ -237,6 +333,16 @@ export default function TestCases() {
   useEffect(() => {
     saveTestCasesToStorage(testCases);
   }, [testCases]);
+
+  // Persist test cycles to localStorage
+  useEffect(() => {
+    saveTestCyclesToStorage(testCycles);
+  }, [testCycles]);
+
+  // Persist bugs to localStorage
+  useEffect(() => {
+    saveBugsToStorage(bugs);
+  }, [bugs]);
 
   // Calculate counts for tabs
   const allCount = testCases.length;
@@ -652,6 +758,298 @@ export default function TestCases() {
     { id: '3', name: 'Healthcare Portal' },
   ];
 
+  // ========== EDIT TEST CASE ==========
+  const handleEditTestCase = (testCase: TestCase) => {
+    setEditingTestCase({ ...testCase });
+    setIsEditTestCaseOpen(true);
+  };
+
+  const handleUpdateTestCase = () => {
+    if (!editingTestCase) return;
+    
+    if (!editingTestCase.title.trim()) {
+      toast({
+        title: 'Validation Error',
+        description: 'Test case title is required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setTestCases(prev => prev.map(tc => 
+      tc.id === editingTestCase.id 
+        ? { ...editingTestCase, updatedAt: new Date().toISOString(), version: tc.version + 1 }
+        : tc
+    ));
+
+    setIsEditTestCaseOpen(false);
+    setEditingTestCase(null);
+
+    toast({
+      title: 'Test Case Updated',
+      description: `${editingTestCase.id} has been updated successfully`,
+    });
+  };
+
+  const handleDeleteTestCase = (testCase: TestCase) => {
+    setTestCases(prev => prev.filter(tc => tc.id !== testCase.id));
+    toast({
+      title: 'Test Case Deleted',
+      description: `${testCase.id} has been removed`,
+    });
+  };
+
+  const handleDuplicateTestCase = (testCase: TestCase) => {
+    const newId = generateId();
+    const duplicated: TestCase = {
+      ...testCase,
+      id: newId,
+      title: `${testCase.title} (Copy)`,
+      status: 'draft',
+      version: 1,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    setTestCases(prev => [duplicated, ...prev]);
+    toast({
+      title: 'Test Case Duplicated',
+      description: `Created ${newId} as a copy`,
+    });
+  };
+
+  // ========== TEST EXECUTION ==========
+  const handleStartExecution = (testCase: TestCase, cycleId?: string) => {
+    setExecutingTestCase(testCase);
+    setCurrentCycleId(cycleId || null);
+    setStepExecutions(
+      testCase.steps.map((_, idx) => ({
+        stepIndex: idx,
+        status: 'pending',
+        actualResult: '',
+        notes: '',
+      }))
+    );
+    setExecutionNotes('');
+    setIsExecuteTestOpen(true);
+  };
+
+  const updateStepExecution = (stepIndex: number, status: TestStepExecution['status'], actualResult?: string, notes?: string) => {
+    setStepExecutions(prev => prev.map((step, idx) => 
+      idx === stepIndex 
+        ? { ...step, status, actualResult: actualResult ?? step.actualResult, notes: notes ?? step.notes, executedAt: new Date().toISOString() }
+        : step
+    ));
+  };
+
+  const getOverallExecutionStatus = (): TestExecution['status'] => {
+    if (stepExecutions.some(s => s.status === 'failed')) return 'failed';
+    if (stepExecutions.every(s => s.status === 'passed')) return 'passed';
+    if (stepExecutions.every(s => s.status === 'skipped')) return 'skipped';
+    if (stepExecutions.some(s => s.status === 'pending')) return 'not-run';
+    return 'blocked';
+  };
+
+  const handleCompleteExecution = () => {
+    if (!executingTestCase) return;
+
+    const status = getOverallExecutionStatus();
+    const execution: TestExecution = {
+      id: `EX-${Date.now()}`,
+      testCaseId: executingTestCase.id,
+      testCycleId: currentCycleId || 'adhoc',
+      status,
+      stepExecutions,
+      executedBy: 'Current User',
+      executedAt: new Date().toISOString(),
+      notes: executionNotes,
+    };
+
+    // Update test cycle if part of one
+    if (currentCycleId) {
+      setTestCycles(prev => prev.map(cycle => {
+        if (cycle.id === currentCycleId) {
+          const newExecutions = [...cycle.executions, execution];
+          const passedTests = newExecutions.filter(e => e.status === 'passed').length;
+          const failedTests = newExecutions.filter(e => e.status === 'failed').length;
+          const blockedTests = newExecutions.filter(e => e.status === 'blocked').length;
+          const skippedTests = newExecutions.filter(e => e.status === 'skipped').length;
+          const totalExecuted = passedTests + failedTests + blockedTests + skippedTests;
+          
+          return {
+            ...cycle,
+            executions: newExecutions,
+            passedTests,
+            failedTests,
+            blockedTests,
+            skippedTests,
+            passRate: totalExecuted > 0 ? Math.round((passedTests / totalExecuted) * 100) : 0,
+            status: newExecutions.length >= cycle.testCaseIds.length ? 'completed' : 'in-progress',
+          };
+        }
+        return cycle;
+      }));
+    }
+
+    setIsExecuteTestOpen(false);
+
+    toast({
+      title: 'Execution Complete',
+      description: `${executingTestCase.id} marked as ${status}`,
+    });
+
+    // If failed, prompt to create bug
+    if (status === 'failed') {
+      setBugFromTestCase(executingTestCase);
+      setNewBugTitle(`Bug: ${executingTestCase.title} - Test Failed`);
+      setNewBugDescription(`Test case ${executingTestCase.id} failed during execution.\n\nFailed steps:\n${
+        stepExecutions
+          .filter(s => s.status === 'failed')
+          .map(s => `- Step ${s.stepIndex + 1}: ${executingTestCase.steps[s.stepIndex]}\n  Actual: ${s.actualResult || 'Not as expected'}`)
+          .join('\n')
+      }`);
+      setIsCreateBugOpen(true);
+    }
+
+    setExecutingTestCase(null);
+    setStepExecutions([]);
+  };
+
+  // ========== TEST CYCLES ==========
+  const generateCycleId = () => {
+    const maxNum = testCycles.reduce((max, c) => {
+      const num = parseInt(c.id.replace('CY-', ''), 10);
+      return num > max ? num : max;
+    }, 0);
+    return `CY-${String(maxNum + 1).padStart(3, '0')}`;
+  };
+
+  const handleCreateTestCycle = () => {
+    if (!newCycleName.trim()) {
+      toast({
+        title: 'Validation Error',
+        description: 'Test cycle name is required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (selectedTestCasesForCycle.length === 0) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please select at least one test case',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const newCycle: TestCycle = {
+      id: generateCycleId(),
+      name: newCycleName,
+      description: newCycleDescription,
+      projectId: selectedProject,
+      type: newCycleType,
+      status: 'planned',
+      testCaseIds: selectedTestCasesForCycle,
+      executions: [],
+      createdAt: new Date().toISOString(),
+      createdBy: 'Current User',
+      totalTests: selectedTestCasesForCycle.length,
+      passedTests: 0,
+      failedTests: 0,
+      blockedTests: 0,
+      skippedTests: 0,
+    };
+
+    setTestCycles(prev => [newCycle, ...prev]);
+    setIsNewCycleOpen(false);
+    setNewCycleName('');
+    setNewCycleDescription('');
+    setSelectedTestCasesForCycle([]);
+
+    toast({
+      title: 'Test Cycle Created',
+      description: `${newCycle.id} created with ${newCycle.totalTests} test cases`,
+    });
+  };
+
+  const handleStartCycle = (cycle: TestCycle) => {
+    setTestCycles(prev => prev.map(c => 
+      c.id === cycle.id 
+        ? { ...c, status: 'in-progress', startDate: new Date().toISOString() }
+        : c
+    ));
+    setSelectedCycle({ ...cycle, status: 'in-progress', startDate: new Date().toISOString() });
+    toast({
+      title: 'Test Cycle Started',
+      description: `${cycle.name} is now in progress`,
+    });
+  };
+
+  const handleCompleteCycle = (cycle: TestCycle) => {
+    setTestCycles(prev => prev.map(c => 
+      c.id === cycle.id 
+        ? { ...c, status: 'completed', endDate: new Date().toISOString() }
+        : c
+    ));
+    toast({
+      title: 'Test Cycle Completed',
+      description: `${cycle.name} has been marked as complete`,
+    });
+  };
+
+  // ========== BUG CREATION ==========
+  const generateBugId = () => {
+    const maxNum = bugs.reduce((max, b) => {
+      const num = parseInt(b.id.replace('BUG-', ''), 10);
+      return num > max ? num : max;
+    }, 0);
+    return `BUG-${String(maxNum + 1).padStart(3, '0')}`;
+  };
+
+  const handleCreateBug = () => {
+    if (!newBugTitle.trim()) {
+      toast({
+        title: 'Validation Error',
+        description: 'Bug title is required',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    const newBug: Bug = {
+      id: generateBugId(),
+      projectId: selectedProject,
+      title: newBugTitle,
+      description: newBugDescription,
+      stepsToReproduce: bugFromTestCase?.steps || [],
+      priority: newBugPriority,
+      severity: newBugSeverity,
+      status: 'new',
+      linkedTestCases: bugFromTestCase ? [bugFromTestCase.id] : [],
+      syncStatus: 'not-linked',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    setBugs(prev => [newBug, ...prev]);
+    setIsCreateBugOpen(false);
+    setBugFromTestCase(null);
+    setNewBugTitle('');
+    setNewBugDescription('');
+
+    toast({
+      title: 'Bug Created',
+      description: `${newBug.id} has been logged`,
+    });
+  };
+
+  const handleCreateBugFromTestCase = (testCase: TestCase) => {
+    setBugFromTestCase(testCase);
+    setNewBugTitle(`Bug: ${testCase.title}`);
+    setNewBugDescription(`Issue found while testing ${testCase.id}.\n\nExpected: ${testCase.expectedResult}\n\nActual: [Describe actual behavior]`);
+    setIsCreateBugOpen(true);
+  };
+
   // AI Coverage Agent - Analyze test coverage against website DOM
   const runCoverageAnalysis = async () => {
     if (!coverageUrl.trim()) {
@@ -958,14 +1356,14 @@ export default function TestCases() {
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/50 hover:bg-muted/50">
-              <TableHead className="w-28">ID</TableHead>
+              <TableHead className="w-24">ID</TableHead>
               <TableHead>Title</TableHead>
-              <TableHead className="w-24">Priority</TableHead>
-              <TableHead className="w-24">Status</TableHead>
-              <TableHead className="w-28">Type</TableHead>
-              <TableHead className="w-24">Source</TableHead>
-              <TableHead className="w-20">Version</TableHead>
-              <TableHead className="w-32">Updated</TableHead>
+              <TableHead className="w-20">Priority</TableHead>
+              <TableHead className="w-20">Status</TableHead>
+              <TableHead className="w-20">Type</TableHead>
+              <TableHead className="w-16">Steps</TableHead>
+              <TableHead className="w-28">Updated</TableHead>
+              <TableHead className="w-32 text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -974,7 +1372,7 @@ export default function TestCases() {
               return (
                 <TableRow
                   key={tc.id}
-                  className="cursor-pointer transition-colors hover:bg-muted/50"
+                  className="transition-colors hover:bg-muted/50"
                 >
                   <TableCell className="font-mono text-sm text-primary">{tc.id}</TableCell>
                   <TableCell>
@@ -986,27 +1384,70 @@ export default function TestCases() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={tc.priority}>{tc.priority}</Badge>
+                    <Badge variant={tc.priority} className="text-xs">{tc.priority}</Badge>
                   </TableCell>
                   <TableCell>
-                    <Badge variant={tc.status}>{tc.status}</Badge>
+                    <Badge variant={tc.status} className="text-xs">{tc.status}</Badge>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground capitalize">{tc.testType}</span>
+                    <span className="text-xs text-muted-foreground capitalize">{tc.testType}</span>
                   </TableCell>
                   <TableCell>
-                    <div className="flex items-center gap-1.5">
-                      <SourceIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground capitalize">{tc.source}</span>
-                    </div>
+                    <span className="text-sm text-muted-foreground">{tc.steps.length}</span>
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm text-muted-foreground">v{tc.version}</span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs text-muted-foreground">
                       {new Date(tc.updatedAt).toLocaleDateString()}
                     </span>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex items-center justify-end gap-1">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8 text-success hover:text-success hover:bg-success/10"
+                        onClick={() => handleStartExecution(tc)}
+                        title="Execute Test"
+                      >
+                        <Play className="h-4 w-4" />
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="w-48">
+                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={() => handleStartExecution(tc)}>
+                            <Play className="h-4 w-4 mr-2 text-success" />
+                            Execute Test
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleEditTestCase(tc)}>
+                            <Pencil className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleDuplicateTestCase(tc)}>
+                            <Copy className="h-4 w-4 mr-2" />
+                            Duplicate
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem onClick={() => handleCreateBugFromTestCase(tc)}>
+                            <Bug className="h-4 w-4 mr-2 text-destructive" />
+                            Log Bug
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem 
+                            onClick={() => handleDeleteTestCase(tc)}
+                            className="text-destructive focus:text-destructive"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </TableCell>
                 </TableRow>
               );
@@ -1021,7 +1462,24 @@ export default function TestCases() {
     <AppLayout title="Test Cases" subtitle="Manage and organize your test repository">
       <div className="space-y-6">
         {/* Header Actions */}
-        <div className="flex items-center justify-end">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Button variant="outline" className="gap-2 border-blue-500/50 text-blue-600 hover:bg-blue-500/10" onClick={() => setIsTestCyclesOpen(true)}>
+              <RotateCcw className="h-4 w-4" />
+              Test Cycles
+              {testCycles.filter(c => c.status === 'in-progress').length > 0 && (
+                <Badge variant="secondary" className="ml-1 bg-blue-500/20 text-blue-600">
+                  {testCycles.filter(c => c.status === 'in-progress').length}
+                </Badge>
+              )}
+            </Button>
+            {bugs.length > 0 && (
+              <Badge variant="destructive" className="gap-1">
+                <Bug className="h-3 w-3" />
+                {bugs.filter(b => b.status === 'new' || b.status === 'active').length} Bugs
+              </Badge>
+            )}
+          </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" className="gap-2" onClick={() => setIsImportOpen(true)}>
               <Upload className="h-4 w-4" />
@@ -2153,6 +2611,650 @@ export default function TestCases() {
                 </Button>
               </>
             )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Test Case Dialog */}
+      <Dialog open={isEditTestCaseOpen} onOpenChange={setIsEditTestCaseOpen}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Pencil className="h-5 w-5 text-primary" />
+              Edit Test Case
+              {editingTestCase && (
+                <Badge variant="secondary">{editingTestCase.id}</Badge>
+              )}
+            </DialogTitle>
+            <DialogDescription>
+              Update test case details and steps
+            </DialogDescription>
+          </DialogHeader>
+
+          {editingTestCase && (
+            <div className="grid gap-4 py-4">
+              <div className="space-y-2">
+                <Label htmlFor="edit-title">Title *</Label>
+                <Input
+                  id="edit-title"
+                  value={editingTestCase.title}
+                  onChange={(e) => setEditingTestCase(prev => prev ? { ...prev, title: e.target.value } : null)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-description">Description</Label>
+                <Textarea
+                  id="edit-description"
+                  value={editingTestCase.description}
+                  onChange={(e) => setEditingTestCase(prev => prev ? { ...prev, description: e.target.value } : null)}
+                  rows={2}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-preconditions">Preconditions</Label>
+                <Textarea
+                  id="edit-preconditions"
+                  value={editingTestCase.preconditions}
+                  onChange={(e) => setEditingTestCase(prev => prev ? { ...prev, preconditions: e.target.value } : null)}
+                  rows={2}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Steps</Label>
+                <div className="space-y-2">
+                  {editingTestCase.steps.map((step, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="text-sm text-muted-foreground w-6">{idx + 1}.</span>
+                      <Input
+                        value={step}
+                        onChange={(e) => {
+                          const newSteps = [...editingTestCase.steps];
+                          newSteps[idx] = e.target.value;
+                          setEditingTestCase(prev => prev ? { ...prev, steps: newSteps } : null);
+                        }}
+                        className="flex-1"
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-destructive"
+                        onClick={() => {
+                          const newSteps = editingTestCase.steps.filter((_, i) => i !== idx);
+                          setEditingTestCase(prev => prev ? { ...prev, steps: newSteps } : null);
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ))}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditingTestCase(prev => prev ? { ...prev, steps: [...prev.steps, ''] } : null);
+                    }}
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Step
+                  </Button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-expected">Expected Result</Label>
+                <Textarea
+                  id="edit-expected"
+                  value={editingTestCase.expectedResult}
+                  onChange={(e) => setEditingTestCase(prev => prev ? { ...prev, expectedResult: e.target.value } : null)}
+                  rows={2}
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label>Priority</Label>
+                  <Select 
+                    value={editingTestCase.priority} 
+                    onValueChange={(v: TestCase['priority']) => setEditingTestCase(prev => prev ? { ...prev, priority: v } : null)}
+                  >
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="critical">Critical</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Status</Label>
+                  <Select 
+                    value={editingTestCase.status} 
+                    onValueChange={(v: TestCase['status']) => setEditingTestCase(prev => prev ? { ...prev, status: v } : null)}
+                  >
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">Draft</SelectItem>
+                      <SelectItem value="approved">Approved</SelectItem>
+                      <SelectItem value="deprecated">Deprecated</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Test Type</Label>
+                  <Select 
+                    value={editingTestCase.testType} 
+                    onValueChange={(v: TestCase['testType']) => setEditingTestCase(prev => prev ? { ...prev, testType: v } : null)}
+                  >
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="functional">Functional</SelectItem>
+                      <SelectItem value="regression">Regression</SelectItem>
+                      <SelectItem value="smoke">Smoke</SelectItem>
+                      <SelectItem value="integration">Integration</SelectItem>
+                      <SelectItem value="e2e">E2E</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Severity</Label>
+                  <Select 
+                    value={editingTestCase.severity} 
+                    onValueChange={(v: TestCase['severity']) => setEditingTestCase(prev => prev ? { ...prev, severity: v } : null)}
+                  >
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="minor">Minor</SelectItem>
+                      <SelectItem value="major">Major</SelectItem>
+                      <SelectItem value="critical">Critical</SelectItem>
+                      <SelectItem value="blocker">Blocker</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEditTestCaseOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleUpdateTestCase}>
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Execute Test Dialog */}
+      <Dialog open={isExecuteTestOpen} onOpenChange={setIsExecuteTestOpen}>
+        <DialogContent className="sm:max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <PlayCircle className="h-5 w-5 text-success" />
+              Execute Test Case
+              {executingTestCase && (
+                <Badge variant="secondary">{executingTestCase.id}</Badge>
+              )}
+            </DialogTitle>
+            <DialogDescription>
+              {executingTestCase?.title}
+            </DialogDescription>
+          </DialogHeader>
+
+          {executingTestCase && (
+            <ScrollArea className="flex-1 max-h-[60vh] pr-4">
+              <div className="space-y-6 py-4">
+                {/* Preconditions */}
+                {executingTestCase.preconditions && (
+                  <div className="p-4 bg-muted/30 rounded-xl">
+                    <Label className="text-sm font-semibold">Preconditions</Label>
+                    <p className="text-sm text-muted-foreground mt-1">{executingTestCase.preconditions}</p>
+                  </div>
+                )}
+
+                {/* Steps */}
+                <div className="space-y-3">
+                  <Label className="text-sm font-semibold">Test Steps</Label>
+                  {executingTestCase.steps.map((step, idx) => (
+                    <div 
+                      key={idx} 
+                      className={`p-4 border rounded-xl space-y-3 ${
+                        stepExecutions[idx]?.status === 'passed' ? 'border-success bg-success/5' :
+                        stepExecutions[idx]?.status === 'failed' ? 'border-destructive bg-destructive/5' :
+                        stepExecutions[idx]?.status === 'skipped' ? 'border-muted bg-muted/30' :
+                        'border-border'
+                      }`}
+                    >
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex items-start gap-3">
+                          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary/10 text-primary text-sm font-semibold">
+                            {idx + 1}
+                          </span>
+                          <p className="text-sm font-medium pt-0.5">{step}</p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant={stepExecutions[idx]?.status === 'passed' ? 'default' : 'outline'}
+                            size="sm"
+                            className={stepExecutions[idx]?.status === 'passed' ? 'bg-success hover:bg-success/90' : ''}
+                            onClick={() => updateStepExecution(idx, 'passed')}
+                          >
+                            <CheckCircle className="h-4 w-4 mr-1" />
+                            Pass
+                          </Button>
+                          <Button
+                            variant={stepExecutions[idx]?.status === 'failed' ? 'default' : 'outline'}
+                            size="sm"
+                            className={stepExecutions[idx]?.status === 'failed' ? 'bg-destructive hover:bg-destructive/90' : ''}
+                            onClick={() => updateStepExecution(idx, 'failed')}
+                          >
+                            <XCircle className="h-4 w-4 mr-1" />
+                            Fail
+                          </Button>
+                          <Button
+                            variant={stepExecutions[idx]?.status === 'skipped' ? 'default' : 'outline'}
+                            size="sm"
+                            className={stepExecutions[idx]?.status === 'skipped' ? 'bg-muted-foreground hover:bg-muted-foreground/90' : ''}
+                            onClick={() => updateStepExecution(idx, 'skipped')}
+                          >
+                            <SkipForward className="h-4 w-4 mr-1" />
+                            Skip
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      {stepExecutions[idx]?.status === 'failed' && (
+                        <div className="pl-9">
+                          <Label className="text-xs text-muted-foreground">Actual Result</Label>
+                          <Textarea
+                            placeholder="Describe what actually happened..."
+                            value={stepExecutions[idx]?.actualResult || ''}
+                            onChange={(e) => updateStepExecution(idx, 'failed', e.target.value)}
+                            className="mt-1"
+                            rows={2}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Expected Result */}
+                <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl">
+                  <Label className="text-sm font-semibold text-primary">Expected Result</Label>
+                  <p className="text-sm mt-1">{executingTestCase.expectedResult}</p>
+                </div>
+
+                {/* Execution Notes */}
+                <div className="space-y-2">
+                  <Label>Execution Notes</Label>
+                  <Textarea
+                    placeholder="Add any additional notes about this execution..."
+                    value={executionNotes}
+                    onChange={(e) => setExecutionNotes(e.target.value)}
+                    rows={3}
+                  />
+                </div>
+              </div>
+            </ScrollArea>
+          )}
+
+          <DialogFooter className="border-t pt-4">
+            <div className="flex items-center gap-2 mr-auto">
+              <span className="text-sm text-muted-foreground">Status:</span>
+              <Badge variant={
+                getOverallExecutionStatus() === 'passed' ? 'success' :
+                getOverallExecutionStatus() === 'failed' ? 'destructive' :
+                'secondary'
+              }>
+                {getOverallExecutionStatus()}
+              </Badge>
+            </div>
+            <Button variant="outline" onClick={() => setIsExecuteTestOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleCompleteExecution}>
+              Complete Execution
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Test Cycles Dialog */}
+      <Dialog open={isTestCyclesOpen} onOpenChange={setIsTestCyclesOpen}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <RotateCcw className="h-5 w-5 text-blue-500" />
+              Test Cycles
+            </DialogTitle>
+            <DialogDescription>
+              Manage regression, smoke, and other test cycles
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="flex items-center justify-between py-2">
+            <div className="flex items-center gap-2">
+              <Badge variant="secondary">{testCycles.length} Cycles</Badge>
+              <Badge variant="secondary" className="bg-blue-500/20 text-blue-600">
+                {testCycles.filter(c => c.status === 'in-progress').length} Active
+              </Badge>
+            </div>
+            <Button onClick={() => setIsNewCycleOpen(true)}>
+              <Plus className="h-4 w-4 mr-2" />
+              New Cycle
+            </Button>
+          </div>
+
+          <ScrollArea className="flex-1 max-h-[50vh]">
+            <div className="space-y-3 pr-4">
+              {testCycles.length === 0 ? (
+                <div className="text-center py-12">
+                  <RotateCcw className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="font-medium">No test cycles yet</p>
+                  <p className="text-sm text-muted-foreground">Create a cycle to run tests for regression or other purposes</p>
+                </div>
+              ) : (
+                testCycles.map(cycle => (
+                  <Card key={cycle.id} className="p-4">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1">
+                        <div className="flex items-center gap-2">
+                          <h4 className="font-semibold">{cycle.name}</h4>
+                          <Badge variant="secondary" className="text-xs capitalize">{cycle.type}</Badge>
+                          <Badge 
+                            variant={
+                              cycle.status === 'completed' ? 'success' :
+                              cycle.status === 'in-progress' ? 'default' :
+                              cycle.status === 'aborted' ? 'destructive' :
+                              'secondary'
+                            }
+                            className="text-xs"
+                          >
+                            {cycle.status}
+                          </Badge>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{cycle.description}</p>
+                        <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
+                          <span className="flex items-center gap-1">
+                            <FileCheck className="h-3 w-3" />
+                            {cycle.totalTests} tests
+                          </span>
+                          <span className="flex items-center gap-1 text-success">
+                            <CheckCircle className="h-3 w-3" />
+                            {cycle.passedTests} passed
+                          </span>
+                          <span className="flex items-center gap-1 text-destructive">
+                            <XCircle className="h-3 w-3" />
+                            {cycle.failedTests} failed
+                          </span>
+                          {cycle.passRate !== undefined && (
+                            <span className="flex items-center gap-1">
+                              <BarChart3 className="h-3 w-3" />
+                              {cycle.passRate}% pass rate
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {cycle.status === 'planned' && (
+                          <Button size="sm" onClick={() => handleStartCycle(cycle)}>
+                            <Play className="h-4 w-4 mr-1" />
+                            Start
+                          </Button>
+                        )}
+                        {cycle.status === 'in-progress' && (
+                          <>
+                            <Button 
+                              size="sm" 
+                              variant="outline"
+                              onClick={() => {
+                                setSelectedCycle(cycle);
+                                setIsTestCyclesOpen(false);
+                              }}
+                            >
+                              <Play className="h-4 w-4 mr-1" />
+                              Continue
+                            </Button>
+                            <Button 
+                              size="sm" 
+                              variant="default"
+                              onClick={() => handleCompleteCycle(cycle)}
+                            >
+                              Complete
+                            </Button>
+                          </>
+                        )}
+                        {cycle.status === 'completed' && (
+                          <Button size="sm" variant="outline">
+                            <Eye className="h-4 w-4 mr-1" />
+                            View Report
+                          </Button>
+                        )}
+                      </div>
+                    </div>
+                    {cycle.status === 'in-progress' && (
+                      <div className="mt-3">
+                        <div className="flex items-center justify-between text-xs mb-1">
+                          <span>Progress</span>
+                          <span>{cycle.executions.length}/{cycle.totalTests} executed</span>
+                        </div>
+                        <Progress value={(cycle.executions.length / cycle.totalTests) * 100} className="h-2" />
+                      </div>
+                    )}
+                  </Card>
+                ))
+              )}
+            </div>
+          </ScrollArea>
+
+          <DialogFooter className="border-t pt-4">
+            <Button variant="outline" onClick={() => setIsTestCyclesOpen(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* New Test Cycle Dialog */}
+      <Dialog open={isNewCycleOpen} onOpenChange={setIsNewCycleOpen}>
+        <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Plus className="h-5 w-5 text-primary" />
+              Create Test Cycle
+            </DialogTitle>
+            <DialogDescription>
+              Create a new test cycle for regression, smoke, or other testing
+            </DialogDescription>
+          </DialogHeader>
+
+          <ScrollArea className="flex-1 max-h-[60vh] pr-4">
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <Label>Cycle Name *</Label>
+                <Input
+                  placeholder="e.g., Sprint 15 Regression"
+                  value={newCycleName}
+                  onChange={(e) => setNewCycleName(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Cycle Type</Label>
+                <Select value={newCycleType} onValueChange={(v: TestCycle['type']) => setNewCycleType(v)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="regression">Regression</SelectItem>
+                    <SelectItem value="smoke">Smoke</SelectItem>
+                    <SelectItem value="functional">Functional</SelectItem>
+                    <SelectItem value="integration">Integration</SelectItem>
+                    <SelectItem value="release">Release</SelectItem>
+                    <SelectItem value="adhoc">Ad-hoc</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label>Description</Label>
+                <Textarea
+                  placeholder="Describe the purpose of this test cycle..."
+                  value={newCycleDescription}
+                  onChange={(e) => setNewCycleDescription(e.target.value)}
+                  rows={2}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label>Select Test Cases *</Label>
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      onClick={() => setSelectedTestCasesForCycle(testCases.filter(tc => tc.status === 'approved').map(tc => tc.id))}
+                    >
+                      Select All Approved
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={() => setSelectedTestCasesForCycle([])}
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </div>
+                <div className="border rounded-xl p-3 max-h-60 overflow-y-auto space-y-2">
+                  {testCases.filter(tc => tc.status !== 'deprecated').map(tc => (
+                    <div 
+                      key={tc.id} 
+                      className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
+                        selectedTestCasesForCycle.includes(tc.id) ? 'bg-primary/10' : 'hover:bg-muted'
+                      }`}
+                      onClick={() => {
+                        setSelectedTestCasesForCycle(prev => 
+                          prev.includes(tc.id) 
+                            ? prev.filter(id => id !== tc.id)
+                            : [...prev, tc.id]
+                        );
+                      }}
+                    >
+                      <Checkbox checked={selectedTestCasesForCycle.includes(tc.id)} />
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">{tc.title}</p>
+                        <p className="text-xs text-muted-foreground">{tc.id} • {tc.testType}</p>
+                      </div>
+                      <Badge variant={tc.priority} className="text-xs">{tc.priority}</Badge>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {selectedTestCasesForCycle.length} test cases selected
+                </p>
+              </div>
+            </div>
+          </ScrollArea>
+
+          <DialogFooter className="border-t pt-4">
+            <Button variant="outline" onClick={() => setIsNewCycleOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handleCreateTestCycle}>
+              Create Cycle
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Create Bug Dialog */}
+      <Dialog open={isCreateBugOpen} onOpenChange={setIsCreateBugOpen}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Bug className="h-5 w-5 text-destructive" />
+              Log Bug
+            </DialogTitle>
+            <DialogDescription>
+              {bugFromTestCase 
+                ? `Create a bug from failed test case ${bugFromTestCase.id}`
+                : 'Create a new bug report'
+              }
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label>Bug Title *</Label>
+              <Input
+                placeholder="Brief description of the issue"
+                value={newBugTitle}
+                onChange={(e) => setNewBugTitle(e.target.value)}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label>Description</Label>
+              <Textarea
+                placeholder="Detailed description of the bug..."
+                value={newBugDescription}
+                onChange={(e) => setNewBugDescription(e.target.value)}
+                rows={4}
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Priority</Label>
+                <Select value={newBugPriority} onValueChange={(v: Bug['priority']) => setNewBugPriority(v)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="critical">Critical</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label>Severity</Label>
+                <Select value={newBugSeverity} onValueChange={(v: Bug['severity']) => setNewBugSeverity(v)}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="minor">Minor</SelectItem>
+                    <SelectItem value="major">Major</SelectItem>
+                    <SelectItem value="critical">Critical</SelectItem>
+                    <SelectItem value="blocker">Blocker</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {bugFromTestCase && (
+              <div className="p-3 bg-muted/30 rounded-lg">
+                <Label className="text-xs text-muted-foreground">Linked Test Case</Label>
+                <p className="text-sm font-medium">{bugFromTestCase.id}: {bugFromTestCase.title}</p>
+              </div>
+            )}
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => {
+              setIsCreateBugOpen(false);
+              setBugFromTestCase(null);
+              setNewBugTitle('');
+              setNewBugDescription('');
+            }}>
+              Cancel
+            </Button>
+            <Button onClick={handleCreateBug} className="bg-destructive hover:bg-destructive/90">
+              <Bug className="h-4 w-4 mr-2" />
+              Create Bug
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
