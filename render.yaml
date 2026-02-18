@@ -4,8 +4,9 @@ services:
     name: agentic-hiring-api
     runtime: python
     plan: free
-    buildCommand: pip install -r agentic-hiring/backend/requirements.txt
-    startCommand: uvicorn agentic-hiring.backend.api:app --host 0.0.0.0 --port $PORT
+    rootDir: agentic-hiring/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PORT
         value: 8000
@@ -18,8 +19,9 @@ services:
   - type: web
     runtime: static
     name: agentic-hiring-ui
-    buildCommand: npm install --prefix agentic-hiring/frontend && npm run build --prefix agentic-hiring/frontend
-    staticPublishPath: agentic-hiring/frontend/dist
+    rootDir: agentic-hiring/frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         value: https://agentic-hiring-api.onrender.com
